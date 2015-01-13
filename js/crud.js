@@ -162,7 +162,7 @@ $(document).ready(function(){
          $.ajax({
             url       : 'index.php?acao=gerar',
             type      : 'post',
-            data      : 'xml='+$(this).attr("data-xml"),
+            data      : 'xml='+$(this).attr("data-xml")+'&gui='+$(this).attr("data-gui"),
             dataType  : 'html',
             beforeSend: function(){
                 //this.button('loading');

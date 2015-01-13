@@ -414,5 +414,14 @@ class Util {
         $digito2 = $resto < 2 ? 0 : 11 - $resto; 
         return (($cnpj[12] == $digito1) && ($cnpj[13] == $digito2));	
     }
-
+    
+    /**
+     * Exibe a coleção de dados, de maneira formatada
+     * 
+     * @param string[] $var
+     * @return void
+     */
+    static function trace($var){
+        print "<pre>"; print_r($var); print "</pre>";
+    }
 }

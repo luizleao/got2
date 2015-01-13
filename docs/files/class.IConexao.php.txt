@@ -5,11 +5,26 @@
  * @author Luiz Leão <luizleao@gmail.com>
  */
 interface IConexao{
+    
     /**
      * Retorna a lista de tabelas de database
      * 
      */
+    function execute($sql);
+    
+    /**
+     * Executa uma consulta do SGBD
+     * 
+     * @param string $sql
+     */
     function carregarColecaoTabelas();
+    
+    /**
+     * Returna a lista de databases do servidor
+     * 
+     * @return string[]
+     */
+    function databases();
     
     /**
      * Retorna a lista de colunas de uma tabela

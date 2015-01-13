@@ -30,12 +30,6 @@ class ConexaoMySql implements IConexao{
      * @var string 
      */
     public $db;
-    /**
-     * ID da ultima inserção
-     * 
-     * @var int
-     */
-    public $last_id;
 
     /**
      * Método construtor da classe
@@ -70,7 +64,7 @@ class ConexaoMySql implements IConexao{
     function set_conexao($host,$user,$senha,$bd=NULL){
         $this->conexao = @mysql_connect($host,$user,$senha);// or die(@mysql_error());
         if($bd != NULL){
-            $this->set_db($bd);
+            $this->db = @mysql_select_db($db);
         }
     }
     
@@ -81,9 +75,9 @@ class ConexaoMySql implements IConexao{
      * @return boolean
      */
     function execute($sql){
-        $consulta = @mysql_query($sql,$this->get_conexao());
+        $consulta = @mysql_query($sql,$this->conexao);
         if($consulta){
-            $this->set_consulta($consulta);
+            $this->consulta = $consulta;
         }
         else{
             //print $sql;
@@ -101,7 +95,7 @@ class ConexaoMySql implements IConexao{
      */
     function numRows($consulta = NULL){
         if(!$consulta) {
-            $consulta = $this->get_consulta();
+            $consulta = $this->consulta;
         }
         return (int) @mysql_num_rows($consulta);
     }
@@ -114,7 +108,7 @@ class ConexaoMySql implements IConexao{
      */
     function fetchReg($consulta = NULL){
         if(!$consulta) {
-            $consulta = $this->get_consulta();
+            $consulta = $this->consulta;
         }
         return @mysql_fetch_array($consulta);
     }
@@ -127,7 +121,7 @@ class ConexaoMySql implements IConexao{
      */
     function fetchRow($consulta = NULL){
         if(!$consulta) {
-            $consulta = $this->get_consulta();
+            $consulta = $this->consulta;
         }
         return @mysql_fetch_row($consulta);
     }
@@ -145,7 +139,7 @@ class ConexaoMySql implements IConexao{
         return $res[0];
 */
         //print_r($this);
-        return @mysql_insert_id($this->get_conexao());
+        return @mysql_insert_id($this->conexao);
     }
     
     /**
@@ -154,7 +148,7 @@ class ConexaoMySql implements IConexao{
      * @return void
      */
     function close(){
-        @mysql_close($this->get_conexao());
+        @mysql_close($this->conexao);
     }
     
     /**
@@ -196,69 +190,6 @@ class ConexaoMySql implements IConexao{
             $aDatabases[] = $aReg[0];
         }
         return $aDatabases;
-    }
-
-    /**
-     * Get Conexão
-     * 
-     * @return resource
-     */
-    function get_conexao(){
-        return $this->conexao;
-    }
-    
-    /**
-     * Get mensagem
-     * 
-     * @return string
-     */
-    function get_msg(){
-        return $this->msg;
-    }
-
-    /**
-     * Set mensagem
-     * 
-     * @param string $msg
-     */
-    function set_msg($msg){
-        $this->msg = $msg;
-    }
-
-    /**
-     * Get Consulta
-     * 
-     * @return resource
-     */
-    function get_consulta(){
-        return $this->consulta;
-    }
-
-    /**
-     * Set Consulta
-     * 
-     * @param resource $consulta
-     */
-    function set_consulta($consulta){
-        $this->consulta = $consulta;
-    }
-
-    /**
-     * Set Banco de Dados
-     * 
-     * @param resource $db
-     */
-    function set_db($db){
-        $this->db = @mysql_select_db($db);	
-    }
-    
-    /**
-     * Get Banco de Dados
-     * 
-     * @return resource
-     */
-    function get_db(){
-        return $this->db;
     }
     
     /**

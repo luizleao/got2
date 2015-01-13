@@ -106,7 +106,7 @@
                         <ul class="dropdown-menu">
                             <li>
                                 <a href="../reports/errors.html">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">229</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">200</span>
                                 </a>
                             </li>
                             <li>
@@ -136,10 +136,10 @@
                                 <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-1850617272"></a>
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-1593881554"></a>
                                 <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
             </div>
-            <div id="namespace-1850617272" class="accordion-body collapse in">
+            <div id="namespace-1593881554" class="accordion-body collapse in">
                 <div class="accordion-inner">
 
                     
@@ -194,7 +194,7 @@
                         <section class="row-fluid public">
                             <section class="span4">
                                                                     <a href="../classes/ConexaoPostgre.html#method___construct" class="">__construct()</a><br />
-                                                                    <a href="../classes/ConexaoPostgre.html#method_conexaoBD" class="">conexaoBD()</a><br />
+                                                                    <a href="../classes/ConexaoPostgre.html#method_set_conexao" class="">set_conexao()</a><br />
                                                                     <a href="../classes/ConexaoPostgre.html#method_execute" class="">execute()</a><br />
                                                                     <a href="../classes/ConexaoPostgre.html#method_numRows" class="">numRows()</a><br />
                                                                     <a href="../classes/ConexaoPostgre.html#method_fetchReg" class="">fetchReg()</a><br />
@@ -205,12 +205,9 @@
                                                                     <a href="../classes/ConexaoPostgre.html#method_commitTrans" class="">commitTrans()</a><br />
                                                                     <a href="../classes/ConexaoPostgre.html#method_rollBackTrans" class="">rollBackTrans()</a><br />
                                                                     <a href="../classes/ConexaoPostgre.html#method_databases" class="">databases()</a><br />
-                                                                    <a href="../classes/ConexaoPostgre.html#method_get_conexao" class="">get_conexao()</a><br />
-                                                                    <a href="../classes/ConexaoPostgre.html#method_set_conexao" class="">set_conexao()</a><br />
-                                                                    <a href="../classes/ConexaoPostgre.html#method_get_msg" class="">get_msg()</a><br />
-                                                                    <a href="../classes/ConexaoPostgre.html#method_set_msg" class="">set_msg()</a><br />
-                                                                    <a href="../classes/ConexaoPostgre.html#method_get_consulta" class="">get_consulta()</a><br />
-                                                                    <a href="../classes/ConexaoPostgre.html#method_set_consulta" class="">set_consulta()</a><br />
+                                                                    <a href="../classes/ConexaoPostgre.html#method_carregarColecaoColunasTabela" class="">carregarColecaoColunasTabela()</a><br />
+                                                                    <a href="../classes/ConexaoPostgre.html#method_carregarColecaoTabelas" class="">carregarColecaoTabelas()</a><br />
+                                                                    <a href="../classes/ConexaoPostgre.html#method_dadosForeignKeyColuna" class="">dadosForeignKeyColuna()</a><br />
                                                             </section>
                             <section class="span4">
                                                                     <a href="../classes/ConexaoPostgre.html#property_conexao" class="">$conexao</a><br />
@@ -258,6 +255,8 @@
                                                                                                                                                                     <div class="namespace-wrapper">\ConexaoPostgre</div>
                             </dd>
 
+                                                                            <dt>Implements</dt>
+                                                        <dd><a href="../classes/IConexao.html"><div class="namespace-wrapper">\IConexao</div></a></dd>
                         
                         
                         
@@ -271,14 +270,6 @@
                             </th>
                             <td>
                                                                     <p>Luiz Leão</p>
-                                                            </td>
-                        </tr>
-                                            <tr>
-                            <th>
-                                filesource
-                            </th>
-                            <td>
-                                                                    
                                                             </td>
                         </tr>
                                         </table>
@@ -299,12 +290,12 @@
             <a id="property_conexao" name="property_conexao" class="anchor"></a>
             <article class="property">
                 <h3 class="public ">$conexao</h3>
-                <pre class="signature">$conexao : </pre>
-                <p><em></em></p>
+                <pre class="signature">$conexao : resource</pre>
+                <p><em>Dados da conexão</em></p>
                 
 
                                 <h4>Type</h4>
-                
+                resource
                                             </article>
         </div>
         <aside class="span4 detailsbar">
@@ -323,12 +314,12 @@
             <a id="property_consulta" name="property_consulta" class="anchor"></a>
             <article class="property">
                 <h3 class="public ">$consulta</h3>
-                <pre class="signature">$consulta : </pre>
-                <p><em></em></p>
+                <pre class="signature">$consulta : resource</pre>
+                <p><em>Dados da consulta</em></p>
                 
 
                                 <h4>Type</h4>
-                
+                resource
                                             </article>
         </div>
         <aside class="span4 detailsbar">
@@ -347,12 +338,12 @@
             <a id="property_msg" name="property_msg" class="anchor"></a>
             <article class="property">
                 <h3 class="public ">$msg</h3>
-                <pre class="signature">$msg : </pre>
-                <p><em></em></p>
+                <pre class="signature">$msg : string</pre>
+                <p><em>Mensagem do sistema</em></p>
                 
 
                                 <h4>Type</h4>
-                
+                string
                                             </article>
         </div>
         <aside class="span4 detailsbar">
@@ -379,16 +370,16 @@
             <article class="method">
                 <h3 class="public ">__construct()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">__construct(  <span class="argument">$servidor = &#039;Producao&#039;</span>) </pre>
-                <p><em></em></p>
+                <pre class="signature" style="margin-right: 54px;">__construct(string  <span class="argument">$servidor = &#039;Producao&#039;</span>) : void</pre>
+                <p><em>Método construtor da classe</em></p>
                 
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
                                                     <tr>
-                                <td></td>
+                                <td>string</td>
                                 <td>$servidor </td>
-                                <td></td>
+                                <td><p>Servidor a ser utilizado</p></td>
                             </tr>
                                             </table>
                 
@@ -409,35 +400,35 @@
 
                                     <div class="row-fluid">
         <div class="span8 content class">
-            <a id="method_conexaoBD" name="method_conexaoBD" class="anchor"></a>
+            <a id="method_set_conexao" name="method_set_conexao" class="anchor"></a>
             <article class="method">
-                <h3 class="public ">conexaoBD()</h3>
+                <h3 class="public ">set_conexao()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">conexaoBD(  <span class="argument">$host</span>,   <span class="argument">$user</span>,   <span class="argument">$senha</span>,   <span class="argument">$bd</span>) </pre>
-                <p><em></em></p>
+                <pre class="signature" style="margin-right: 54px;">set_conexao(string  <span class="argument">$host</span>, string  <span class="argument">$user</span>, string  <span class="argument">$senha</span>, string  <span class="argument">$bd</span>) : void</pre>
+                <p><em>Seleciona a conexão com o SGBD</em></p>
                 
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
                                                     <tr>
-                                <td></td>
+                                <td>string</td>
                                 <td>$host </td>
-                                <td></td>
+                                <td><p>Endereço do servidor</p></td>
                             </tr>
                                                     <tr>
-                                <td></td>
+                                <td>string</td>
                                 <td>$user </td>
-                                <td></td>
+                                <td><p>Usuário do banco</p></td>
                             </tr>
                                                     <tr>
-                                <td></td>
+                                <td>string</td>
                                 <td>$senha </td>
-                                <td></td>
+                                <td><p>Senha do banco</p></td>
                             </tr>
                                                     <tr>
-                                <td></td>
+                                <td>string</td>
                                 <td>$bd </td>
-                                <td></td>
+                                <td><p>Banco de dados selecionado</p></td>
                             </tr>
                                             </table>
                 
@@ -462,21 +453,23 @@
             <article class="method">
                 <h3 class="public ">execute()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">execute(  <span class="argument">$sql</span>) </pre>
-                <p><em></em></p>
+                <pre class="signature" style="margin-right: 54px;">execute(string  <span class="argument">$sql</span>) : boolean</pre>
+                <p><em>Executa uma consulta do SGBD</em></p>
                 
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
                                                     <tr>
-                                <td></td>
+                                <td>string</td>
                                 <td>$sql </td>
                                 <td></td>
                             </tr>
                                             </table>
                 
                 
-                				
+                                    <h4>Returns</h4>
+                    boolean
+                                    				
                             </article>
         </div>
         <aside class="span4 detailsbar">
@@ -496,21 +489,23 @@
             <article class="method">
                 <h3 class="public ">numRows()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">numRows(  <span class="argument">$consulta = NULL</span>) </pre>
-                <p><em></em></p>
+                <pre class="signature" style="margin-right: 54px;">numRows(resource  <span class="argument">$consulta = NULL</span>) : integer</pre>
+                <p><em>Retorna a quantidades de linhas afetadas pela Query</em></p>
                 
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
                                                     <tr>
-                                <td></td>
+                                <td>resource</td>
                                 <td>$consulta </td>
-                                <td></td>
+                                <td><p>Consulta executada</p></td>
                             </tr>
                                             </table>
                 
                 
-                				
+                                    <h4>Returns</h4>
+                    integer
+                                    				
                             </article>
         </div>
         <aside class="span4 detailsbar">
@@ -530,21 +525,23 @@
             <article class="method">
                 <h3 class="public ">fetchReg()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">fetchReg(  <span class="argument">$consulta = NULL</span>) </pre>
-                <p><em></em></p>
+                <pre class="signature" style="margin-right: 54px;">fetchReg(resource  <span class="argument">$consulta = NULL</span>) : array&lt;mixed,string&gt;</pre>
+                <p><em>Retorna os dados da consulta em forma de array</em></p>
                 
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
                                                     <tr>
-                                <td></td>
+                                <td>resource</td>
                                 <td>$consulta </td>
                                 <td></td>
                             </tr>
                                             </table>
                 
                 
-                				
+                                    <h4>Returns</h4>
+                    array&lt;mixed,string&gt;
+                                    				
                             </article>
         </div>
         <aside class="span4 detailsbar">
@@ -564,21 +561,23 @@
             <article class="method">
                 <h3 class="public ">fetchRow()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">fetchRow(  <span class="argument">$consulta = NULL</span>) </pre>
-                <p><em></em></p>
+                <pre class="signature" style="margin-right: 54px;">fetchRow(resource  <span class="argument">$consulta = NULL</span>) : array&lt;mixed,string&gt;</pre>
+                <p><em>Retorna os dados da consulta em forma de HASH,</em></p>
                 
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
                                                     <tr>
-                                <td></td>
+                                <td>resource</td>
                                 <td>$consulta </td>
                                 <td></td>
                             </tr>
                                             </table>
                 
                 
-                				
+                                    <h4>Returns</h4>
+                    array&lt;mixed,string&gt;
+                                    				
                             </article>
         </div>
         <aside class="span4 detailsbar">
@@ -598,13 +597,15 @@
             <article class="method">
                 <h3 class="public ">lastID()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">lastID() </pre>
-                <p><em></em></p>
+                <pre class="signature" style="margin-right: 54px;">lastID() : integer</pre>
+                <p><em>Retorna o ultimo ID inserido por uma consulta recente</em></p>
                 
 
                 
                 
-                				
+                                    <h4>Returns</h4>
+                    integer
+                                    				
                             </article>
         </div>
         <aside class="span4 detailsbar">
@@ -624,8 +625,8 @@
             <article class="method">
                 <h3 class="public ">close()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">close() </pre>
-                <p><em></em></p>
+                <pre class="signature" style="margin-right: 54px;">close() : void</pre>
+                <p><em>Encerra a conexão</em></p>
                 
 
                 
@@ -650,8 +651,8 @@
             <article class="method">
                 <h3 class="public ">beginTrans()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">beginTrans() </pre>
-                <p><em></em></p>
+                <pre class="signature" style="margin-right: 54px;">beginTrans() : void</pre>
+                <p><em>Executa o inicio da transação</em></p>
                 
 
                 
@@ -676,8 +677,8 @@
             <article class="method">
                 <h3 class="public ">commitTrans()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">commitTrans() </pre>
-                <p><em></em></p>
+                <pre class="signature" style="margin-right: 54px;">commitTrans() : void</pre>
+                <p><em>Executa o fim da transação</em></p>
                 
 
                 
@@ -702,8 +703,8 @@
             <article class="method">
                 <h3 class="public ">rollBackTrans()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">rollBackTrans() </pre>
-                <p><em></em></p>
+                <pre class="signature" style="margin-right: 54px;">rollBackTrans() : void</pre>
+                <p><em>Executa o cancelamento da transação</em></p>
                 
 
                 
@@ -728,13 +729,15 @@
             <article class="method">
                 <h3 class="public ">databases()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">databases() </pre>
-                <p><em></em></p>
+                <pre class="signature" style="margin-right: 54px;">databases() : array&lt;mixed,string&gt;</pre>
+                <p><em>Returna a lista de databases do servidor</em></p>
                 
 
                 
                 
-                				
+                                    <h4>Returns</h4>
+                    array&lt;mixed,string&gt;
+                                    				
                             </article>
         </div>
         <aside class="span4 detailsbar">
@@ -750,51 +753,27 @@
 
                                     <div class="row-fluid">
         <div class="span8 content class">
-            <a id="method_get_conexao" name="method_get_conexao" class="anchor"></a>
+            <a id="method_carregarColecaoColunasTabela" name="method_carregarColecaoColunasTabela" class="anchor"></a>
             <article class="method">
-                <h3 class="public ">get_conexao()</h3>
+                <h3 class="public ">carregarColecaoColunasTabela()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">get_conexao() </pre>
-                <p><em></em></p>
-                
-
-                
-                
-                				
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="method_set_conexao" name="method_set_conexao" class="anchor"></a>
-            <article class="method">
-                <h3 class="public ">set_conexao()</h3>
-                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">set_conexao(  <span class="argument">$conexao</span>) </pre>
-                <p><em></em></p>
+                <pre class="signature" style="margin-right: 54px;">carregarColecaoColunasTabela(string  <span class="argument">$tabela</span>) : array&lt;mixed,string&gt;</pre>
+                <p><em>Lista as colunas da tabela</em></p>
                 
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
                                                     <tr>
-                                <td></td>
-                                <td>$conexao </td>
+                                <td>string</td>
+                                <td>$tabela </td>
                                 <td></td>
                             </tr>
                                             </table>
                 
                 
-                				
+                                    <h4>Returns</h4>
+                    array&lt;mixed,string&gt;
+                                    				
                             </article>
         </div>
         <aside class="span4 detailsbar">
@@ -810,17 +789,19 @@
 
                                     <div class="row-fluid">
         <div class="span8 content class">
-            <a id="method_get_msg" name="method_get_msg" class="anchor"></a>
+            <a id="method_carregarColecaoTabelas" name="method_carregarColecaoTabelas" class="anchor"></a>
             <article class="method">
-                <h3 class="public ">get_msg()</h3>
+                <h3 class="public ">carregarColecaoTabelas()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">get_msg() </pre>
-                <p><em></em></p>
+                <pre class="signature" style="margin-right: 54px;">carregarColecaoTabelas() : array&lt;mixed,string&gt;</pre>
+                <p><em>Retorna a lista de tabelas do servidor</em></p>
                 
 
                 
                 
-                				
+                                    <h4>Returns</h4>
+                    array&lt;mixed,string&gt;
+                                    				
                             </article>
         </div>
         <aside class="span4 detailsbar">
@@ -836,85 +817,37 @@
 
                                     <div class="row-fluid">
         <div class="span8 content class">
-            <a id="method_set_msg" name="method_set_msg" class="anchor"></a>
+            <a id="method_dadosForeignKeyColuna" name="method_dadosForeignKeyColuna" class="anchor"></a>
             <article class="method">
-                <h3 class="public ">set_msg()</h3>
+                <h3 class="public ">dadosForeignKeyColuna()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">set_msg(  <span class="argument">$msg</span>) </pre>
-                <p><em></em></p>
+                <pre class="signature" style="margin-right: 54px;">dadosForeignKeyColuna(string  <span class="argument">$db</span>, string  <span class="argument">$tabela</span>, string  <span class="argument">$coluna</span>) : array&lt;mixed,string&gt;</pre>
+                <p><em>Retorna os dados das FK da tabela selecionada</em></p>
                 
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
                                                     <tr>
-                                <td></td>
-                                <td>$msg </td>
-                                <td></td>
+                                <td>string</td>
+                                <td>$db </td>
+                                <td><p>Banco de dados selecionado</p></td>
                             </tr>
-                                            </table>
-                
-                
-                				
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="method_get_consulta" name="method_get_consulta" class="anchor"></a>
-            <article class="method">
-                <h3 class="public ">get_consulta()</h3>
-                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">get_consulta() </pre>
-                <p><em></em></p>
-                
-
-                
-                
-                				
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="method_set_consulta" name="method_set_consulta" class="anchor"></a>
-            <article class="method">
-                <h3 class="public ">set_consulta()</h3>
-                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">set_consulta(  <span class="argument">$consulta</span>) </pre>
-                <p><em></em></p>
-                
-
-                                    <h4>Parameters</h4>
-                    <table class="table table-condensed table-hover">
                                                     <tr>
-                                <td></td>
-                                <td>$consulta </td>
-                                <td></td>
+                                <td>string</td>
+                                <td>$tabela </td>
+                                <td><p>Nome da tabela</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>string</td>
+                                <td>$coluna </td>
+                                <td><p>Nome da coluna</p></td>
                             </tr>
                                             </table>
                 
                 
-                				
+                                    <h4>Returns</h4>
+                    array&lt;mixed,string&gt;
+                                    				
                             </article>
         </div>
         <aside class="span4 detailsbar">
@@ -977,7 +910,7 @@
                 <section class="span10 offset1">
                     <hr />
                     Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
-                    on January 12th, 2015 at 14:08.
+                    on January 13th, 2015 at 11:14.
                 </section>
             </section>
         </section>

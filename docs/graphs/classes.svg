@@ -23,20 +23,25 @@
 <polygon fill="none" stroke="black" points="277,-574 166,-574 166,-538 277,-538 277,-574"/>
 <text text-anchor="middle" x="221.5" y="-553.2" font-family="Courier,monospace" font-size="11.00">ConexaoPostgre</text>
 </g>
+<!-- \\IConexao -->
+<g id="node12" class="node"><title>\\IConexao</title>
+<polygon fill="none" stroke="black" points="87,-520 16,-520 16,-484 87,-484 87,-520"/>
+<text text-anchor="middle" x="51.5" y="-499.2" font-family="Courier,monospace" font-size="11.00">IConexao</text>
+</g>
+<!-- \\ConexaoPostgre&#45;&gt;\\IConexao -->
+<g id="edge1" class="edge"><title>\\ConexaoPostgre&#45;&gt;\\IConexao</title>
+<path fill="none" stroke="black" stroke-dasharray="1,5" d="M165.955,-538.468C143.623,-531.29 118.111,-523.089 96.9421,-516.285"/>
+<polygon fill="none" stroke="black" points="97.8326,-512.895 87.2412,-513.167 95.6905,-519.559 97.8326,-512.895"/>
+</g>
 <!-- \\ConexaoSqlServer -->
 <g id="node3" class="node"><title>\\ConexaoSqlServer</title>
 <polygon fill="none" stroke="black" points="284,-520 159,-520 159,-484 284,-484 284,-520"/>
 <text text-anchor="middle" x="221.5" y="-499.2" font-family="Courier,monospace" font-size="11.00">ConexaoSqlServer</text>
 </g>
-<!-- \\IConexao -->
-<g id="node12" class="node"><title>\\IConexao</title>
-<polygon fill="none" stroke="black" points="87,-412 16,-412 16,-376 87,-376 87,-412"/>
-<text text-anchor="middle" x="51.5" y="-391.2" font-family="Courier,monospace" font-size="11.00">IConexao</text>
-</g>
 <!-- \\ConexaoSqlServer&#45;&gt;\\IConexao -->
-<g id="edge1" class="edge"><title>\\ConexaoSqlServer&#45;&gt;\\IConexao</title>
-<path fill="none" stroke="black" stroke-dasharray="1,5" d="M175.864,-483.906C170.083,-481.129 164.326,-478.135 159,-475 130.899,-458.461 101.595,-435.707 80.8567,-418.526"/>
-<polygon fill="none" stroke="black" points="82.9868,-415.744 73.0734,-412.006 78.4917,-421.11 82.9868,-415.744"/>
+<g id="edge2" class="edge"><title>\\ConexaoSqlServer&#45;&gt;\\IConexao</title>
+<path fill="none" stroke="black" stroke-dasharray="1,5" d="M158.897,-502C138.511,-502 116.227,-502 97.3436,-502"/>
+<polygon fill="none" stroke="black" points="97.2365,-498.5 87.2365,-502 97.2364,-505.5 97.2365,-498.5"/>
 </g>
 <!-- \\Form -->
 <g id="node4" class="node"><title>\\Form</title>
@@ -59,9 +64,9 @@
 <text text-anchor="middle" x="221.5" y="-283.2" font-family="Courier,monospace" font-size="11.00">ConexaoMySql</text>
 </g>
 <!-- \\ConexaoMySql&#45;&gt;\\IConexao -->
-<g id="edge2" class="edge"><title>\\ConexaoMySql&#45;&gt;\\IConexao</title>
-<path fill="none" stroke="black" stroke-dasharray="1,5" d="M175.864,-304.094C170.083,-306.871 164.326,-309.865 159,-313 130.899,-329.539 101.595,-352.293 80.8567,-369.474"/>
-<polygon fill="none" stroke="black" points="78.4917,-366.89 73.0734,-375.994 82.9868,-372.256 78.4917,-366.89"/>
+<g id="edge3" class="edge"><title>\\ConexaoMySql&#45;&gt;\\IConexao</title>
+<path fill="none" stroke="black" stroke-dasharray="1,5" d="M172.271,-303.431C167.51,-306.223 162.977,-309.4 159,-313 108.547,-358.669 76.2595,-434.025 61.6289,-474.41"/>
+<polygon fill="none" stroke="black" points="58.3127,-473.289 58.2893,-483.884 64.9147,-475.616 58.3127,-473.289"/>
 </g>
 <!-- \\ControleWeb -->
 <g id="node8" class="node"><title>\\ControleWeb</title>
@@ -84,7 +89,7 @@
 <text text-anchor="middle" x="51.5" y="-14.3" font-family="Times New Roman,serif" font-size="14.00" fill="gray">\PDO</text>
 </g>
 <!-- \\ConexaoPDO&#45;&gt;\\PDO -->
-<g id="edge3" class="edge"><title>\\ConexaoPDO&#45;&gt;\\PDO</title>
+<g id="edge4" class="edge"><title>\\ConexaoPDO&#45;&gt;\\PDO</title>
 <path fill="none" stroke="black" d="M179.4,-107.712C172.436,-104.459 165.395,-100.848 159,-97 124.028,-75.9579 120.25,-63.6696 87,-40 85.5677,-38.9804 84.0898,-37.9523 82.5887,-36.9268"/>
 <polygon fill="none" stroke="black" points="84.1593,-33.7689 73.8904,-31.1611 80.2918,-39.6035 84.1593,-33.7689"/>
 </g>

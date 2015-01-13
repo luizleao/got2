@@ -10,7 +10,7 @@ switch ($_REQUEST['acao']) {
     break;
     
     case "gerar": 
-        echo $oControle->gerarArtefatos($_REQUEST['xml'], false); exit;
+        echo $oControle->gerarArtefatos($_REQUEST['xml'], $_REQUEST['gui'], false); exit;
     break;
     
     case "excluirXML":
@@ -75,18 +75,19 @@ switch ($_REQUEST['acao']) {
                         <p>
                             <span class="label label-info">Bases de Dados Mapeadas</span>
                         </p>
-                        <div class="row">
 <?php
+//Util::trace($aDiretorioXML);
 foreach ($aDiretorioXML as $xml) {
 ?>
-                            <div class="col-md-4">
+                        <div class="row">
+                            <div class="col-lg-4">
                                 <div class="btn-group dropup">
                                     <button class="btn btn-info dropdown-toggle" data-toggle="dropdown" data-loading-text="loading...">
-                                        <?=ucfirst($xml)?> <span class="caret"></span>
+                                        <span class="glyphicon glyphicon-folder-open"></span> <?=ucfirst($xml)?> <span class="caret"></span>
                                     </button>
                                     <ul class="dropdown-menu">
 <?php 
-    if(file_exists(dirname(dirname(__FILE__))."/geradas/$xml")){
+    if(file_exists(dirname(__FILE__)."/geradas/$xml")){
 ?>
                                         <li>
                                             <a href="geradas/<?=$xml?>" target="_blank"><i class="glyphicon glyphicon-home"></i> Visualizar Página</a>
@@ -97,14 +98,15 @@ foreach ($aDiretorioXML as $xml) {
                                         <li><a href="xml/<?=$xml?>.xml" target="_blank"><i class="glyphicon glyphicon-chevron-right"></i> Visualizar XML</a></li>
                                         <li><a href="#" id="btnExcluirXML" data-xml="<?=$xml?>"><i class="glyphicon glyphicon-trash"></i> Excluir XML</a></li>
                                         <li class="divider"></li>
-                                        <li><a href="#" id="btnGerarArtefatos" data-xml="<?=$xml?>"><i class="glyphicon glyphicon-wrench"></i> Gerar Artefatos</a></li>
+                                        <li><a href="#" id="btnGerarArtefatos" data-xml="<?=$xml?>" data-gui="bootstrap2"><i class="glyphicon glyphicon-wrench"></i> Gerar Artefatos - Bootstrap 2</a></li>
+                                        <li><a href="#" id="btnGerarArtefatos" data-xml="<?=$xml?>" data-gui="bootstrap3"><i class="glyphicon glyphicon-wrench"></i> Gerar Artefatos - Bootstrap 3</a></li>
                                     </ul>
                                 </div>
                             </div>
+                        </div>
 <?php
 }
 ?>
-                        </div>
                     </div>
                 </div>
             </form> 

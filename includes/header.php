@@ -25,4 +25,4 @@
 
 
 <!-- JS -->
-<?php require_once(dirname(__FILE__)."/js.php");?>
+<?php require_once("js.php");

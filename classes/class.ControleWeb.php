@@ -1,8 +1,4 @@
 <?php
-/**
- * @package classes
- * @filesource
- */
 require_once(dirname(__FILE__)."/class.IConexao.php");
 require_once(dirname(__FILE__)."/class.Conexao.MySql.php");
 require_once(dirname(__FILE__)."/class.Conexao.SqlServer.php");
@@ -11,7 +7,10 @@ require_once(dirname(__FILE__)."/class.DiretorioXML.php");
 require_once(dirname(__FILE__)."/class.Geracao.php");
 require_once(dirname(__FILE__)."/class.Util.php");
 /**
- * Classe de interface funcional da ferramenta no formato web
+ * Classe de Controle (Interface) do framework
+ * 
+ * Concentra as funcionalidades da ferramenta
+ * 
  * @author Luiz Leão <luizleao@gmail.com>
  */
 class ControleWeb{
@@ -19,14 +18,6 @@ class ControleWeb{
     
     function __construct() {
         
-    }
-
-    public function getMsg() {
-        return $this->msg;
-    }
-
-    public function setMsg($msg) {
-        $this->msg = $msg;
     }
     
     function conexao($sgbd, $host, $usuario, $senha, $bd=NULL){
@@ -125,7 +116,7 @@ class ControleWeb{
         }
     }
     
-    public function gerarArtefatos($xml, $moduloSeguranca){
+    public function gerarArtefatos($xml, $gui, $moduloSeguranca){
         $oGeracao = new Geracao(dirname(dirname(__FILE__))."/xml/$xml.xml", $xml);
         $msg = "Log de Geração de Artefatos - Projeto <strong>$xml</strong>: <br /><hr /><pre>";
         $msg .= str_pad("Geracao geraClassesBasicas ",50,".").           ((!$oGeracao->geraClassesBasicas())            ? "Falha" : "Ok")."\n";
