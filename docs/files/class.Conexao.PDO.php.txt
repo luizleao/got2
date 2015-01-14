@@ -48,6 +48,13 @@ class ConexaoPDO extends PDO{
      */
     public $sgbd;
     
+    /**
+     * Data de Cadastro Padrão
+     * 
+     * @var type 
+     */
+    public $data_cadastro_padrao;
+    
     function __construct($sgbd, $host, $db, $user, $passwd){
         $this->sgbd   = $sgbd;
         $this->host   = $host;
@@ -59,6 +66,7 @@ class ConexaoPDO extends PDO{
             switch($this->sgbd){
                 case "mysql": 
                     parent::__construct("mysql:host=".$this->host.";dbname=".$this->db, $this->user, $this->passwd); 
+                    $this->data_cadastro_padrao = "now()";
                 break;
                 case "sqlserver": 
                     parent::__construct("sqlsrv:server=".$this->host.";database=".$this->db, $this->user, $this->passwd); 
@@ -73,8 +81,9 @@ class ConexaoPDO extends PDO{
     }
     
     /**
+     * Executa uma instrução SQL do SGBD
      * 
-     * @param type $sql
+     * @param string $sql
      * @return boolean
      */
     function execute($sql){
@@ -88,9 +97,10 @@ class ConexaoPDO extends PDO{
     }
     
     /**
+     * Executa uma instrução SQL do SGBD, utilizando prepare SQL
      * 
-     * @param type $sql
-     * @param type $aDados
+     * @param string $sql
+     * @param string[] $aDados
      * @return boolean
      * @throws PDOException
      */
@@ -107,9 +117,10 @@ class ConexaoPDO extends PDO{
     }
     
     /**
+     * Retorna a quantidades de linhas afetadas pela Query
      * 
-     * @param type $consulta
-     * @return type
+     * @param resource $consulta Consulta executada
+     * @return int
      */
     function numRows($consulta = NULL){
         if(!$consulta){ 
@@ -119,9 +130,10 @@ class ConexaoPDO extends PDO{
     }
     
     /**
+     * Retorna os dados da consulta em forma de array
      * 
-     * @param type $consulta
-     * @return type
+     * @param resource $consulta
+     * @return string[]
      * @throws PDOException
      */
     function fetchReg($consulta = NULL){

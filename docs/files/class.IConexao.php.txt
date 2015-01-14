@@ -7,16 +7,16 @@
 interface IConexao{
     
     /**
-     * Retorna a lista de tabelas de database
+     * Executa uma instrução SQL do SGBD
      * 
+     * @param string $sql Instrução SQL
      */
     function execute($sql);
     
     /**
-     * Executa uma consulta do SGBD
+     * Retorna a lista de tabelas de database
      * 
-     * @param string $sql
-     */
+     */    
     function carregarColecaoTabelas();
     
     /**
@@ -29,18 +29,18 @@ interface IConexao{
     /**
      * Retorna a lista de colunas de uma tabela
      * 
-     * @param string $tabela
+     * @param string $tabela Tabela do BD selecionada
      */
     function carregarColecaoColunasTabela($tabela);
     
     /**
      * Retorna os dados da chaves estrangeiras da coluna
      * 
-     * @param string $db
-     * @param string $tabela
-     * @param string $coluna
+     * @param string $bd Bando de Dados Selecionado
+     * @param string $tabela Tabela selecionada
+     * @param string $coluna Coluna selecionada
      */
-    function dadosForeignKeyColuna($db, $tabela, $coluna);
+    function dadosForeignKeyColuna($bd, $tabela, $coluna);
 }
 
 

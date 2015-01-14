@@ -14,20 +14,32 @@ require_once(dirname(__FILE__)."/class.Util.php");
  * @author Luiz Leão <luizleao@gmail.com>
  */
 class ControleWeb{
+    /**
+     * Mensagem do sistema
+     * 
+     * @var string 
+     */
     public $msg;
     
     function __construct() {
         
     }
     
+    /**
+     * Conecta com o banco de dados selecionado
+     * 
+     * @param string $sgbd Tipo de SGBD
+     * @param string $host Endereço do servidor
+     * @param string $usuario Usuário do banco
+     * @param string $senha Senha do Usuário
+     * @param string $bd Banco de dados selecionado
+     * @return boolean|\ConexaoSqlServer|\ConexaoMySql|\ConexaoPostgre
+     */
     function conexao($sgbd, $host, $usuario, $senha, $bd=NULL){
         switch($sgbd){
-            case "mysql": 
-               $oConexao = new ConexaoMySql('Vazia');
-            break;
-            case "sqlserver": 
-                $oConexao = new ConexaoSqlServer('Vazia');
-            break;
+            case "mysql":     $oConexao = new ConexaoMySql('Vazia');     break;        
+            case "sqlserver": $oConexao = new ConexaoSqlServer('Vazia'); break;
+            case "postgre":   $oConexao = new ConexaoPostgre('Vazia');   break;
         }
         
         $oConexao->set_conexao($host, $usuario, $senha, $bd);
@@ -41,12 +53,22 @@ class ControleWeb{
         }
     }
     
-    function gerarXML($sgbd, $host, $login, $senha, $db){
-        //die("$sgbd, localhost, $login, $senha");
-        $oConexao = $this->conexao($sgbd, $host, $login, $senha, $db);
+    /**
+     * Gera o XML que contém as meta-informações do banco de dados
+     * 
+     * @param string $sgbd Tipo de SGBD
+     * @param string $host Endereço do servidor
+     * @param string $usuario Usuário do banco
+     * @param string $senha Senha do Usuário
+     * @param string $bd Banco de dados selecionado
+     * @return boolean
+     */
+    function gerarXML($sgbd, $host, $usuario, $senha, $bd){
+        //die("$sgbd, localhost, $usuario, $senha");
+        $oConexao = $this->conexao($sgbd, $host, $usuario, $senha, $bd);
 
         if($oConexao){
-            $oXML = simplexml_load_string("<?xml version=\"1.0\" encoding=\"UTF-8\"?> <DATABASE NOME=\"$db\" SGBD=\"$sgbd\"></DATABASE>");
+            $oXML = simplexml_load_string("<?xml version=\"1.0\" encoding=\"UTF-8\"?> <DATABASE NOME=\"$bd\" SGBD=\"$sgbd\"></DATABASE>");
             $aTabela = $oConexao->carregarColecaoTabelas();
             
             foreach($aTabela as $sTabela){
@@ -78,7 +100,7 @@ class ControleWeb{
                     $oCampo->addChild("TIPO", $sColuna[1]);
                     $oCampo->addChild("CHAVE", (($sColuna[3] == 'PRI') ? 1 : 0));
 
-                    $oFK = $oConexao->dadosForeignKeyColuna($db, $sTabela[0], $sColuna[0]);
+                    $oFK = $oConexao->dadosForeignKeyColuna($bd, $sTabela[0], $sColuna[0]);
                     
                     if($oFK[0] != ''){
                         $oFkTabela = $oCampo->addChild("FKTABELA", $oFK[0]);
@@ -104,7 +126,7 @@ class ControleWeb{
                 }
             }
 
-            $fp = fopen(dirname(dirname(__FILE__))."/xml/$db.xml","w");
+            $fp = fopen(dirname(dirname(__FILE__))."/xml/$bd.xml","w");
             fputs($fp, $oXML->asXML());
             fclose($fp);
             $this->msg = ""; //Arquivo XML gerado com sucesso
@@ -116,18 +138,27 @@ class ControleWeb{
         }
     }
     
+    /**
+     * Gera os artefatos de software
+     * 
+     * @param string $xml Arquivo XML que contém o schema do banco de dados
+     * @param string $gui Tipo de interface gráfica escolhida
+     * @param boolean $moduloSeguranca Opção de gerar a aplicaççao com o módulo de segurança ou não
+     * @return string
+     */
     public function gerarArtefatos($xml, $gui, $moduloSeguranca){
-        $oGeracao = new Geracao(dirname(dirname(__FILE__))."/xml/$xml.xml", $xml);
-        $msg = "Log de Geração de Artefatos - Projeto <strong>$xml</strong>: <br /><hr /><pre>";
-        $msg .= str_pad("Geracao geraClassesBasicas ",50,".").           ((!$oGeracao->geraClassesBasicas())            ? "Falha" : "Ok")."\n";
-        $msg .= str_pad("Pacote adicional ",50,".").((!Util::copydir(dirname(dirname(__FILE__))."/dir", dirname(dirname(__FILE__))."/geradas/$xml")) ? "Falha" : "Ok")."\n";
-        $msg .= str_pad("Geracao geraClassesBDBase ",50,".").            ((!$oGeracao->geraClassesBDBase())             ? "Falha" : "Ok")."\n";
-        $msg .= str_pad("Geracao geraClasseControle ",50,".").           ((!$oGeracao->geraClasseControle())            ? "Falha" : "Ok")."\n";
-        $msg .= str_pad("Geracao geraClassesBD ",50,".").                ((!$oGeracao->geraClassesBD())                 ? "Falha" : "Ok")."\n";
-        $msg .= str_pad("Geracao geraClasseValidadorFormulario ",50,".").((!$oGeracao->geraClasseValidadorFormulario()) ? "Falha" : "Ok")."\n";
-        $msg .= str_pad("Geracao geraClasseDadosFormulario ",50,".").    ((!$oGeracao->geraClasseDadosFormulario())     ? "Falha" : "Ok")."\n";
-        $msg .= str_pad("Geracao geraClassesMapeamento ",50,".").        ((!$oGeracao->geraClassesMapeamento())         ? "Falha" : "Ok")."\n";
-        $msg .= str_pad("Geracao geraInterface ",50,".").                ((!$oGeracao->geraInterface())                 ? "Falha" : "Ok")."\n";
+        $oGeracao = new Geracao("xml/$xml.xml", $gui, $xml);
+        $msg = "Log de Geração de Artefatos - Projeto <strong>$xml</strong>: <br />";
+        $msg .= "Engine gráfica: <strong>$gui</strong>: <br /><hr /><pre>";
+        $msg .= str_pad("Geracao geraClassesBasicas ",50,".").           ((!$oGeracao->geraClassesBasicas())                       ? "Falha" : "Ok")."\n";
+        $msg .= str_pad("Pacote adicional ",50,".").                     ((!Util::copydir("templates/$gui/dir/", "geradas/$xml/")) ? "Falha" : "Ok")."\n";
+        $msg .= str_pad("Geracao geraClassesBDBase ",50,".").            ((!$oGeracao->geraClassesBDBase())                        ? "Falha" : "Ok")."\n";
+        $msg .= str_pad("Geracao geraClasseControle ",50,".").           ((!$oGeracao->geraClasseControle())                       ? "Falha" : "Ok")."\n";
+        $msg .= str_pad("Geracao geraClassesBD ",50,".").                ((!$oGeracao->geraClassesBD())                            ? "Falha" : "Ok")."\n";
+        $msg .= str_pad("Geracao geraClasseValidadorFormulario ",50,".").((!$oGeracao->geraClasseValidadorFormulario())            ? "Falha" : "Ok")."\n";
+        $msg .= str_pad("Geracao geraClasseDadosFormulario ",50,".").    ((!$oGeracao->geraClasseDadosFormulario())                ? "Falha" : "Ok")."\n";
+        $msg .= str_pad("Geracao geraClassesMapeamento ",50,".").        ((!$oGeracao->geraClassesMapeamento())                    ? "Falha" : "Ok")."\n";
+        $msg .= str_pad("Geracao geraInterface ",50,".").                ((!$oGeracao->geraInterface())                            ? "Falha" : "Ok")."\n";
         
         if(!$moduloSeguranca){
             $msg .= str_pad("Geracao Menu Estático ",51,".").            ((!$oGeracao->geraMenuEstatico())              ? "Falha" : "Ok")."</pre>";
@@ -135,9 +166,15 @@ class ControleWeb{
         return $msg;
     }
     
+    /**
+     * Exclui o arquivo XML
+     * 
+     * @param string $xml Arquivo XML
+     * @return boolean
+     */
     public function excluirXML($xml){
     	try{
-            unlink(dirname(dirname(__FILE__))."/xml/$xml.xml");
+            unlink("xml/$xml.xml");
             $this->msg = "";
             return true;
     	} 

@@ -27,9 +27,17 @@ class ConexaoSqlServer implements IConexao{
          }
     }
     
+    /**
+     * 
+     * @param type $host
+     * @param type $user
+     * @param type $senha
+     * @param type $bd
+     */
     function set_conexao($host,$user,$senha,$bd=NULL){
         try{
             //$connectionInfo = array("UID" => $uid, "PWD" => $pwd, "Database"=>"AdventureWorks");
+            $aConnectInfo = array();
             $aConnectInfo['UID'] = $user;
             $aConnectInfo['PWD'] = $senha;
             if($bd != NULL){
@@ -41,10 +49,15 @@ class ConexaoSqlServer implements IConexao{
         }
     }
 
+    /**
+     * 
+     * @param type $sql
+     * @return boolean
+     */
     function execute($sql){
-        $consulta = sqlsrv_query($this->get_conexao(), $sql);
+        $consulta = sqlsrv_query($this->conexao, $sql);
         if($consulta){
-            $this->set_consulta($consulta);
+            $this->consulta = $consulta;
             return true;
         }
         else{
@@ -59,54 +72,82 @@ class ConexaoSqlServer implements IConexao{
         }
     }
 
+    /**
+     * 
+     * @param type $consulta
+     * @return type
+     */
     function numRows($consulta = NULL){
         if(!$consulta) {
-            $consulta = $this->get_consulta();
+            $consulta = $this->consulta;
         }
         return (int) sqlsrv_num_rows($consulta);
     }
 
+    /**
+     * 
+     * @param type $consulta
+     * @return type
+     */
     function fetchReg($consulta = NULL){
         if(!$consulta) {
-            $consulta = $this->get_consulta();
+            $consulta = $this->consulta;
         }
         return sqlsrv_fetch_array($consulta);
     }
 
+    /**
+     * 
+     * @param type $consulta
+     * @return type
+     */
     function fetchRow($consulta = NULL){
         if(!$consulta) {
-            $consulta = $this->get_consulta();
+            $consulta = $this->consulta;
         }
         return sqlsrv_fetch_row($consulta);
     }
 
+    /**
+     * 
+     * @return type
+     */
     function lastID(){
-/*
-        $consulta = $this->execute("select LAST_INSERT_ID()");
-        $res = @sqlsrv_fetch_array($consulta);
-
-        return $res[0];
-*/
-        //print_r($this);
-        return sqlsrv_insert_id($this->get_conexao());
+        return sqlsrv_insert_id($this->conexao);
     }
 
+    /**
+     * 
+     */
     function close(){
-        sqlsrv_close($this->get_conexao());
+        sqlsrv_close($this->conexao);
     }
 
+    /**
+     * 
+     */
     function beginTrans(){
         $this->execute("BEGIN");	
     }
 
+    /**
+     * 
+     */
     function commitTrans(){
         $this->execute("COMMIT");		
     }
 
+    /**
+     * 
+     */
     function rollBackTrans(){
         $this->execute("ROLLBACK");
     }
 
+    /**
+     * 
+     * @return type
+     */
     function databases(){
         $this->execute("select name from sys.databases");
         $aDatabases = array();
@@ -116,26 +157,11 @@ class ConexaoSqlServer implements IConexao{
         return $aDatabases;
     }
 
-    function get_conexao(){
-        return $this->conexao;
-    }
-
-    function get_consulta(){
-        return $this->consulta;
-    }
-
-    function set_consulta($v){
-        $this->consulta = $v;
-    }
-
-    function get_db(){
-        return $this->db;
-    }
-    
-    function set_db($v){
-        $this->db = $v;
-    }
-
+    /**
+     * 
+     * @param type $tabela
+     * @return type
+     */
     public function carregarColecaoColunasTabela($tabela) {
         $sql = "select
                     T1.COLUMN_NAME as Field,
@@ -168,6 +194,13 @@ class ConexaoSqlServer implements IConexao{
         return $aDados;
     }
 
+    /**
+     * 
+     * @param type $db
+     * @param type $tabela
+     * @param type $coluna
+     * @return type
+     */
     public function dadosForeignKeyColuna($db, $tabela, $coluna) {
         $this->execute("select 
                             /*r.CONSTRAINT_NAME,
@@ -189,6 +222,10 @@ class ConexaoSqlServer implements IConexao{
         return $this->fetchReg();
     }
 
+    /**
+     * 
+     * @return type
+     */
     public function carregarColecaoTabelas() {
         $this->execute("select table_name, table_schema from INFORMATION_SCHEMA.TABLES");
         $aDados = array();

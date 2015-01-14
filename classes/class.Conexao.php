@@ -6,12 +6,37 @@
  * @author Luiz Leão
  */
 class Conexao {
-
+    /**
+     * Armazena a consulta
+     * 
+     * @var resource
+     */
     public $consulta;
+    /**
+     * Mensagem do sistema
+     * 
+     * @var string
+     */
     public $msg;
+    /**
+     * Informação sobre o servidor utilizado: Produção, Desenvolvimento ou Homologacao
+     * 
+     * @var string
+     */
     public $local = "producao";
+    /**
+     * Armazena dados da conexao
+     * 
+     * @var resource
+     */
     public $conexao;
-
+    /**
+     * Data de Cadastro Padrão
+     * 
+     * @var string
+     */
+    public $data_cadastro_padrao = "now()";
+    
     function __construct() {
         try {
             $config = parse_ini_file(dirname(__FILE__) . "/config.ini", true);

@@ -60,7 +60,7 @@ class ConexaoPostgre implements IConexao {
     }
     
     /**
-     * Executa uma consulta do SGBD
+     * Executa uma instrução SQL do SGBD
      * 
      * @param string $sql
      * @return boolean

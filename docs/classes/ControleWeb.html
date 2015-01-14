@@ -106,7 +106,7 @@
                         <ul class="dropdown-menu">
                             <li>
                                 <a href="../reports/errors.html">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">200</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">172</span>
                                 </a>
                             </li>
                             <li>
@@ -136,10 +136,10 @@
                                 <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-290260187"></a>
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-536528811"></a>
                                 <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
             </div>
-            <div id="namespace-290260187" class="accordion-body collapse in">
+            <div id="namespace-536528811" class="accordion-body collapse in">
                 <div class="accordion-inner">
 
                     
@@ -276,12 +276,12 @@
             <a id="property_msg" name="property_msg" class="anchor"></a>
             <article class="property">
                 <h3 class="public ">$msg</h3>
-                <pre class="signature">$msg : </pre>
-                <p><em></em></p>
+                <pre class="signature">$msg : string</pre>
+                <p><em>Mensagem do sistema</em></p>
                 
 
                                 <h4>Type</h4>
-                
+                string
                                             </article>
         </div>
         <aside class="span4 detailsbar">
@@ -334,41 +334,43 @@
             <article class="method">
                 <h3 class="public ">conexao()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">conexao(  <span class="argument">$sgbd</span>,   <span class="argument">$host</span>,   <span class="argument">$usuario</span>,   <span class="argument">$senha</span>,   <span class="argument">$bd = NULL</span>) </pre>
-                <p><em></em></p>
+                <pre class="signature" style="margin-right: 54px;">conexao(string  <span class="argument">$sgbd</span>, string  <span class="argument">$host</span>, string  <span class="argument">$usuario</span>, string  <span class="argument">$senha</span>, string  <span class="argument">$bd = NULL</span>) : boolean|\ConexaoSqlServer|\ConexaoMySql|\ConexaoPostgre</pre>
+                <p><em>Conecta com o banco de dados selecionado</em></p>
                 
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
                                                     <tr>
-                                <td></td>
+                                <td>string</td>
                                 <td>$sgbd </td>
-                                <td></td>
+                                <td><p>Tipo de SGBD</p></td>
                             </tr>
                                                     <tr>
-                                <td></td>
+                                <td>string</td>
                                 <td>$host </td>
-                                <td></td>
+                                <td><p>Endereço do servidor</p></td>
                             </tr>
                                                     <tr>
-                                <td></td>
+                                <td>string</td>
                                 <td>$usuario </td>
-                                <td></td>
+                                <td><p>Usuário do banco</p></td>
                             </tr>
                                                     <tr>
-                                <td></td>
+                                <td>string</td>
                                 <td>$senha </td>
-                                <td></td>
+                                <td><p>Senha do Usuário</p></td>
                             </tr>
                                                     <tr>
-                                <td></td>
+                                <td>string</td>
                                 <td>$bd </td>
-                                <td></td>
+                                <td><p>Banco de dados selecionado</p></td>
                             </tr>
                                             </table>
                 
                 
-                				
+                                    <h4>Returns</h4>
+                    boolean|<a href="../classes/ConexaoSqlServer.html">\ConexaoSqlServer</a>|<a href="../classes/ConexaoMySql.html">\ConexaoMySql</a>|<a href="../classes/ConexaoPostgre.html">\ConexaoPostgre</a>
+                                    				
                             </article>
         </div>
         <aside class="span4 detailsbar">
@@ -388,41 +390,43 @@
             <article class="method">
                 <h3 class="public ">gerarXML()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">gerarXML(  <span class="argument">$sgbd</span>,   <span class="argument">$host</span>,   <span class="argument">$login</span>,   <span class="argument">$senha</span>,   <span class="argument">$db</span>) </pre>
-                <p><em></em></p>
+                <pre class="signature" style="margin-right: 54px;">gerarXML(string  <span class="argument">$sgbd</span>, string  <span class="argument">$host</span>, string  <span class="argument">$usuario</span>, string  <span class="argument">$senha</span>, string  <span class="argument">$bd</span>) : boolean</pre>
+                <p><em>Gera o XML que contém as meta-informações do banco de dados</em></p>
                 
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
                                                     <tr>
-                                <td></td>
+                                <td>string</td>
                                 <td>$sgbd </td>
-                                <td></td>
+                                <td><p>Tipo de SGBD</p></td>
                             </tr>
                                                     <tr>
-                                <td></td>
+                                <td>string</td>
                                 <td>$host </td>
-                                <td></td>
+                                <td><p>Endereço do servidor</p></td>
                             </tr>
                                                     <tr>
-                                <td></td>
-                                <td>$login </td>
-                                <td></td>
+                                <td>string</td>
+                                <td>$usuario </td>
+                                <td><p>Usuário do banco</p></td>
                             </tr>
                                                     <tr>
-                                <td></td>
+                                <td>string</td>
                                 <td>$senha </td>
-                                <td></td>
+                                <td><p>Senha do Usuário</p></td>
                             </tr>
                                                     <tr>
-                                <td></td>
-                                <td>$db </td>
-                                <td></td>
+                                <td>string</td>
+                                <td>$bd </td>
+                                <td><p>Banco de dados selecionado</p></td>
                             </tr>
                                             </table>
                 
                 
-                				
+                                    <h4>Returns</h4>
+                    boolean
+                                    				
                             </article>
         </div>
         <aside class="span4 detailsbar">
@@ -442,31 +446,33 @@
             <article class="method">
                 <h3 class="public ">gerarArtefatos()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">gerarArtefatos(  <span class="argument">$xml</span>,   <span class="argument">$gui</span>,   <span class="argument">$moduloSeguranca</span>) </pre>
-                <p><em></em></p>
+                <pre class="signature" style="margin-right: 54px;">gerarArtefatos(string  <span class="argument">$xml</span>, string  <span class="argument">$gui</span>, boolean  <span class="argument">$moduloSeguranca</span>) : string</pre>
+                <p><em>Gera os artefatos de software</em></p>
                 
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
                                                     <tr>
-                                <td></td>
+                                <td>string</td>
                                 <td>$xml </td>
-                                <td></td>
+                                <td><p>Arquivo XML que contém o schema do banco de dados</p></td>
                             </tr>
                                                     <tr>
-                                <td></td>
+                                <td>string</td>
                                 <td>$gui </td>
-                                <td></td>
+                                <td><p>Tipo de interface gráfica escolhida</p></td>
                             </tr>
                                                     <tr>
-                                <td></td>
+                                <td>boolean</td>
                                 <td>$moduloSeguranca </td>
-                                <td></td>
+                                <td><p>Opção de gerar a aplicaççao com o módulo de segurança ou não</p></td>
                             </tr>
                                             </table>
                 
                 
-                				
+                                    <h4>Returns</h4>
+                    string
+                                    				
                             </article>
         </div>
         <aside class="span4 detailsbar">
@@ -486,21 +492,23 @@
             <article class="method">
                 <h3 class="public ">excluirXML()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">excluirXML(  <span class="argument">$xml</span>) </pre>
-                <p><em></em></p>
+                <pre class="signature" style="margin-right: 54px;">excluirXML(string  <span class="argument">$xml</span>) : boolean</pre>
+                <p><em>Exclui o arquivo XML</em></p>
                 
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
                                                     <tr>
-                                <td></td>
+                                <td>string</td>
                                 <td>$xml </td>
-                                <td></td>
+                                <td><p>Arquivo XML</p></td>
                             </tr>
                                             </table>
                 
                 
-                				
+                                    <h4>Returns</h4>
+                    boolean
+                                    				
                             </article>
         </div>
         <aside class="span4 detailsbar">
@@ -563,7 +571,7 @@
                 <section class="span10 offset1">
                     <hr />
                     Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
-                    on January 13th, 2015 at 11:14.
+                    on January 13th, 2015 at 17:23.
                 </section>
             </section>
         </section>

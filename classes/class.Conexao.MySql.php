@@ -3,7 +3,6 @@
  * Classe de conexão nativa com o SGBD MySQL
  * 
  * @author Luiz Leão <luizleao@gmail.com> 
- * @filesource
  */
 class ConexaoMySql implements IConexao{
     /**
@@ -69,7 +68,7 @@ class ConexaoMySql implements IConexao{
     }
     
     /**
-     * Executa uma consulta do SGBD
+     * Executa uma instrução SQL do SGBD
      * 
      * @param string $sql
      * @return boolean

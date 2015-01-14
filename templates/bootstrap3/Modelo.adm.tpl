@@ -12,63 +12,61 @@ if($_REQUEST['acao'] == 'excluir'){
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-    <?php require_once(dirname(__FILE__)."/includes/header.php");?>
+    <?php require_once("includes/header.php");?>
 </head>
 <body>
-    <div id="wrap">
-        <?php require_once(dirname(__FILE__)."/includes/head.php");?>
-        <div class="container">
-            <?php require_once(dirname(__FILE__)."/includes/titulo.php"); ?>
-            <ul class="breadcrumb">
-                <li><a href="principal.php">Home</a> <span class="divider">/</span></li>
-                <li class="active">Administrar <span>%%NOME_CLASSE%%</span></li>
-            </ul>
+    <?php require_once("includes/head.php");?>
+    <div class="container">
+        <?php require_once("includes/titulo.php");?>
+        <?php require_once("includes/menu.php");?>
+        <ol class="breadcrumb">
+            <li><a href="principal.php">Home</a></li>
+            <li class="active">Administrar <span>%%NOME_CLASSE%%</span></li>
+        </ol>
 <?php 
 if($oControle->msg != "")
 	$oControle->componenteMsg($oControle->msg, "erro");
 ?>
-            <table class="table table-striped">
+        <table class="table table-striped">
 <?php
 if($a%%NOME_CLASSE%%){
 ?>
 	
-                <thead>
-                    <tr>
-                        %%TITULOATRIBUTOS%%
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
+            <thead>
+                <tr>
+                    %%TITULOATRIBUTOS%%
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
 <?php
 	foreach($a%%NOME_CLASSE%% as $o%%NOME_CLASSE%%){
 ?>
-                    <tr>
-                        %%VALORATRIBUTOS%%
-                        %%ADM_EDIT%%
-                        %%ADM_DELETE%%
-                    </tr>
+                <tr>
+                    %%VALORATRIBUTOS%%
+                    %%ADM_EDIT%%
+                    %%ADM_DELETE%%
+                </tr>
 <?php
 	}
 ?>
-                </tbody>
+            </tbody>
 <?php
 }
 else{
 ?>
-                <tr>
-                        <td colspan="%%NUMERO_COLUNAS%%" align="center">N&atilde;o h&aacute; registros cadastrados!</td>
-                </tr>
+            <tr>
+                    <td colspan="%%NUMERO_COLUNAS%%" align="center">N&atilde;o h&aacute; registros cadastrados!</td>
+            </tr>
 <?php
 }
 ?>
-                <tr>
-                    <td colspan="%%NUMERO_COLUNAS%%"><a href="cad%%NOME_CLASSE%%.php" class="btn btn-primary btn-small" title="Cadastrar"><i class="icon-white icon-plus"></i></a></td>
-                </tr>
-            </table>
-        </div>
-        <div id="push"></div>
+            <tr>
+                <td colspan="%%NUMERO_COLUNAS%%"><a href="cad%%NOME_CLASSE%%.php" class="btn btn-primary btn-sm" title="Cadastrar"><i class="glyphicon glyphicon-plus"></i></a></td>
+            </tr>
+        </table>
     </div>
-    <?php require_once(dirname(__FILE__)."/includes/footer.php")?>
+    <?php require_once("includes/footer.php")?>
 </body>
 </html>

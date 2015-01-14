@@ -424,4 +424,23 @@ class Util {
     static function trace($var){
         print "<pre>"; print_r($var); print "</pre>";
     }
+    
+    /**
+     * Recupera o conteúdo do template selecionado
+     * 
+     * @param string $modelo Modelo a ser recuperado
+     * @return string|boolean
+     */
+    static function getConteudoTemplate($modelo){
+        try {
+            $conteudo = '';
+            $dirTemp = dirname(dirname(__FILE__))."/templates/$modelo";
+            $fpTemp = fopen($dirTemp,"r") or die("Erro!");
+            while(!feof($fpTemp))  $conteudo  .= fgets($fpTemp,4096);  fclose($fpTemp);
+            return $conteudo;
+        } catch(Exception $e){
+            print "Erro!! - ".$e->getMessage();
+            return false;
+        }
+    }
 }

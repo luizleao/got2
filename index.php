@@ -19,14 +19,14 @@ switch ($_REQUEST['acao']) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt">
     <head>
         <?php require_once("includes/header.php"); ?>
     </head>
     <body>
         <?php require_once("includes/head.php"); ?>
         <div class="container">
-            <?php require_once("includes/titulo.php"); ?>
+            <?php require_once("includes/titulo.php");?>
             <?php require_once("includes/menu.php");?>
     
             <!-- Main component for a primary marketing message or call to action -->

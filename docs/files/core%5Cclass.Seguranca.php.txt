@@ -20,39 +20,43 @@ class Seguranca{
      * @var string
      */
     public $msg;
-
+    
+    /**
+     * Método construtor da classe
+     * @return void
+     */
     function __construct(){
 
     }
 
     /**
      * Menu montado de acordo com as permissoes dos grupos que o usuario faz parte
-     *
-     * @param $aGrupoUsuario[]
+     * 
+     * @param UsuarioGrupo $aGrupoUsuario Lista de grupos que o usuário tem permissão de acesso
      * @return string[]
      */
     function menuUsuario($aGrupoUsuario){
-            // ========== Varrendo os Grupos do usuario ==========
-            foreach($aGrupoUsuario as $oGrupoUsuario){
-                    $oSistemaBD = new SistemaBD();
-                    $aSistemaMenu = $oSistemaBD->carregarColecao();
-                    // ================ Varrendo Todos os sistemas cadastrados ===========
-                    foreach($aSistemaMenu as $oSistemaMenu){
-                            $aModuloMenu = $this->carregarColecaoModuloPorGrupo($oGrupoUsuario->oGrupo->idGrupo, $oSistemaMenu->idSistema);
-                            if($aModuloMenu){
-                                    // ================ Varrendo Todos os modulos relacionados ao grupo ===========
-                                    foreach($aModuloMenu as $oModuloMenu){
-                                            $aProgramaMenu = $this->carregarColecaoProgramaPorGrupo($oGrupoUsuario->oGrupo->idGrupo, $oModuloMenu->idModulo);
-                                            // ================ Varrendo Todos os programas do referido modulo ===========
-                                            foreach($aProgramaMenu as $oProgramaMenu){
-                                                    $aMenu[$oSistemaMenu->descricao][$oModuloMenu->descricao][$oProgramaMenu->descricao] = array("idPrograma" => $oProgramaMenu->idPrograma, 
-                                                                                                                                                                                                                                             "pagina"	  => $oProgramaMenu->pagina);
-                                            }
-                                    }
-                            }
+        // ========== Varrendo os Grupos do usuario ==========
+        foreach($aGrupoUsuario as $oGrupoUsuario){
+            $oSistemaBD = new SistemaBD();
+            $aSistemaMenu = $oSistemaBD->carregarColecao();
+            // ================ Varrendo Todos os sistemas cadastrados ===========
+            foreach($aSistemaMenu as $oSistemaMenu){
+                $aModuloMenu = $this->carregarColecaoModuloPorGrupo($oGrupoUsuario->oGrupo->idGrupo, $oSistemaMenu->idSistema);
+                if($aModuloMenu){
+                    // ================ Varrendo Todos os modulos relacionados ao grupo ===========
+                    foreach($aModuloMenu as $oModuloMenu){
+                        $aProgramaMenu = $this->carregarColecaoProgramaPorGrupo($oGrupoUsuario->oGrupo->idGrupo, $oModuloMenu->idModulo);
+                        // ================ Varrendo Todos os programas do referido modulo ===========
+                        foreach($aProgramaMenu as $oProgramaMenu){
+                            $aMenu[$oSistemaMenu->descricao][$oModuloMenu->descricao][$oProgramaMenu->descricao] = array("idPrograma" => $oProgramaMenu->idPrograma, 
+                                                                                                                                                                                                                         "pagina"	  => $oProgramaMenu->pagina);
+                        }
                     }
+                }
             }
-            return $aMenu;
+        }
+        return $aMenu;
     }
 
     /**
