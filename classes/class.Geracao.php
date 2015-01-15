@@ -465,8 +465,8 @@ class Geracao {
 
             # monta demais valores a serem substituidos
             $sPKRequest      = join($aPKRequest, ", ");
-            $sTituloAdm      = join($aTituloAdm, "\n\t\t\t\t\t");
-            $sCampoAdm       = join($aCampoAdm,  "\n\t\t\t\t\t");
+            $sTituloAdm      = join($aTituloAdm, "\n\t\t\t");
+            $sCampoAdm       = join($aCampoAdm,  "\n\t\t\t");
             $sCampoCad       = join($aCampoCad,  "\n");
             $sCampoEdit      = join($aCampoEdit, "\n");
             $sCampoPK        = join($aCampoPK,   "\n");

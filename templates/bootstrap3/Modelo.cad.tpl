@@ -4,7 +4,7 @@ $oControle = new Controle();
 
 // ================= Cadastrar %%NOME_CLASSE%% ========================= 
 if($_POST){
-	print ($oControle->cadastra%%NOME_CLASSE%%()) ? "" : $oControle->msg; exit;
+    print ($oControle->cadastra%%NOME_CLASSE%%()) ? "" : $oControle->msg; exit;
 }
 %%CARREGA_COLECAO%%
 ?>
@@ -30,10 +30,18 @@ if($oControle->msg != "")
 	$oControle->componenteMsg($oControle->msg, "erro");
 ?>
         <form role="form" onsubmit="return false;">
-%%ATRIBUICAO%%
-            <div class="form-actions">
-                <button id="btnCadastrar" data-loading-text="loading..." type="submit" class="btn btn-primary">Salvar</button>
-                <a class="btn btn-default" href="adm%%NOME_CLASSE%%.php">Voltar</a>
+            <div class="row">
+                <div class="col-md-4">
+                    %%ATRIBUICAO%%
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <button id="btnCadastrar" data-loading-text="loading..." type="submit" class="btn btn-primary">Salvar</button>
+                        <a class="btn btn-default" href="adm%%NOME_CLASSE%%.php">Voltar</a>
+                    </div>
+                </div>
             </div>
         </form>
     </div>

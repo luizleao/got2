@@ -59,13 +59,16 @@ class Form {
 
             $retorno = $modelo;
         
+        } elseif(preg_match("#(?:url|link|(?:web)?page)#is", $campo)){
+            $modelo = Util::getConteudoTemplate($gui.'/Modelo.Form.Url.tpl');
+            
+            $modelo = str_replace('%%CAMPO%%', $campo, $modelo);
+            $modelo = str_replace('%%VALOR%%', $value, $modelo);
+            
+            $retorno = $modelo;
+            
         } else {
             $tipoInput = "text";
-            // URL
-            if(preg_match("#(?:url|link)#is", $campo)){
-                $classCss  = "";
-                $tipoInput = "url";
-            }
 
             //CPF
             if(preg_match("#cpf#is", $campo)){
@@ -184,26 +187,25 @@ class Form {
      * @param string $enum Lista de valores recuperadas
      * @param string $label Rótulo do atributo
      * @param string $tipoTela Tipo de Formulário: CAD - Cadastro, EDIT - Edição
+     * @param string $gui Tipo de GUI (Graphic User Interface)
      * @return string
      */
-    static function geraEnum($obj, $campo, $enum, $label, $tipoTela) {
+    static function geraEnum($obj, $campo, $enum, $label, $tipoTela, $gui) {
+        $retorno = Util::getConteudoTemplate($gui.'/Modelo.Form.Enum.tpl');
+        
+        $retorno = str_replace('%%CAMPO%%',  $campo,  $retorno);        
+        $retorno = str_replace('%%LABEL%%',  $label,  $retorno);
+        
         if (preg_match_all("#'(.*?)'#i", $enum, $aCampo)) {
-            //print_r($aCampo);
-            $retorno = "
-                        <label for=\"$campo\">$label</label>
-                        <select name=\"$campo\" id=\"$campo\">";
             foreach ($aCampo[1] as $sCampo) {
                 switch ($tipoTela) {
                     case 'CAD': $editValue = ""; break;
                     case 'EDIT': $editValue = "<?=($obj"."->$campo == \"$sCampo\") ? \" selected\" : \"\"?>"; break;
                 }
-                $retorno .= "
-                                <option value=\"$sCampo\"$editValue>$sCampo</option>";
+                $aListaEnum[] = "<option value=\"$sCampo\"$editValue>$sCampo</option>";
             }
-            $retorno .= "
-                        </select>";
-
         }
+        $retorno = str_replace('%%LISTA_ENUM%%',  implode("\r", $aListaEnum),  $retorno);
         return $retorno;
     }
     

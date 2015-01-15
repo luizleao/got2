@@ -92,7 +92,7 @@ class Form {
             
             $modelo = Util::getConteudoTemplate($gui.'/Modelo.Form.Text.tpl');
             
-            $modelo = str_replace('%%TYPE%%',      $tipoInput,    $modelo);
+            $modelo = str_replace('%%TYPE%%',      $tipoInput,$modelo);
             $modelo = str_replace('%%CAMPO%%',     $campo,    $modelo);
             $modelo = str_replace('%%VALOR%%',     $value,    $modelo);
             $modelo = str_replace('%%CLASS_CSS%%', $classCss, $modelo);
