@@ -1,6 +1,7 @@
 <?php
-
 /**
+ * Classe Form
+ * 
  * Responsável pela construção dos formulários e relatórios da aplicação
  * 
  * @author Luiz Leão <luizleao@gmail.com>

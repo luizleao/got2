@@ -1,5 +1,7 @@
 <?php
 /**
+ * Classe de conexão PDO
+ * 
  * Classe de conexao com o banco de dados baseado na biblioteca PDO
  * 
  * @author Luiz Leão <luizleao@gmail.com>

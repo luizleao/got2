@@ -47,6 +47,16 @@ class Controle{
     }
     
     /**
+     * Recupera as configurações de conexão LDAP
+     * 
+     * @return string[]
+     */
+    function getConfigLDAP(){
+        $aConfig = parse_ini_file(dirname(__FILE__) . "/core/config.ini", true);
+        return $aConfig['LDAP'];
+    }
+    
+    /**
      * Cria instancia para a classe seguranca
      * 
      * @return Seguranca
@@ -84,6 +94,60 @@ class Controle{
         unset($oUsuario);
         return true;
     }
+    
+    /**
+     * Autentica o Usuario via LDAP
+     * @param string $login
+     * @param string $senha
+     * @return object
+     */
+    function autenticaUsuarioLDAP($login, $senha){
+        $aConfig = $this->getConfigLDAP();
+        
+        try{
+            // Conexão com servidor AD. 
+            $ad = ldap_connect($aConfig['servidor']);
+
+            // Versao do protocolo       
+            ldap_set_option($ad, LDAP_OPT_PROTOCOL_VERSION, 3);
+
+            // Usara as referencias do servidor AD, neste caso nao
+            ldap_set_option($ad, LDAP_OPT_REFERRALS, 0);
+
+            // Bind to the directory server.
+            $bd = ldap_bind($ad, $aConfig['dominio']."\\".$login, $senha) or die("Não foi possível pesquisa no AD.");    
+            if($bd){
+                /* DEFINE O DN DO SERVIDOR LDAP */     
+                $dn = "ou={$aConfig['dominio']}, dc={$aConfig['dominio']}, dc={$aConfig['dc']}";
+                $filter="(|(member=$login)(sAMAccountName=$login))";
+                //$filter = "(|(sn=$usuario*)(givenname=$usuario*)(uid=$usuario))";
+                /* EXECUTA O FILTRO NO SERVIDOR LDAP */     
+                $sr = ldap_search($ad, $dn, $filter);        
+                /* PEGA AS INFORMAÇÕES QUE O FILTRO RETORNOU */     
+                $info = ldap_get_entries($ad, $sr);	
+
+                $_SESSION['usuarioAtual']['login'] 	= $info[0]['samaccountname'][0];
+                $_SESSION['usuarioAtual']['email'] 	= $info[0]['mail'][0];
+                $_SESSION['usuarioAtual']['nome'] 	= $info[0]['displayname'][0];
+                $_SESSION['usuarioAtual']['permissoes'] = $info[0]['memberof'];
+
+                // ======== Formatando data vinda via LDAP ===========
+                $fileTime      = $info[0]['lastlogon'][0];
+                $winSecs       = (int)($fileTime / 10000000); // divide by 10 000 000 to get seconds
+                $unixTimestamp = ($winSecs - 11644473600); // 1.1.1600 -> 1.1.1970 difference in seconds
+
+                $_SESSION['usuarioAtual']['ultimoLogon'] = date("d/m/Y h:i:s", $unixTimestamp);
+            } else {
+                $this->msg = "Nao Conectado no servidor";
+                return false;
+            }
+            return true;
+            
+        } catch(Exception $e){
+            $this->msg = $e->getMessage();
+            return false;
+        }
+    }
 // ============ Funcoes de Cadastro ==================
 	
 %%METODOS_CADASTRA%%
@@ -108,15 +172,14 @@ class Controle{
 
 %%METODOS_CONSULTA%%
 	
-// ============ Funcoes Adicionais =================
 // =============== Componentes ==================
     /**
      * Componente que exibe calendário
      *
-     * @param String $nomeCampo
-     * @param Date $valorInicial
-     * @param String $adicional
-     * @param Bool $hora
+     * @param string $nomeCampo
+     * @param date $valorInicial
+     * @param string $adicional
+     * @param bool $hora
      * @return void
      */
     function componenteCalendario($nomeCampo, $valorInicial=NULL, $complemento=NULL,$hora=false){
@@ -126,12 +189,24 @@ class Controle{
     /**
      * Componente que exibe mensagem na tela
      * 
-     * @param String $msg
-     * @param String $tipo
+     * @param string $msg
+     * @param string $tipo
      * @access public
      * @return void
      */
     public function componenteMsg($msg, $tipo="erro"){
         include(dirname(dirname(__FILE__))."/componentes/componenteMsg.php");
+    }
+    
+    /**
+     * Componente de lista de UFs
+     * 
+     * @param string $nomeCampo
+     * @param string $valor
+     * @access public
+     * @return void
+     */
+    public function componenteListaUf($nomeCampo, $valor=NULL){
+        include(dirname(dirname(__FILE__))."/componentes/componenteListaUf.php");
     }
 }

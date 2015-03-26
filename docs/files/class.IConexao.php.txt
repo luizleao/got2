@@ -1,5 +1,7 @@
 <?php
 /**
+ * Interface de conexão
+ * 
  * Interface de implementação de classes de conexão para qualquer SGBD
  * 
  * @author Luiz Leão <luizleao@gmail.com>

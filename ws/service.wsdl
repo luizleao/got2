@@ -61,7 +61,7 @@
 	</binding>
 	<service name="GOTWSDLService">
 		<port name="ControleWebPort" binding="typens:ControleWebBinding">
-			<soap:address location="http://localhost/got/web/ws/index.php"></soap:address>
+			<soap:address location="http://localhost/got2/ws/"></soap:address>
 		</port>
 	</service>
 </definitions>

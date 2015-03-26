@@ -1,5 +1,7 @@
 <?php
 /**
+ * Conexão MySQL
+ * 
  * Classe de conexão nativa com o SGBD MySQL
  * 
  * @author Luiz Leão <luizleao@gmail.com> 

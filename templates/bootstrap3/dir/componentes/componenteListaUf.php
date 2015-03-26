@@ -1,6 +1,6 @@
 <?php
 $oControle = new Controle();
-$aUf = Util::retornaEstados();
+$aUf = Util::getAllEstados();
 ?>
 <div class="form-group">
     <select name="<?=$nomeCampo?>" id="<?=$nomeCampo?>" class="form-control">
@@ -8,7 +8,7 @@ $aUf = Util::retornaEstados();
     <?php
     foreach($aUf as $oUf){
     ?>
-        <option value="<?=$oUf?>"><?=$oUf?></option>
+        <option value="<?=$oUf?>"<?=($oUf == $valor) ? ' selected="selected"' : ""?>><?=$oUf?></option>
     <?php
     }
     ?>

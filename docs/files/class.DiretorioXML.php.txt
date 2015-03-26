@@ -1,16 +1,24 @@
 <?php
 /**
+ * Diretorios XML
+ * 
  * Gerencia a lista de arquivos XML gerados pela aplicação
  * 
+ * @author Luiz Leão <luizleao@gmail.com>
  */
 class DiretorioXML {
     /**
-     * LIsta de arquivos XML
+     * Lista de arquivos XML
      * 
      * @var string[] 
      */
     public $arquivos;
 
+    /**
+     * Método Construtor
+     * 
+     * @return void
+     */
     function __construct(){
         $arquivos = array();
         $dir      = dirname(__FILE__)."/../xml/";
@@ -26,7 +34,7 @@ class DiretorioXML {
     /**
      * Método GET
      * 
-     * @return string[]
+     * @return string[] 
      */
     function get_arquivos(){
         return $this->arquivos;
@@ -35,7 +43,7 @@ class DiretorioXML {
     /**
      * Método SET
      * 
-     * @param string[] $arquivos
+     * @param string[] $arquivos Lista de arquivos do diretório
      */
     function set_arquivos($arquivos){
         $this->arquivos = $arquivos;

@@ -1,6 +1,8 @@
 <?php
 require_once(dirname(__FILE__).'/class.Form.php');
 /**
+ * Classe Geração
+ * 
  * Responsável pela construção dos artefatos de software 
  * 
  * @author Luiz Leão <luizleao@gmail.com>
@@ -116,18 +118,18 @@ class Geracao {
         $modelo       = Util::getConteudoTemplate('class.Modelo.Controle.tpl');
 
         # Abre o template dos metodos de cadastros e armazena conteudo do modelo
-        $modeloCAD             = Util::getConteudoTemplate('metodoCadastra.tpl');
-        $modeloExclui          = Util::getConteudoTemplate('metodoExclui.tpl');
-        $modeloSelecionar      = Util::getConteudoTemplate('metodoSeleciona.tpl');
-        $modeloCarregarColecao = Util::getConteudoTemplate('metodoCarregarColecao.tpl'); 
-        $modeloConsultar       = Util::getConteudoTemplate('metodoConsulta.tpl');
-        $modeloAlterar         = Util::getConteudoTemplate('metodoAltera.tpl');
+        $modeloCAD        = Util::getConteudoTemplate('metodoCadastra.tpl');
+        $modeloExclui     = Util::getConteudoTemplate('metodoExclui.tpl');
+        $modeloSelecionar = Util::getConteudoTemplate('metodoSeleciona.tpl');
+        $modeloGetAll     = Util::getConteudoTemplate('metodoGetAll.tpl'); 
+        $modeloConsultar  = Util::getConteudoTemplate('metodoConsulta.tpl');
+        $modeloAlterar    = Util::getConteudoTemplate('metodoAltera.tpl');
 
         # Abre arquivo xml para navegacao
         $aBanco = simplexml_load_string($this->xml);
 
         # Varre a estrutura das tabelas
-        $aRequire = $aCadastro = $aExclui = $aSelecionar = $aCarregarColecao = $aAlterar = $aConsulta = array();
+        $aRequire = $aCadastro = $aExclui = $aSelecionar = $aGetAll = $aAlterar = $aConsulta = array();
         $copiaModelo = $modelo;
         //print_r($aBanco);exit;
         foreach($aBanco as $aTabela){
@@ -144,54 +146,54 @@ class Geracao {
             $listaPK    = join(",", $aPK);
 
             # Recupera o nome da tabela e gera os valores a serem gerados
-            $nomeClasse 		= ucfirst($this->getCamelMode($aTabela['NOME']));
-            $copiaModeloCAD   		= str_replace('%%NOME_CLASS%%',   $nomeClasse, $modeloCAD);
-            $copiaModeloExclui   	= str_replace('%%NOME_CLASS%%',   $nomeClasse, $modeloExclui);
-            $copiaModeloSelecionar   	= str_replace('%%NOME_CLASS%%',   $nomeClasse, $modeloSelecionar);
-            $copiaModeloCarregarColecao = str_replace('%%NOME_CLASS%%',   $nomeClasse, $modeloCarregarColecao);
-            $copiaModeloAlterar   	= str_replace('%%NOME_CLASS%%',   $nomeClasse, $modeloAlterar);
-            $copiaModeloConsultar  	= str_replace('%%NOME_CLASS%%',   $nomeClasse, $modeloConsultar);
+            $nomeClasse             = ucfirst($this->getCamelMode($aTabela['NOME']));
+            $copiaModeloCAD         = str_replace('%%NOME_CLASS%%',   $nomeClasse, $modeloCAD);
+            $copiaModeloExclui      = str_replace('%%NOME_CLASS%%',   $nomeClasse, $modeloExclui);
+            $copiaModeloSelecionar  = str_replace('%%NOME_CLASS%%',   $nomeClasse, $modeloSelecionar);
+            $copiaModeloGetAll      = str_replace('%%NOME_CLASS%%',   $nomeClasse, $modeloGetAll);
+            $copiaModeloAlterar     = str_replace('%%NOME_CLASS%%',   $nomeClasse, $modeloAlterar);
+            $copiaModeloConsultar   = str_replace('%%NOME_CLASS%%',   $nomeClasse, $modeloConsultar);
 
             $montaObjeto   = $this->retornaObjetosMontados($aTabela['NOME']);
             $montaObjetoBD = $this->retornaObjetosBDMontados($aTabela['NOME']);
 
-            $copiaModeloCAD             = str_replace('%%MONTA_OBJETO%%',   $montaObjeto,   $copiaModeloCAD);
-            $copiaModeloCAD             = str_replace('%%MONTA_OBJETOBD%%', $montaObjetoBD, $copiaModeloCAD);
-            $copiaModeloExclui          = str_replace('%%MONTA_OBJETOBD%%', $montaObjetoBD, $copiaModeloExclui);
-            $copiaModeloSelecionar      = str_replace('%%MONTA_OBJETOBD%%', $montaObjetoBD, $copiaModeloSelecionar);
-            $copiaModeloSelecionar      = str_replace('%%DOC_LISTA_PK%%',   $listaPKDoc,    $copiaModeloSelecionar);
-            $copiaModeloSelecionar      = str_replace('%%LISTA_PK%%', 	    $listaPK,       $copiaModeloSelecionar);
-            $copiaModeloCarregarColecao = str_replace('%%MONTA_OBJETOBD%%', $montaObjetoBD, $copiaModeloCarregarColecao);
-            $copiaModeloAlterar         = str_replace('%%MONTA_OBJETO%%',   $montaObjeto,   $copiaModeloAlterar);
-            $copiaModeloAlterar         = str_replace('%%MONTA_OBJETOBD%%', $montaObjetoBD, $copiaModeloAlterar);
-            $copiaModeloConsultar       = str_replace('%%MONTA_OBJETOBD%%', $montaObjetoBD, $copiaModeloConsultar);
+            $copiaModeloCAD         = str_replace('%%MONTA_OBJETO%%',   $montaObjeto,   $copiaModeloCAD);
+            $copiaModeloCAD         = str_replace('%%MONTA_OBJETOBD%%', $montaObjetoBD, $copiaModeloCAD);
+            $copiaModeloExclui      = str_replace('%%MONTA_OBJETOBD%%', $montaObjetoBD, $copiaModeloExclui);
+            $copiaModeloSelecionar  = str_replace('%%MONTA_OBJETOBD%%', $montaObjetoBD, $copiaModeloSelecionar);
+            $copiaModeloSelecionar  = str_replace('%%DOC_LISTA_PK%%',   $listaPKDoc,    $copiaModeloSelecionar);
+            $copiaModeloSelecionar  = str_replace('%%LISTA_PK%%', 	$listaPK,       $copiaModeloSelecionar);
+            $copiaModeloGetAll      = str_replace('%%MONTA_OBJETOBD%%', $montaObjetoBD, $copiaModeloGetAll);
+            $copiaModeloAlterar     = str_replace('%%MONTA_OBJETO%%',   $montaObjeto,   $copiaModeloAlterar);
+            $copiaModeloAlterar     = str_replace('%%MONTA_OBJETOBD%%', $montaObjetoBD, $copiaModeloAlterar);
+            $copiaModeloConsultar   = str_replace('%%MONTA_OBJETOBD%%', $montaObjetoBD, $copiaModeloConsultar);
 
-            $aRequire[]         = "require_once(dirname(__FILE__).'/bd/class.$nomeClasse"."BD.php');";
-            $aCadastro[]        = $copiaModeloCAD;
-            $aExclui[]          = $copiaModeloExclui;
-            $aSelecionar[]      = $copiaModeloSelecionar;
-            $aCarregarColecao[] = $copiaModeloCarregarColecao;
-            $aAlterar[]         = $copiaModeloAlterar;
-            $aConsultar[]       = $copiaModeloConsultar;
+            $aRequire[]    = "require_once(dirname(__FILE__).'/bd/class.$nomeClasse"."BD.php');";
+            $aCadastro[]   = $copiaModeloCAD;
+            $aExclui[]     = $copiaModeloExclui;
+            $aSelecionar[] = $copiaModeloSelecionar;
+            $aGetAll[]     = $copiaModeloGetAll;
+            $aAlterar[]    = $copiaModeloAlterar;
+            $aConsultar[]  = $copiaModeloConsultar;
         }
 
         # Monta demais valores a serem substituidos
-        $listaRequire         = join("\n",   $aRequire);
-        $listaCadastro        = join("\n\n", $aCadastro);
-        $listaExclui          = join("\n\n", $aExclui);
-        $listaSelecionar      = join("\n\n", $aSelecionar);
-        $listaCarregarColecao = join("\n\n", $aCarregarColecao);
-        $listaAlterar         = join("\n\n", $aAlterar);
-        $listaConsultar       = join("\n\n", $aConsultar);
+        $listaRequire    = join("\n",   $aRequire);
+        $listaCadastro   = join("\n\n", $aCadastro);
+        $listaExclui     = join("\n\n", $aExclui);
+        $listaSelecionar = join("\n\n", $aSelecionar);
+        $listaGetAll     = join("\n\n", $aGetAll);
+        $listaAlterar    = join("\n\n", $aAlterar);
+        $listaConsultar  = join("\n\n", $aConsultar);
 
         # Substitui todas os parametros pelas variaveis ja processadas
-        $copiaModelo = str_replace('%%LISTA_REQUIRE%%',		   $listaRequire,	  $copiaModelo);
-        $copiaModelo = str_replace('%%METODOS_CADASTRA%%',	   $listaCadastro,	  $copiaModelo);
-        $copiaModelo = str_replace('%%METODOS_EXCLUI%%',	   $listaExclui,	  $copiaModelo);
-        $copiaModelo = str_replace('%%METODOS_SELECIONAR%%',	   $listaSelecionar,	  $copiaModelo);
-        $copiaModelo = str_replace('%%METODOS_CARREGAR_COLECAO%%', $listaCarregarColecao, $copiaModelo);
-        $copiaModelo = str_replace('%%METODOS_ALTERA%%',	   $listaAlterar,	  $copiaModelo);
-        $copiaModelo = str_replace('%%METODOS_CONSULTA%%',	   $listaConsultar,	  $copiaModelo);
+        $copiaModelo = str_replace('%%LISTA_REQUIRE%%',		   $listaRequire,    $copiaModelo);
+        $copiaModelo = str_replace('%%METODOS_CADASTRA%%',	   $listaCadastro,   $copiaModelo);
+        $copiaModelo = str_replace('%%METODOS_EXCLUI%%',	   $listaExclui,     $copiaModelo);
+        $copiaModelo = str_replace('%%METODOS_SELECIONAR%%',	   $listaSelecionar, $copiaModelo);
+        $copiaModelo = str_replace('%%METODOS_CARREGAR_COLECAO%%', $listaGetAll,     $copiaModelo);
+        $copiaModelo = str_replace('%%METODOS_ALTERA%%',	   $listaAlterar,    $copiaModelo);
+        $copiaModelo = str_replace('%%METODOS_CONSULTA%%',	   $listaConsultar,  $copiaModelo);
 
         $dir = dirname(dirname(__FILE__))."/geradas/".$this->projeto."/classes";
         if(!file_exists($dir)) mkdir($dir);
@@ -373,7 +375,7 @@ class Geracao {
             $objetoClasse = "\$o$nomeClasse";
 
             # Varre a estrutura dos campos da tabela em questao
-            $aPKRequest = $aCampoPK = $aCampoCad = $aCampoEdit = $aTituloAdm = $aCampoAdm = $aCarregaColecao = array();
+            $aPKRequest = $aCampoPK = $aCampoCad = $aCampoEdit = $aTituloAdm = $aCampoAdm = $aGetAll = array();
             $PK = $ID_PK = $label = $campoAdm = $componenteCad = $componenteEdit = NULL;
 
             foreach($aTabela as $oCampo){
@@ -460,7 +462,7 @@ class Geracao {
             foreach($aTabelaFK as $oCampoFK => $oDadosTabelaFK){
                 $nomeClasseFK	   = ucfirst($this->getCamelMode($oDadosTabelaFK['FKTABELA']));
                 $nomeObjetoFK	   = ucfirst(preg_replace("#^(?:id_?|cd_?)(.*?)#is", "$1", $oCampoFK));
-                $aCarregaColecao[] = "\$a$nomeClasseFK = \$oControle->carregarColecao$nomeClasseFK();"; 
+                $aGetAll[] = "\$a$nomeClasseFK = \$oControle->getAll$nomeClasseFK();"; 
             }
 
             # monta demais valores a serem substituidos
@@ -470,12 +472,12 @@ class Geracao {
             $sCampoCad       = join($aCampoCad,  "\n");
             $sCampoEdit      = join($aCampoEdit, "\n");
             $sCampoPK        = join($aCampoPK,   "\n");
-            $sCarregaColecao = (count($aCarregaColecao)>0) ? join($aCarregaColecao,"\n") : "";
+            $sGetAll = (count($aGetAll)>0) ? join($aGetAll,"\n") : "";
 
             # substitui todas os parametros pelas variaveis ja processadas
-            $copiaModeloAdm = str_replace('%%NOME_CLASSE%%',     $nomeClasse, 		   $copiaModeloAdm);
-            $copiaModeloAdm = str_replace('%%TITULOATRIBUTOS%%', $sTituloAdm, 		   $copiaModeloAdm);
-            $copiaModeloAdm = str_replace('%%VALORATRIBUTOS%%',  $sCampoAdm,  		   $copiaModeloAdm);
+            $copiaModeloAdm = str_replace('%%NOME_CLASSE%%',     $nomeClasse, $copiaModeloAdm);
+            $copiaModeloAdm = str_replace('%%TITULOATRIBUTOS%%', $sTituloAdm, $copiaModeloAdm);
+            $copiaModeloAdm = str_replace('%%VALORATRIBUTOS%%',  $sCampoAdm,  $copiaModeloAdm);
             $copiaModeloAdm = str_replace('%%ADM_EDIT%%',  	 (($PK != '') ? Form::geraAdmEdit($nomeClasse, $ID_PK, $PK, $this->gui) : ''),  $copiaModeloAdm);
             $copiaModeloAdm = str_replace('%%ADM_DELETE%%',      (($PK != '') ? Form::geraAdmDelete($nomeClasse, $ID_PK, $PK, $this->gui) : ''), $copiaModeloAdm);
 
@@ -483,16 +485,16 @@ class Geracao {
             $copiaModeloAdm = str_replace('%%NUMERO_COLUNAS%%',  count($aTituloAdm)+2, $copiaModeloAdm);
             $copiaModeloAdm = str_replace('%%PK_REQUEST%%',     $sPKRequest,           $copiaModeloAdm);			
 
-            $copiaModeloCad = str_replace('%%NOME_CLASSE%%',     $nomeClasse,      $copiaModeloCad);
-            $copiaModeloCad = str_replace('%%CARREGA_COLECAO%%', $sCarregaColecao, $copiaModeloCad);
-            $copiaModeloCad = str_replace('%%ATRIBUICAO%%',      $sCampoCad,       $copiaModeloCad);
+            $copiaModeloCad = str_replace('%%NOME_CLASSE%%',     $nomeClasse, $copiaModeloCad);
+            $copiaModeloCad = str_replace('%%CARREGA_COLECAO%%', $sGetAll,    $copiaModeloCad);
+            $copiaModeloCad = str_replace('%%ATRIBUICAO%%',      $sCampoCad,  $copiaModeloCad);
 
-            $copiaModeloEdit = str_replace('%%NOME_CLASSE%%',     $nomeClasse,      $copiaModeloEdit);
-            $copiaModeloEdit = str_replace('%%CARREGA_COLECAO%%', $sCarregaColecao, $copiaModeloEdit);
-            $copiaModeloEdit = str_replace('%%ATRIBUICAO%%',      $sCampoEdit,      $copiaModeloEdit);
-            $copiaModeloEdit = str_replace('%%CHAVE_PRIMARIA%%',  $sCampoPK,        $copiaModeloEdit);
-            $copiaModeloEdit = str_replace('%%PK%%',              $PK,              $copiaModeloEdit);
-            $copiaModeloEdit = str_replace('%%ID_PK%%',           $ID_PK,           $copiaModeloEdit);
+            $copiaModeloEdit = str_replace('%%NOME_CLASSE%%',     $nomeClasse,  $copiaModeloEdit);
+            $copiaModeloEdit = str_replace('%%CARREGA_COLECAO%%', $sGetAll,     $copiaModeloEdit);
+            $copiaModeloEdit = str_replace('%%ATRIBUICAO%%',      $sCampoEdit,  $copiaModeloEdit);
+            $copiaModeloEdit = str_replace('%%CHAVE_PRIMARIA%%',  $sCampoPK,    $copiaModeloEdit);
+            $copiaModeloEdit = str_replace('%%PK%%',              $PK,          $copiaModeloEdit);
+            $copiaModeloEdit = str_replace('%%ID_PK%%',           $ID_PK,       $copiaModeloEdit);
 
             $dir = dirname(dirname(__FILE__))."/geradas/".$this->projeto."/";
 
@@ -503,7 +505,7 @@ class Geracao {
             $fpEdit = fopen("$dir/edit$nomeClasse.php", "w"); fputs($fpEdit, $copiaModeloEdit); fclose($fpEdit);
 
             // ======= Limpa arrays ======= 
-            unset($aCarregaColecao);
+            unset($aGetAll);
             unset($aTituloAdm);
             unset($aCampoAdm);
             unset($aCampoCad);
@@ -558,7 +560,7 @@ class Geracao {
             $nomeClasse   = ucfirst($this->getCamelMode($nomeTabela));
             $objetoClasse = "\$o$nomeClasse";
             # Varre a estrutura dos campos da tabela em questao
-            $objToReg = $regToObj = array();
+            $objToReg = $regToObj = $objToRegInsert = array();
 
             foreach($aTabela as $oCampo){
                 # Processa nome original da tabela estrangeira
@@ -573,26 +575,35 @@ class Geracao {
                 $nomeCampo = (string)$oCampo->NOME;
 
                 # Monta parametros a serem substituidos posteriormente
-                if((string)$oCampo->FKTABELA == ''){
-                    $objToReg[] = "\t\t\$reg['".(string)$oCampo->NOME."'] = $objetoClasse"."->$nomeCampo;";
-                    $regToObj[] = "\t\t$objetoClasse"."->$nomeCampo = \$reg['$nomeTabelaOriginal"."_".(string)$oCampo->NOME."'];";
+                if($oCampo->FKTABELA == ''){
+                    $objToReg[]       = "\t\t\$reg['".(string)$oCampo->NOME."'] = $objetoClasse"."->$nomeCampo;";
+                    if($oCampo->CHAVE == "0"){
+                        $objToRegInsert[] = "\t\t\$reg['".(string)$oCampo->NOME."'] = $objetoClasse"."->$nomeCampo;";
+                    }
+                    $regToObj[]       = "\t\t$objetoClasse"."->$nomeCampo = \$reg['$nomeTabelaOriginal"."_".(string)$oCampo->NOME."'];";
+                    
                 }
                 else{
                     $objToReg[] = "\t\t\$o$objetoFKClasse = $objetoClasse"."->o$objetoFKClasse;\n\t\t\$reg['".(string)$oCampo->NOME."'] = \$o$objetoFKClasse"."->".(string)$oCampo->FKCAMPO.";";
+                    if($oCampo->CHAVE == "0"){
+                        $objToRegInsert[] = "\t\t\$o$objetoFKClasse = $objetoClasse"."->o$objetoFKClasse;\n\t\t\$reg['".(string)$oCampo->NOME."'] = \$o$objetoFKClasse"."->".(string)$oCampo->FKCAMPO.";";
+                    }
                     $x 		= $this->retornaArvore((string)$oCampo->FKTABELA);
                     $regToObj[] = "\n$x\t\t$objetoClasse"."->o$objetoFKClasse = \$o$objetoFKClasse;";
                 }
             }
 
             # Monta demais valores a serem substituidos
-            $objToReg = join($objToReg,"\n");
-            $regToObj = join($regToObj,"\n");
+            $objToReg       = join($objToReg,"\n");
+            $objToRegInsert = join($objToRegInsert,"\n");
+            $regToObj       = join($regToObj,"\n");
 
             # Substitui todas os parametros pelas variaveis ja processadas
-            $copiaModelo = str_replace('%%NOME_CLASSE%%',   $nomeClasse,   $copiaModelo);
-            $copiaModelo = str_replace('%%OBJETO_CLASSE%%', $objetoClasse, $copiaModelo);
-            $copiaModelo = str_replace('%%OBJ_TO_REG%%',    $objToReg,	   $copiaModelo);
-            $copiaModelo = str_replace('%%REG_TO_OBJ%%',    $regToObj,	   $copiaModelo);
+            $copiaModelo = str_replace('%%NOME_CLASSE%%',       $nomeClasse,    $copiaModelo);
+            $copiaModelo = str_replace('%%OBJETO_CLASSE%%',     $objetoClasse,  $copiaModelo);
+            $copiaModelo = str_replace('%%OBJ_TO_REG%%',        $objToReg,      $copiaModelo);
+            $copiaModelo = str_replace('%%OBJ_TO_REG_INSERT%%', $objToRegInsert,$copiaModelo);
+            $copiaModelo = str_replace('%%REG_TO_OBJ%%',        $regToObj,      $copiaModelo);
 
             $dir = dirname(dirname(__FILE__))."/geradas/".$this->projeto."/classes/core/map";
 

@@ -15,7 +15,7 @@ if($_REQUEST['acao'] == 'excluir'){
     <?php require_once("includes/header.php");?>
 </head>
 <body>
-    <?php require_once("includes/head.php");?>
+    <?php require_once("includes/modals.php");?>
     <div class="container">
         <?php require_once("includes/titulo.php");?>
         <?php require_once("includes/menu.php");?>

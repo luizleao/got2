@@ -3,7 +3,7 @@
     <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
+                <span class="sr-only">Menu Principal</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -11,7 +11,7 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+                <li class="active"><a href="principal.php"><span class="glyphicon glyphicon-home"></span> Home</a></li>
                 %%MODELO_MENU%%
             </ul>
             <ul class="nav navbar-nav navbar-right">

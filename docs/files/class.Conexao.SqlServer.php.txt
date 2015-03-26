@@ -1,5 +1,7 @@
 <?php
 /**
+ * Conexão SQLServer
+ * 
  * Classe de Conexão com SQLServer utilizando biblioteca nativa php_sqlsrv_55_ts.dll da Microsoft
  * 
  * @author Luiz Leão <luizleao@gmail.com>
@@ -29,10 +31,10 @@ class ConexaoSqlServer implements IConexao{
     
     /**
      * 
-     * @param type $host
-     * @param type $user
-     * @param type $senha
-     * @param type $bd
+     * @param string $host
+     * @param string $user
+     * @param string $senha
+     * @param string $bd
      */
     function set_conexao($host,$user,$senha,$bd=NULL){
         try{
@@ -51,7 +53,7 @@ class ConexaoSqlServer implements IConexao{
 
     /**
      * 
-     * @param type $sql
+     * @param string $sql
      * @return boolean
      */
     function execute($sql){
@@ -73,9 +75,10 @@ class ConexaoSqlServer implements IConexao{
     }
 
     /**
+     * Retorna a quantidades de linhas afetadas pela Query
      * 
-     * @param type $consulta
-     * @return type
+     * @param resource $consulta Consulta executada
+     * @return int
      */
     function numRows($consulta = NULL){
         if(!$consulta) {
@@ -85,9 +88,10 @@ class ConexaoSqlServer implements IConexao{
     }
 
     /**
+     * Retorna os dados da consulta em forma de array
      * 
-     * @param type $consulta
-     * @return type
+     * @param resource $consulta
+     * @return string[]
      */
     function fetchReg($consulta = NULL){
         if(!$consulta) {
@@ -97,9 +101,10 @@ class ConexaoSqlServer implements IConexao{
     }
 
     /**
+     * Retorna os dados da consulta em forma de HASH, 
      * 
-     * @param type $consulta
-     * @return type
+     * @param resource $consulta
+     * @return string[]
      */
     function fetchRow($consulta = NULL){
         if(!$consulta) {
@@ -109,36 +114,45 @@ class ConexaoSqlServer implements IConexao{
     }
 
     /**
+     * Retorna o ultimo ID inserido por uma consulta recente
      * 
-     * @return type
+     * @return int
      */
     function lastID(){
         return sqlsrv_insert_id($this->conexao);
     }
 
     /**
+     * Encerra a conexão
      * 
+     * @return void
      */
     function close(){
         sqlsrv_close($this->conexao);
     }
 
     /**
+     * Executa o inicio da transação
      * 
+     * @return void
      */
     function beginTrans(){
         $this->execute("BEGIN");	
     }
 
     /**
+     * Executa o fim da transação
      * 
+     * @return void
      */
     function commitTrans(){
         $this->execute("COMMIT");		
     }
 
     /**
+     * Executa o cancelamento da transação
      * 
+     * @return void
      */
     function rollBackTrans(){
         $this->execute("ROLLBACK");
@@ -158,9 +172,9 @@ class ConexaoSqlServer implements IConexao{
     }
 
     /**
+     * Returna a lista de databases do servidor
      * 
-     * @param type $tabela
-     * @return type
+     * @return string[]
      */
     public function carregarColecaoColunasTabela($tabela) {
         $sql = "select
@@ -195,11 +209,12 @@ class ConexaoSqlServer implements IConexao{
     }
 
     /**
+     * Retorna os dados das FK da tabela selecionada
      * 
-     * @param type $db
-     * @param type $tabela
-     * @param type $coluna
-     * @return type
+     * @param string $db Banco de dados selecionado
+     * @param string $tabela Nome da tabela
+     * @param string $coluna Nome da coluna
+     * @return string[]
      */
     public function dadosForeignKeyColuna($db, $tabela, $coluna) {
         $this->execute("select 
@@ -222,9 +237,10 @@ class ConexaoSqlServer implements IConexao{
         return $this->fetchReg();
     }
 
-    /**
+   /**
+     * Retorna a lista de tabelas do servidor
      * 
-     * @return type
+     * @return string[]
      */
     public function carregarColecaoTabelas() {
         $this->execute("select table_name, table_schema from INFORMATION_SCHEMA.TABLES");

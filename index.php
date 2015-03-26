@@ -75,12 +75,13 @@ switch ($_REQUEST['acao']) {
                         <p>
                             <span class="label label-info">Bases de Dados Mapeadas</span>
                         </p>
+                        <div class="row">
 <?php
 //Util::trace($aDiretorioXML);
+$i=1;
 foreach ($aDiretorioXML as $xml) {
 ?>
-                        <div class="row">
-                            <div class="col-lg-4">
+                            <div class="col-lg-3 <?=($i%3==0) ? "col-lg-offset-3": ""?>center-block">
                                 <div class="btn-group dropup">
                                     <button class="btn btn-info dropdown-toggle" data-toggle="dropdown" data-loading-text="loading...">
                                         <span class="glyphicon glyphicon-folder-open"></span> <?=ucfirst($xml)?> <span class="caret"></span>
@@ -93,6 +94,7 @@ foreach ($aDiretorioXML as $xml) {
                                             <a href="geradas/<?=$xml?>" target="_blank"><i class="glyphicon glyphicon-home"></i> Visualizar Página</a>
                                         </li>
 <?php
+        $i++;
     }
 ?>
                                         <li><a href="xml/<?=$xml?>.xml" target="_blank"><i class="glyphicon glyphicon-chevron-right"></i> Visualizar XML</a></li>
@@ -103,10 +105,10 @@ foreach ($aDiretorioXML as $xml) {
                                     </ul>
                                 </div>
                             </div>
-                        </div>
 <?php
 }
 ?>
+                        </div>
                     </div>
                 </div>
             </form> 

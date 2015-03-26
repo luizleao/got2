@@ -6,9 +6,9 @@
 	 * @param integer $idSistema
 	 * @return Modulo[]
 	 */
-	function carregarColecaoModuloPorSistema($idSistema){
+	function getAllModuloPorSistema($idSistema){
 		$oModuloBD = new ModuloBD();
-		return $oModuloBD->carregarColecaoModuloPorSistema($idSistema);
+		return $oModuloBD->getAllModuloPorSistema($idSistema);
 	}
 
 	/**
@@ -18,9 +18,9 @@
 	 * @param integer $idSistema
 	 * @return Modulo[]
 	 */
-	function carregarColecaoModuloPorGrupo($idGrupo, $idSistema){
+	function getAllModuloPorGrupo($idGrupo, $idSistema){
 		$oModuloBD = new ModuloBD();
-		return $oModuloBD->carregarColecaoModuloPorGrupo($idGrupo, $idSistema);
+		return $oModuloBD->getAllModuloPorGrupo($idGrupo, $idSistema);
 	}
 	
 	/**
@@ -30,9 +30,9 @@
 	 * @param integer $idModulo
 	 * @return Programa[]
 	 */
-	function carregarColecaoProgramaPorGrupo($idGrupo, $idModulo){
+	function getAllProgramaPorGrupo($idGrupo, $idModulo){
 		$oProgramaBD = new ProgramaBD();
-		return $oProgramaBD->carregarColecaoProgramaPorGrupo($idGrupo, $idModulo);
+		return $oProgramaBD->getAllProgramaPorGrupo($idGrupo, $idModulo);
 	}
 	
 	/**
@@ -41,9 +41,9 @@
 	 * @param interger $idModulo
 	 * @return Programa[]
 	 */
-	function carregarColecaoProgramaPorModulo($idModulo){
+	function getAllProgramaPorModulo($idModulo){
 		$oProgramaBD = new ProgramaBD();
-		return $oProgramaBD->carregarColecaoProgramaPorModulo($idModulo);
+		return $oProgramaBD->getAllProgramaPorModulo($idModulo);
 	}
 			
 	/**
@@ -52,9 +52,9 @@
 	 * @param integer $idUsuario
 	 * @return Usuariogrupo[]
 	 */
-	function carregarColecaoGruposUsuario($idUsuario){
+	function getAllGruposUsuario($idUsuario){
 		$oUsuariogrupoBD = new UsuariogrupoBD();
-		return $oUsuariogrupoBD->carregarColecaoGruposUsuario($idUsuario);
+		return $oUsuariogrupoBD->getAllGruposUsuario($idUsuario);
 	}
 	
 	/**
@@ -88,14 +88,14 @@
 	function menuUsuario($aGrupoUsuario){
 		// ========== Varrendo os Grupos do usuario ==========
 		foreach($aGrupoUsuario as $oGrupoUsuario){
-			$aSistemaMenu = $this->carregarColecaoSistema();
+			$aSistemaMenu = $this->getAllSistema();
 			// ================ Varrendo Todos os sistemas cadastrados ===========
 			foreach($aSistemaMenu as $oSistemaMenu){
-				$aModuloMenu = $this->carregarColecaoModuloPorGrupo($oGrupoUsuario->get_idgrupo(), $oSistemaMenu->get_idsistema());
+				$aModuloMenu = $this->getAllModuloPorGrupo($oGrupoUsuario->get_idgrupo(), $oSistemaMenu->get_idsistema());
 				if(count($aModuloMenu)>0){
 					// ================ Varrendo Todos os modulos relacionados ao grupo ===========
 					foreach($aModuloMenu as $oModuloMenu){
-						$aProgramaMenu = $this->carregarColecaoProgramaPorGrupo($oGrupoUsuario->get_idgrupo(), $oModuloMenu->get_idmodulo());
+						$aProgramaMenu = $this->getAllProgramaPorGrupo($oGrupoUsuario->get_idgrupo(), $oModuloMenu->get_idmodulo());
 						// ================ Varrendo Todos os programas do referido modulo ===========
 						foreach($aProgramaMenu as $oProgramaMenu){
 							$aMenu[$oSistemaMenu->get_descricaoSistema()][$oModuloMenu->get_descricaomodulo()][$oProgramaMenu->get_descricaoprograma()] = array("idPrograma"=>$oProgramaMenu->get_idprograma(), "paginaPrograma"=>$oProgramaMenu->get_paginaprograma());
@@ -125,7 +125,7 @@
 	 * @param string $txtPesquisa
 	 * @return Pessoa[]
 	 */	
-	function carregarColecaoPesquisaPessoa($txtPesquisa){
+	function getAllPesquisaPessoa($txtPesquisa){
 		$oPessoaBD = new PessoaBD();
-		return $oPessoaBD->carregarColecaoPesquisaPessoa($txtPesquisa);
+		return $oPessoaBD->getAllPesquisaPessoa($txtPesquisa);
 	}

@@ -9,4 +9,4 @@ require_once(dirname(__FILE__)."/class.DiretorioXML.php");
 require_once(dirname(__FILE__)."/class.Geracao.php");
 require_once(dirname(__FILE__)."/class.Funcoes.php");
 require_once(dirname(__FILE__)."/class.Util.php");
-?>
+

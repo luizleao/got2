@@ -106,7 +106,7 @@
                         <ul class="dropdown-menu">
                             <li>
                                 <a href="../reports/errors.html">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">172</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">150</span>
                                 </a>
                             </li>
                             <li>
@@ -136,10 +136,10 @@
                                 <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-977279702"></a>
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-775375332"></a>
                                 <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
             </div>
-            <div id="namespace-977279702" class="accordion-body collapse in">
+            <div id="namespace-775375332" class="accordion-body collapse in">
                 <div class="accordion-inner">
 
                     
@@ -174,8 +174,8 @@
                     <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal"><i class="icon-code"></i></a>
 
                     <h1><small>\</small>Util</h1>
-                    <p><em>Conjunto de rotinas de auxílio ao desenvolvimento</em></p>
-                    
+                    <p><em>Classe de Utilidades</em></p>
+                    <p>Conjunto de rotinas de auxílio ao desenvolvimento</p>
                     
                                         
                     <section id="summary">
@@ -193,9 +193,11 @@
                         </section>
                         <section class="row-fluid public">
                             <section class="span4">
-                                                                    <a href="../classes/Util.html#method_retornaEstados" class="">retornaEstados()</a><br />
-                                                                    <a href="../classes/Util.html#method_retornaMesExtenso" class="">retornaMesExtenso()</a><br />
-                                                                    <a href="../classes/Util.html#method_retornaMesesExtenso" class="">retornaMesesExtenso()</a><br />
+                                                                    <a href="../classes/Util.html#method_getAllEstados" class="">getAllEstados()</a><br />
+                                                                    <a href="../classes/Util.html#method_getDiaSemana" class="">getDiaSemana()</a><br />
+                                                                    <a href="../classes/Util.html#method_getDiaSemanaExtenso" class="">getDiaSemanaExtenso()</a><br />
+                                                                    <a href="../classes/Util.html#method_getMesExtenso" class="">getMesExtenso()</a><br />
+                                                                    <a href="../classes/Util.html#method_getAllMesExtenso" class="">getAllMesExtenso()</a><br />
                                                                     <a href="../classes/Util.html#method_validaEmail" class="">validaEmail()</a><br />
                                                                     <a href="../classes/Util.html#method_validaLogin" class="">validaLogin()</a><br />
                                                                     <a href="../classes/Util.html#method_calculaIdade" class="">calculaIdade()</a><br />
@@ -302,11 +304,11 @@
 
                                     <div class="row-fluid">
         <div class="span8 content class">
-            <a id="method_retornaEstados" name="method_retornaEstados" class="anchor"></a>
+            <a id="method_getAllEstados" name="method_getAllEstados" class="anchor"></a>
             <article class="method">
-                <h3 class="public ">retornaEstados()</h3>
+                <h3 class="public ">getAllEstados()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">retornaEstados() : array&lt;mixed,string&gt;</pre>
+                <pre class="signature" style="margin-right: 54px;">getAllEstados() : array&lt;mixed,string&gt;</pre>
                 <p><em>Retorna a lista de estados brasileiros</em></p>
                 
 
@@ -331,11 +333,105 @@
 
                                     <div class="row-fluid">
         <div class="span8 content class">
-            <a id="method_retornaMesExtenso" name="method_retornaMesExtenso" class="anchor"></a>
+            <a id="method_getDiaSemana" name="method_getDiaSemana" class="anchor"></a>
             <article class="method">
-                <h3 class="public ">retornaMesExtenso()</h3>
+                <h3 class="public ">getDiaSemana()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">retornaMesExtenso(string  <span class="argument">$mes</span>) : string</pre>
+                <pre class="signature" style="margin-right: 54px;">getDiaSemana(integer  <span class="argument">$dia</span>, integer  <span class="argument">$mes</span>, integer  <span class="argument">$ano</span>) : integer</pre>
+                <p><em>Retorna o dia da semana</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$dia </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$mes </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$ano </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    integer
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                            <span class="label label-info">static</span>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getDiaSemanaExtenso" name="method_getDiaSemanaExtenso" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getDiaSemanaExtenso()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getDiaSemanaExtenso(integer  <span class="argument">$dia</span>, integer  <span class="argument">$mes</span>, integer  <span class="argument">$ano</span>) : string</pre>
+                <p><em>Retorna o dia da semana por extenso</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$dia </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$mes </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$ano </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                            <span class="label label-info">static</span>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getMesExtenso" name="method_getMesExtenso" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getMesExtenso()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getMesExtenso(string  <span class="argument">$mes</span>) : string</pre>
                 <p><em>Retorna o mês por extenso</em></p>
                 
 
@@ -368,11 +464,11 @@
 
                                     <div class="row-fluid">
         <div class="span8 content class">
-            <a id="method_retornaMesesExtenso" name="method_retornaMesesExtenso" class="anchor"></a>
+            <a id="method_getAllMesExtenso" name="method_getAllMesExtenso" class="anchor"></a>
             <article class="method">
-                <h3 class="public ">retornaMesesExtenso()</h3>
+                <h3 class="public ">getAllMesExtenso()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">retornaMesesExtenso() : array&lt;mixed,string&gt;</pre>
+                <pre class="signature" style="margin-right: 54px;">getAllMesExtenso() : array&lt;mixed,string&gt;</pre>
                 <p><em>Retorna a lista dos meses do ano por extenso</em></p>
                 
 
@@ -1363,7 +1459,7 @@
                 <section class="span10 offset1">
                     <hr />
                     Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
-                    on January 14th, 2015 at 15:38.
+                    on February 4th, 2015 at 14:24.
                 </section>
             </section>
         </section>

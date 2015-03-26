@@ -1,6 +1,6 @@
 $(document).ready(function(){
     var classe = $(".active > span").html();
-
+    var timeout = 5000;
     /**
      * 
      * Ação Cadastrar
@@ -17,7 +17,7 @@ $(document).ready(function(){
             beforeSend: function(){
                 $('#btnCadastrar').button('loading');
             },
-            timeout: 3000,
+            timeout: timeout,
             success: function(retorno){
                 $('#btnCadastrar').button('reset');
                 $('#modalResposta').find('.modal-body').html((retorno !== '') ? '<img src="img/ico_error.png" /> '+retorno : '<img src="img/ico_success.png" /> Cadastrado com sucesso');
@@ -49,7 +49,7 @@ $(document).ready(function(){
             beforeSend: function(){
                 $('#btnEditar').button('loading');
             },
-            timeout: 3000,
+            timeout: timeout,
             success: function(retorno){
                 $('#btnEditar').button('reset');
                 $('#modalResposta').find('.modal-body').html((retorno !== '') ? '<img src="img/ico_error.png" /> '+retorno : '<img src="img/ico_success.png" /> Editado com sucesso');
@@ -81,7 +81,7 @@ $(document).ready(function(){
             beforeSend: function(){
                 $('#btnLogar').button('loading');
             },
-            timeout: 3000,
+            timeout: timeout,
             success: function(retorno){
                 $('#btnLogar').button('reset');
 
@@ -118,7 +118,7 @@ $(document).ready(function(){
             beforeSend: function(){
                 $('#btnCadastroPrograma').button('loading');
             },
-            timeout: 3000,
+            timeout: timeout,
             success: function(retorno){
                 $('#btnCadastroPrograma').button('reset');
                 $('#modalResposta').find('.modal-body').html((retorno !== '') ? '<img src="img/ico_error.png" /> '+retorno : '<img src="img/ico_success.png" /> Cadastrado com sucesso');
@@ -156,13 +156,13 @@ function excluir(campo, valor){
 
     $('#btnSim').click(function () {
         $.ajax({
-            url  	   : 'adm'+classe+'.php?acao=excluir&'+campo+'='+valor,
-            type 	   : 'get',
+            url        : 'adm'+classe+'.php?acao=excluir&'+campo+'='+valor,
+            type       : 'get',
             beforeSend : function(){
-                    $('#btnCadastrar').button('loading');
+                $('#btnCadastrar').button('loading');
             },
-            timeout	   : 3000,
-            success	   : function(retorno){
+            timeout    : timeout,
+            success    : function(retorno){
                 $('#modalExcluir').modal('hide');
                 $('#modalResposta').find('.modal-body').html((retorno !== '') ? '<img src="img/ico_error.png" /> '+retorno : '<img src="img/ico_success.png" /> Excluido com sucesso');
                 $('#modalResposta').modal('show');

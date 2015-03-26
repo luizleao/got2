@@ -690,6 +690,3 @@ class WSDLCreator {
                 die();
         }
 }
-
-
-?>

@@ -44,7 +44,7 @@ class ControleWeb{
         
         $oConexao->set_conexao($host, $usuario, $senha, $bd);
         
-        if($oConexao->get_conexao()){
+        if($oConexao->conexao){
             return $oConexao;
         }
         else{

@@ -11,8 +11,8 @@ $config = parse_ini_file(dirname(dirname(__FILE__)) . "/classes/core/config.ini"
 
 <!-- CSS -->
 <link rel="stylesheet" href="css/bootstrap.css" />
-<link rel="stylesheet" href="jscalendar/css/jscal2.css" />
-<link rel="stylesheet" href="jscalendar/css/border-radius.css" />
+<link rel="stylesheet" href="js/jscalendar/css/jscal2.css" />
+<link rel="stylesheet" href="js/jscalendar/css/border-radius.css" />
 
 <!-- CSS Custom -->
 <link href="css/navbar.css" rel="stylesheet">
@@ -22,6 +22,4 @@ $config = parse_ini_file(dirname(dirname(__FILE__)) . "/classes/core/config.ini"
 <link rel="shortcut icon" href="img/ico.png" />
 
 <!-- JS -->
-<script type="text/javascript" src="jscalendar/js/jscal2.js"></script>
-<script type="text/javascript" src="jscalendar/js/lang/pt.js"></script>
-<?php require_once(dirname(__FILE__)."/js.php");?>
+<?php require_once("js.php");?>

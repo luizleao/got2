@@ -1,5 +1,7 @@
 <?php
 /**
+ * Classe de Utilidades
+ * 
  * Conjunto de rotinas de auxílio ao desenvolvimento
  * 
  * @author Luiz Leão <luizleao@gmail.com>
@@ -11,11 +13,36 @@ class Util {
      * 
      * @return string[]
      */
-    static function retornaEstados(){
+    static function getAllEstados(){
         return array("AC","AL","AP","AM","BA","CE","DF",
                      "ES","GO","MA","MT","MS","MG","PA",
                      "PB","PR","PE","PI","RJ","RN","RS",
                      "RO","RR","SC","SP","SE","TO");
+    }
+    
+    /**
+     * Retorna o dia da semana
+     * 
+     * @param int $dia
+     * @param int $mes
+     * @param int $ano
+     * @return int
+     */
+    static function getDiaSemana($dia, $mes, $ano){
+        return date('w', mktime(0, 0, 0, $mes, $dia, $ano));
+    }
+    
+    /**
+     * Retorna o dia da semana por extenso
+     * 
+     * @param int $dia
+     * @param int $mes
+     * @param int $ano
+     * @return string
+     */
+    static function getDiaSemanaExtenso($dia, $mes, $ano){
+        $a = array("Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado");
+        return $a[Util::getDiaSemana($dia, $mes, $ano)];
     }
     
     /**
@@ -24,8 +51,8 @@ class Util {
      * @param string $mes
      * @return string
      */
-    static function retornaMesExtenso($mes){
-        $regMes = Util::retornaMesesExtenso();
+    static function getMesExtenso($mes){
+        $regMes = Util::getAllMesExtenso();
         return $regMes[$mes-1];
     }
     
@@ -34,7 +61,7 @@ class Util {
      * 
      * @return string[]
      */
-    static function retornaMesesExtenso(){
+    static function getAllMesExtenso(){
         return array("Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro");
     }
 

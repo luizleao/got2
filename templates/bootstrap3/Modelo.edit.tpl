@@ -15,7 +15,7 @@ if($_POST){
     <?php require_once("includes/header.php");?>
 </head>
 <body>
-    <?php require_once("includes/head.php");?>
+    <?php require_once("includes/modals.php");?>
     <div class="container">
         <?php 
         require_once("includes/titulo.php"); 
@@ -31,11 +31,20 @@ if($oControle->msg != "")
     $oControle->componenteMsg($oControle->msg, "erro");
 ?>
         <form role="form" onsubmit="return false;">
+             <div class="row">
+                 <div class="col-md-4">
 %%ATRIBUICAO%%
-            <div class="form-actions">
-                <button id="btnEditar" data-loading-text="loading..." type="submit" class="btn btn-primary">Salvar</button>
-                <a class="btn btn-default" href="adm%%NOME_CLASSE%%.php">Voltar</a>
-                %%CHAVE_PRIMARIA%%
+                 </div>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-actions">
+                        <button id="btnEditar" data-loading-text="loading..." type="submit" class="btn btn-primary">Salvar</button>
+                        <a class="btn btn-default" href="adm%%NOME_CLASSE%%.php">Voltar</a>
+                        %%CHAVE_PRIMARIA%%
+                    </div>
+                </div>
             </div>
         </form>
     </div>

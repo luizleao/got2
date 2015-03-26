@@ -1,9 +1,10 @@
 <?php
-
 /**
- * Classe de conexao com o banco de dados baseado na biblioteca PDO
+ * Classe de Conexão PDO
  * 
- * @author Luiz Leão
+ * Classe de conexão com o banco de dados baseado na biblioteca PDO. É usada nas aplicações geradas pela ferramenta
+ * 
+ * @author Luiz Leão <luizleao@gmail.com>
  */
 class Conexao {
     /**

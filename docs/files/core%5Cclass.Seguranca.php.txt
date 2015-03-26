@@ -9,8 +9,11 @@ require_once(dirname(__FILE__).'/bd/class.UsuarioBD.php');
 require_once(dirname(__FILE__).'/bd/class.LogAcessoBD.php');
 
 /**
+ * Classe de Segurança
+ * 
  * Implementa os métodos de manipulação do modelo de segurança
  * 
+ * @category Seguranca
  * @author Luiz Leão <luizleao@gmail.com>
  */
 class Seguranca{
@@ -23,6 +26,7 @@ class Seguranca{
     
     /**
      * Método construtor da classe
+     * 
      * @return void
      */
     function __construct(){
@@ -62,7 +66,7 @@ class Seguranca{
     /**
      * Verifica a existencia de um usuario cadastrado 
      *
-     * @param string $login
+     * @param string $login Login a ser verificado
      * @return boolean
      */
     function verificaLoginUsuario($login){
@@ -73,7 +77,7 @@ class Seguranca{
     /**
      * Carregar colecao de Modulos por sistema
      *
-     * @param integer $idSistema
+     * @param integer $idSistema Id do sistema
      * @return Modulo[]
      */
     function carregarColecaoModuloPorSistema($idSistema){

@@ -1,9 +1,11 @@
 <?php
 /** 
-* Classe de conexão nativa com o SGBD PostgreSQL
-* 
-* @author Luiz Leão
-*/
+ * Conexão Postgre
+ *  
+ * Classe de conexão nativa com o SGBD PostgreSQL
+ * 
+ * @author Luiz Leão
+ */
 class ConexaoPostgre implements IConexao {
     /**
      * Dados da conexão

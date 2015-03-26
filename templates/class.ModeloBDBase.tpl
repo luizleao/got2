@@ -118,13 +118,22 @@ class %%NOME_CLASSE%%BDBase {
             }
 	}
 	
-    function carregarColecao(){
+    function carregarColecao($aFiltro = NULL, $aOrdenacao = NULL){
         $sql = "
                 select
                     %%COLUNAS%% 
                 from
                     %%TABELA_JOIN%%";
-
+        
+        if(count($aFiltro)>0){
+            $sql .= " where ";
+            $sql .= implode(" and ", $aFiltro);
+        }
+        
+        if(count($aOrdenacao)>0){
+            $sql .= " order by ";
+            $sql .= implode(",", $aOrdenacao);
+        }
         try{
             $this->oConexao->execute($sql);
             $aObj = array();
