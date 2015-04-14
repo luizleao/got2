@@ -127,7 +127,7 @@ class ControleWeb{
                 }
             }
             
-            print "<pre>".$oXML->asXML()."</pre>"; exit;
+            //print "<pre>".$oXML->asXML()."</pre>"; exit;
             $fp = fopen(dirname(dirname(__FILE__))."/xml/$bd.xml","w");
             fputs($fp, $oXML->asXML());
             fclose($fp);

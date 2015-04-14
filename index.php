@@ -100,8 +100,8 @@ foreach ($aDiretorioXML as $xml) {
                                         <li><a href="xml/<?=$xml?>.xml?" target="_blank"><i class="glyphicon glyphicon-chevron-right"></i> Visualizar XML</a></li>
                                         <li><a href="#" id="btnExcluirXML" data-xml="<?=$xml?>"><i class="glyphicon glyphicon-trash"></i> Excluir XML</a></li>
                                         <li class="divider"></li>
-                                        <li><a href="#" id="btnGerarArtefatos" data-xml="<?=$xml?>" data-gui="bootstrap2"><i class="glyphicon glyphicon-wrench"></i> Gerar Artefatos - Bootstrap 2</a></li>
-                                        <li><a href="#" id="btnGerarArtefatos" data-xml="<?=$xml?>" data-gui="bootstrap3"><i class="glyphicon glyphicon-wrench"></i> Gerar Artefatos - Bootstrap 3</a></li>
+                                        <li><a href="#" id="btnGerarArtefatos1" data-xml="<?=$xml?>" data-gui="bootstrap2"><i class="glyphicon glyphicon-wrench"></i> Gerar Artefatos - Bootstrap 2</a></li>
+                                        <li><a href="#" id="btnGerarArtefatos2" data-xml="<?=$xml?>" data-gui="bootstrap3"><i class="glyphicon glyphicon-wrench"></i> Gerar Artefatos - Bootstrap 3</a></li>
                                     </ul>
                                 </div>
                             </div>
