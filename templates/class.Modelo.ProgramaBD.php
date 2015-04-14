@@ -1,4 +1,4 @@
-	function carregarColecaoProgramaPorModulo($idModulo){
+	function getAllProgramaPorModulo($idModulo){
 		$sql = "
 				select
 					T1.idPrograma as programa_idPrograma,
@@ -30,7 +30,7 @@
 		}	
     }
 	
-	function carregarColecaoProgramaPorGrupo($idGrupo, $idModulo){
+	function getAllProgramaPorGrupo($idGrupo, $idModulo){
 		$sql = "
 				select distinct
 					T1.idPrograma as programa_idPrograma,

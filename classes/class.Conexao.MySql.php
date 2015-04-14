@@ -65,7 +65,7 @@ class ConexaoMySql implements IConexao{
     function set_conexao($host,$user,$senha,$bd=NULL){
         $this->conexao = @mysql_connect($host,$user,$senha);// or die(@mysql_error());
         if($bd != NULL){
-            $this->db = @mysql_select_db($db);
+            $this->db = @mysql_select_db($bd);
         }
     }
     
@@ -199,7 +199,7 @@ class ConexaoMySql implements IConexao{
      * @param string $tabela
      * @return string[]
      */
-    public function carregarColecaoColunasTabela($tabela) {
+    public function getAllColunasTabela($tabela) {
         $this->execute("SHOW COLUMNS FROM $tabela");
         $aDados = array();
         while ($aReg = $this->fetchReg()){
@@ -237,7 +237,7 @@ class ConexaoMySql implements IConexao{
      * 
      * @return string[]
      */
-    public function carregarColecaoTabelas() {
+    public function getAllTabelas() {
         $this->execute("SHOW TABLE STATUS");
         $aDados = array();
         while ($aReg = $this->fetchReg()){

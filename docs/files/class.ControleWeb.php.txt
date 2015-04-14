@@ -69,7 +69,7 @@ class ControleWeb{
 
         if($oConexao){
             $oXML = simplexml_load_string("<?xml version=\"1.0\" encoding=\"UTF-8\"?> <DATABASE NOME=\"$bd\" SGBD=\"$sgbd\"></DATABASE>");
-            $aTabela = $oConexao->carregarColecaoTabelas();
+            $aTabela = $oConexao->getAllTabelas();
             
             foreach($aTabela as $sTabela){
                 $oTabela = $oXML->addChild("TABELA");
@@ -80,7 +80,7 @@ class ControleWeb{
                     case "sqlserver": $oTabela->addAttribute("SCHEMA", $sTabela[1]); break;
                 }
                 
-                $aColuna = $oConexao->carregarColecaoColunasTabela($sTabela[0]);
+                $aColuna = $oConexao->getAllColunasTabela($sTabela[0]);
                 //print "<pre>"; print_r($aColuna); print "</pre>"; exit;
                 
                 $qtd_pk_sem_incremento = 0;

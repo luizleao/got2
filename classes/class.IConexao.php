@@ -19,7 +19,7 @@ interface IConexao{
      * Retorna a lista de tabelas de database
      * 
      */    
-    function carregarColecaoTabelas();
+    function getAllTabelas();
     
     /**
      * Returna a lista de databases do servidor
@@ -33,7 +33,7 @@ interface IConexao{
      * 
      * @param string $tabela Tabela do BD selecionada
      */
-    function carregarColecaoColunasTabela($tabela);
+    function getAllColunasTabela($tabela);
     
     /**
      * Retorna os dados da chaves estrangeiras da coluna

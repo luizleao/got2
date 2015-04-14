@@ -3,7 +3,7 @@ require_once(dirname(__FILE__)."/classes/class.Controle.php");
 
 $oControle  = new Controle();
 $oSeguranca = $oControle->get_seguranca();
-$aModulo 	= $oControle->carregarColecaoModulo();
+$aModulo 	= $oControle->getAllModulo();
 $oGrupo  	= $oControle->selecionarGrupo($_REQUEST['idGrupo']);
 
 //print "<pre>";print_r($aModulo);print "</pre>";
@@ -46,7 +46,7 @@ if($aModulo){
 	$i=0;
 	foreach($aModulo as $oModulo){
 		$oSistema 		 = $oControle->selecionarSistema($oModulo->oSistema->idSistema);
-		$aProgramaModulo = $oSeguranca->carregarColecaoProgramaPorModulo($oModulo->idModulo);
+		$aProgramaModulo = $oSeguranca->getAllProgramaPorModulo($oModulo->idModulo);
 		
 ?>
 			<tr bgcolor="<?=($i%2==0) ? "#EEEEEE" : "";?>">

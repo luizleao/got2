@@ -2,7 +2,7 @@
 require_once(dirname(__FILE__)."/classes/class.Controle.php");
 
 $oControle = new Controle();
-$aGrupo = $oControle->carregarColecaoGrupo();
+$aGrupo = $oControle->getAllGrupo();
 //print "<pre>";print_r($aGrupo);print "</pre>";
 
 if($_REQUEST['acao'] == 'excluir'){

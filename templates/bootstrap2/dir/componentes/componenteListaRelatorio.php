@@ -1,6 +1,6 @@
 <?php
 $oControle = new Controle();
-$aRelatorio = $oControle->carregarColecaoRelatorio();
+$aRelatorio = $oControle->getAllRelatorio();
 ?>
 <select name="<?=$nomeCampo?>" id="<?=$nomeCampo?>" <?=$complemento?>>
     <option value="">Selecione</option>

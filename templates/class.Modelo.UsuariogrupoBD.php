@@ -1,4 +1,4 @@
-	function carregarColecaoGruposUsuario($idPessoa){
+	function getAllGruposUsuario($idPessoa){
 		$sql = "
 				select
 					T1.idPessoa as usuariogrupo_idPessoa,

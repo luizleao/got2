@@ -1,4 +1,4 @@
-	function carregarColecaoModuloPorSistema($idSistema){
+	function getAllModuloPorSistema($idSistema){
 		$sql = "
 				select
 					T1.idModulo as modulo_idModulo,
@@ -31,7 +31,7 @@
 		}	
     }
 	
-	function carregarColecaoModuloPorGrupo($idGrupo, $idSistema){
+	function getAllModuloPorGrupo($idGrupo, $idSistema){
 		$sql = "
 				select distinct
 					T1.idModulo as modulo_idModulo,

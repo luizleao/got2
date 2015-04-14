@@ -2,7 +2,7 @@
 require_once(dirname(__FILE__)."/classes/class.Controle.php");
 
 $oControle = new Controle();
-$a%%NOME_CLASSE%% = $oControle->carregarColecao%%NOME_CLASSE%%();
+$a%%NOME_CLASSE%% = $oControle->getAll%%NOME_CLASSE%%();
 //print "<pre>";print_r($a%%NOME_CLASSE%%);print "</pre>";
 
 if($_REQUEST['acao'] == 'excluir'){

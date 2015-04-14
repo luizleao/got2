@@ -177,7 +177,7 @@ class ConexaoPostgre implements IConexao {
      * @param string $tabela
      * @return string[]
      */
-    public function carregarColecaoColunasTabela($tabela) {
+    public function getAllColunasTabela($tabela) {
         
     }
     
@@ -186,7 +186,7 @@ class ConexaoPostgre implements IConexao {
      * 
      * @return string[]
      */
-    public function carregarColecaoTabelas() {
+    public function getAllTabelas() {
         
     }
     

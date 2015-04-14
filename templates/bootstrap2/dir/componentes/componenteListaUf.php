@@ -1,6 +1,6 @@
 <?php
 $oControle = new Controle();
-$aUf = $oControle->carregarColecaoUf();
+$aUf = $oControle->getAllUf();
 ?>
 <select name="<?=$nomeCampo?>" id="<?=$nomeCampo?>"<?=($evento != "") ? " $evento=\"$funcao\"" : ""?>>
     <option value="">Selecione</option>

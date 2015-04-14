@@ -18,7 +18,7 @@ $(document).ready(function(){
     };
     
     var classe       = $(".active > span").html();
-    var tempoTimeout = 50000;
+    var tempoTimeout = 1000000;
     
     $('#btnGerar').addClass("disabled");
     
@@ -89,9 +89,9 @@ $(document).ready(function(){
                         $('#btnGerar').removeClass("disabled");
                     }
                 },
-                error    : function(retorno){
+                error: function (event, jqXHR, ajaxSettings){
                     $('#btnConectar').button('reset');
-                    $('#modalResposta').find('.modal-body').html('<img src="img/ico_error.png" /> '+retorno);
+                    $('#modalResposta').find('.modal-body').html('<img src="img/ico_error.png" /> '+event +'-' +jqXHR +'-' +ajaxSettings);
                     $('#modalResposta').modal('show');
                 }
             });
@@ -130,9 +130,9 @@ $(document).ready(function(){
                     window.location = './';
                 });
             },
-            error    : function(retorno){
+            error: function (event, jqXHR, ajaxSettings){
                 $('#btnGerar').button('reset');
-                $('#modalResposta').find('.modal-body').html('<img src="img/ico_error.png" /> '+retorno);
+                $('#modalResposta').find('.modal-body').html('<img src="img/ico_error.png" /> '+event +'-' +jqXHR +'-' +ajaxSettings);
                 $('#modalResposta').modal('show');
             }
         });

@@ -3,8 +3,8 @@
 require_once 'classes/class.Conexao.PDO.php';
 
 try{
-    $db_server 	 = '172.16.107.88';//srv-homologa
-    $db_database = 'dbSudamSicas';
+    $db_server 	 = '172.16.107.90';//srv-homologa
+    $db_database = 'DBBADAM';
     $db_user 	 = 'sa';
     $db_passwd 	 = 'cgti*2013';
 
@@ -14,7 +14,8 @@ try{
 } catch (PDOException $e){
     echo "<pre>Conexao Falhou: " . $e->getMessage()."</pre>";
 }
-$stm = $db->query("select * from information_schema.KEY_COLUMN_USAGE");
+$stm = $db->query("select * from INFORMATION_SCHEMA.TABLES");
+//$stm = $db->query("select * from information_schema.KEY_COLUMN_USAGE");
 
 while ($aReg = $stm->fetch(PDO::FETCH_ASSOC)){
     $aObj[] = $aReg;

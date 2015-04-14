@@ -1,6 +1,6 @@
 <?php
 $oControle = new Controle();
-$aSituacaoProcesso = $oControle->carregarColecaoSituacaoProcesso();
+$aSituacaoProcesso = $oControle->getAllSituacaoProcesso();
 ?>
 <select name="<?=$nomeCampo?>" id="<?=$nomeCampo?>" <?=$complemento?>>
     <option value="">Todos</option>

@@ -1,6 +1,6 @@
 <?php
 $oControle = new Controle();
-$aVara = $oControle->carregarColecaoVara();
+$aVara = $oControle->getAllVara();
 ?>
 <select name="<?=$nomeCampo?>" id="<?=$nomeCampo?>" <?=$complemento?>>
     <option value="">Todos</option>

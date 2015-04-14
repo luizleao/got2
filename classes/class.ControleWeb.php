@@ -64,14 +64,15 @@ class ControleWeb{
      * @return boolean
      */
     function gerarXML($sgbd, $host, $usuario, $senha, $bd){
-        //die("$sgbd, localhost, $usuario, $senha");
+        //die("$sgbd, $host, $usuario, $senha, $bd");
         $oConexao = $this->conexao($sgbd, $host, $usuario, $senha, $bd);
 
         if($oConexao){
             $oXML = simplexml_load_string("<?xml version=\"1.0\" encoding=\"UTF-8\"?> <DATABASE NOME=\"$bd\" SGBD=\"$sgbd\"></DATABASE>");
-            $aTabela = $oConexao->carregarColecaoTabelas();
-            
+            $aTabela = $oConexao->getAllTabelas();
+            //print"<pre>"; print_r($aTabela); print"</pre>"; exit;
             foreach($aTabela as $sTabela){
+                //print"<pre>"; print_r($sTabela); print"</pre>"; exit;
                 $oTabela = $oXML->addChild("TABELA");
                 $oTabela->addAttribute("NOME", $sTabela[0]);
                 
@@ -80,7 +81,7 @@ class ControleWeb{
                     case "sqlserver": $oTabela->addAttribute("SCHEMA", $sTabela[1]); break;
                 }
                 
-                $aColuna = $oConexao->carregarColecaoColunasTabela($sTabela[0]);
+                $aColuna = $oConexao->getAllColunasTabela($sTabela[0]);
                 //print "<pre>"; print_r($aColuna); print "</pre>"; exit;
                 
                 $qtd_pk_sem_incremento = 0;
@@ -125,7 +126,8 @@ class ControleWeb{
                     }
                 }
             }
-
+            
+            print "<pre>".$oXML->asXML()."</pre>"; exit;
             $fp = fopen(dirname(dirname(__FILE__))."/xml/$bd.xml","w");
             fputs($fp, $oXML->asXML());
             fclose($fp);
@@ -147,7 +149,7 @@ class ControleWeb{
      * @return string
      */
     public function gerarArtefatos($xml, $gui, $moduloSeguranca){
-        $oGeracao = new Geracao("xml/$xml.xml", $gui, $xml);
+        $oGeracao = new Geracao(dirname(dirname(__FILE__))."/xml/$xml.xml", $gui, $xml);
         $msg = "Log de Geração de Artefatos - Projeto <strong>$xml</strong>: <br />";
         $msg .= "Engine gráfica: <strong>$gui</strong>: <br /><hr /><pre>";
         $msg .= str_pad("Geracao geraClassesBasicas ",50,".").           ((!$oGeracao->geraClassesBasicas())                       ? "Falha" : "Ok")."\n";

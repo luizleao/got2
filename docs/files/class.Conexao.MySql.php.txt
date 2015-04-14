@@ -199,7 +199,7 @@ class ConexaoMySql implements IConexao{
      * @param string $tabela
      * @return string[]
      */
-    public function carregarColecaoColunasTabela($tabela) {
+    public function getAllColunasTabela($tabela) {
         $this->execute("SHOW COLUMNS FROM $tabela");
         $aDados = array();
         while ($aReg = $this->fetchReg()){
@@ -237,7 +237,7 @@ class ConexaoMySql implements IConexao{
      * 
      * @return string[]
      */
-    public function carregarColecaoTabelas() {
+    public function getAllTabelas() {
         $this->execute("SHOW TABLE STATUS");
         $aDados = array();
         while ($aReg = $this->fetchReg()){

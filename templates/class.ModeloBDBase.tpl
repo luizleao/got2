@@ -118,7 +118,7 @@ class %%NOME_CLASSE%%BDBase {
             }
 	}
 	
-    function carregarColecao($aFiltro = NULL, $aOrdenacao = NULL){
+    function getAll($aFiltro = NULL, $aOrdenacao = NULL){
         $sql = "
                 select
                     %%COLUNAS%% 

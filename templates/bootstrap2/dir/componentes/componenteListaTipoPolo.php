@@ -1,6 +1,6 @@
 <?php
 $oControle = new Controle();
-$aTipoPolo = $oControle->carregarColecaoTipoPolo();
+$aTipoPolo = $oControle->getAllTipoPolo();
 ?>
 <select name="<?=$nomeCampo?>" id="<?=$nomeCampo?>" <?=$complemento?>>
     <option value="">Todos</option>

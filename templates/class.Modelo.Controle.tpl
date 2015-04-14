@@ -83,8 +83,8 @@ class Controle{
         $_SESSION['usuarioAtual'] = $oUsuario;
         //print "<pre>"; print_r($oUsuario); print "</pre>";
         // ========== Carregando Coleção dos Grupos do Usuário ==========
-        //print_r($this->carregarColecaoGruposUsuario($resultado->get_idUsuario()));
-        $_SESSION['aGrupoUsuario'] = $oSeguranca->carregarColecaoGruposUsuario($oUsuario->oPessoa->idPessoa);
+        //print_r($this->getAllGruposUsuario($resultado->get_idUsuario()));
+        $_SESSION['aGrupoUsuario'] = $oSeguranca->getAllGruposUsuario($oUsuario->oPessoa->idPessoa);
         if(count($_SESSION['aGrupoUsuario']) > 0){
             $_SESSION['aMenu'] = $oSeguranca->menuUsuario($_SESSION['aGrupoUsuario']);
         } else {

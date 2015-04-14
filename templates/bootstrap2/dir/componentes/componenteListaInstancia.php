@@ -1,6 +1,6 @@
 <?php
 $oControle = new Controle();
-$aInstancia = $oControle->carregarColecaoInstancia();
+$aInstancia = $oControle->getAllInstancia();
 ?>
 <select name="<?=$nomeCampo?>" id="<?=$nomeCampo?>" <?=$complemento?>>
     <option value="">Todos</option>

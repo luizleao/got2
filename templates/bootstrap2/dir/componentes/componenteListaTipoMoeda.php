@@ -1,6 +1,6 @@
 <?php
 $oControle = new Controle();
-$aTipoMoeda = $oControle->carregarColecaoTipoMoeda();
+$aTipoMoeda = $oControle->getAllTipoMoeda();
 ?>
 <select name="<?=$nomeCampo?>" id="<?=$nomeCampo?>" <?=$complemento?>>
     <option value="">Todos</option>

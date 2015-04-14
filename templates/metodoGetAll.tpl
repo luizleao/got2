@@ -12,5 +12,5 @@
 			$this->msg = $o%%NOME_CLASS%%BD->msg;
 			return false;
 		}
-		return $o%%NOME_CLASS%%BD->carregarColecao($aFiltro, $aOrdenacao);
+		return $o%%NOME_CLASS%%BD->getAll($aFiltro, $aOrdenacao);
 	}

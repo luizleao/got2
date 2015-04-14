@@ -43,14 +43,14 @@ class Seguranca{
         // ========== Varrendo os Grupos do usuario ==========
         foreach($aGrupoUsuario as $oGrupoUsuario){
             $oSistemaBD = new SistemaBD();
-            $aSistemaMenu = $oSistemaBD->carregarColecao();
+            $aSistemaMenu = $oSistemaBD->getAll();
             // ================ Varrendo Todos os sistemas cadastrados ===========
             foreach($aSistemaMenu as $oSistemaMenu){
-                $aModuloMenu = $this->carregarColecaoModuloPorGrupo($oGrupoUsuario->oGrupo->idGrupo, $oSistemaMenu->idSistema);
+                $aModuloMenu = $this->getAllModuloPorGrupo($oGrupoUsuario->oGrupo->idGrupo, $oSistemaMenu->idSistema);
                 if($aModuloMenu){
                     // ================ Varrendo Todos os modulos relacionados ao grupo ===========
                     foreach($aModuloMenu as $oModuloMenu){
-                        $aProgramaMenu = $this->carregarColecaoProgramaPorGrupo($oGrupoUsuario->oGrupo->idGrupo, $oModuloMenu->idModulo);
+                        $aProgramaMenu = $this->getAllProgramaPorGrupo($oGrupoUsuario->oGrupo->idGrupo, $oModuloMenu->idModulo);
                         // ================ Varrendo Todos os programas do referido modulo ===========
                         foreach($aProgramaMenu as $oProgramaMenu){
                             $aMenu[$oSistemaMenu->descricao][$oModuloMenu->descricao][$oProgramaMenu->descricao] = array("idPrograma" => $oProgramaMenu->idPrograma, 
@@ -80,9 +80,9 @@ class Seguranca{
      * @param integer $idSistema Id do sistema
      * @return Modulo[]
      */
-    function carregarColecaoModuloPorSistema($idSistema){
+    function getAllModuloPorSistema($idSistema){
         $oModuloBD = new ModuloBD();
-        return $oModuloBD->carregarColecaoModuloPorSistema($idSistema);
+        return $oModuloBD->getAllModuloPorSistema($idSistema);
     }
 
     /**
@@ -92,9 +92,9 @@ class Seguranca{
      * @param integer $idSistema
      * @return Modulo[]
      */
-    function carregarColecaoModuloPorGrupo($idGrupo, $idSistema){
+    function getAllModuloPorGrupo($idGrupo, $idSistema){
         $oModuloBD = new ModuloBD();
-        return $oModuloBD->carregarColecaoModuloPorGrupo($idGrupo, $idSistema);
+        return $oModuloBD->getAllModuloPorGrupo($idGrupo, $idSistema);
     }
 
     /**
@@ -104,9 +104,9 @@ class Seguranca{
      * @param integer $idModulo
      * @return Programa[]
      */
-    function carregarColecaoProgramaPorGrupo($idGrupo, $idModulo){
+    function getAllProgramaPorGrupo($idGrupo, $idModulo){
         $oProgramaBD = new ProgramaBD();
-        return $oProgramaBD->carregarColecaoProgramaPorGrupo($idGrupo, $idModulo);
+        return $oProgramaBD->getAllProgramaPorGrupo($idGrupo, $idModulo);
     }
 
     /**
@@ -115,9 +115,9 @@ class Seguranca{
      * @param integer $idModulo
      * @return Programa[]
      */
-    function carregarColecaoProgramaPorModulo($idModulo){
+    function getAllProgramaPorModulo($idModulo){
             $oProgramaBD = new ProgramaBD();
-            return $oProgramaBD->carregarColecaoProgramaPorModulo($idModulo);
+            return $oProgramaBD->getAllProgramaPorModulo($idModulo);
     }
 
     /**
@@ -155,9 +155,9 @@ class Seguranca{
      * @param integer $idPessoa
      * @return Usuariogrupo[]
      */
-    function carregarColecaoGruposUsuario($idPessoa){
+    function getAllGruposUsuario($idPessoa){
         $oUsuariogrupoBD = new UsuariogrupoBD();
-        $a = $oUsuariogrupoBD->carregarColecaoGruposUsuario($idPessoa);
+        $a = $oUsuariogrupoBD->getAllGruposUsuario($idPessoa);
         if(!$a){
             $this->msg = $oUsuariogrupoBD->msg;
             return false;

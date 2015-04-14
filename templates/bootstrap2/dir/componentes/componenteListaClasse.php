@@ -1,6 +1,6 @@
 <?php
 $oControle = new Controle();
-$aClasse = $oControle->carregarColecaoClasse();
+$aClasse = $oControle->getAllClasse();
 ?>
 <select name="<?=$nomeCampo?>" id="<?=$nomeCampo?>" <?=$complemento?>>
     <option value="">Selecione</option>

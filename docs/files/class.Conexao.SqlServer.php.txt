@@ -176,7 +176,7 @@ class ConexaoSqlServer implements IConexao{
      * 
      * @return string[]
      */
-    public function carregarColecaoColunasTabela($tabela) {
+    public function getAllColunasTabela($tabela) {
         $sql = "select
                     T1.COLUMN_NAME as Field,
                     T1.DATA_TYPE as 'Type', 
@@ -242,7 +242,7 @@ class ConexaoSqlServer implements IConexao{
      * 
      * @return string[]
      */
-    public function carregarColecaoTabelas() {
+    public function getAllTabelas() {
         $this->execute("select table_name, table_schema from INFORMATION_SCHEMA.TABLES");
         $aDados = array();
         while ($aReg = $this->fetchReg()){

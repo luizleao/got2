@@ -1,6 +1,6 @@
 <?php
 $oControle = new Controle();
-$aTipoErro = $oControle->carregarColecaoTipoErro();
+$aTipoErro = $oControle->getAllTipoErro();
 ?>
 <select name="<?=$nomeCampo?>" id="<?=$nomeCampo?>" <?=$complemento?>>
     <option value="">Selecione</option>

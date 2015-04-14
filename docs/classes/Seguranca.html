@@ -196,12 +196,12 @@
                                                                     <a href="../classes/Seguranca.html#method___construct" class="">__construct()</a><br />
                                                                     <a href="../classes/Seguranca.html#method_menuUsuario" class="">menuUsuario()</a><br />
                                                                     <a href="../classes/Seguranca.html#method_verificaLoginUsuario" class="">verificaLoginUsuario()</a><br />
-                                                                    <a href="../classes/Seguranca.html#method_carregarColecaoModuloPorSistema" class="">carregarColecaoModuloPorSistema()</a><br />
-                                                                    <a href="../classes/Seguranca.html#method_carregarColecaoModuloPorGrupo" class="">carregarColecaoModuloPorGrupo()</a><br />
-                                                                    <a href="../classes/Seguranca.html#method_carregarColecaoProgramaPorGrupo" class="">carregarColecaoProgramaPorGrupo()</a><br />
-                                                                    <a href="../classes/Seguranca.html#method_carregarColecaoProgramaPorModulo" class="">carregarColecaoProgramaPorModulo()</a><br />
+                                                                    <a href="../classes/Seguranca.html#method_getAllModuloPorSistema" class="">getAllModuloPorSistema()</a><br />
+                                                                    <a href="../classes/Seguranca.html#method_getAllModuloPorGrupo" class="">getAllModuloPorGrupo()</a><br />
+                                                                    <a href="../classes/Seguranca.html#method_getAllProgramaPorGrupo" class="">getAllProgramaPorGrupo()</a><br />
+                                                                    <a href="../classes/Seguranca.html#method_getAllProgramaPorModulo" class="">getAllProgramaPorModulo()</a><br />
                                                                     <a href="../classes/Seguranca.html#method_alteraSenhaUsuario" class="">alteraSenhaUsuario()</a><br />
-                                                                    <a href="../classes/Seguranca.html#method_carregarColecaoGruposUsuario" class="">carregarColecaoGruposUsuario()</a><br />
+                                                                    <a href="../classes/Seguranca.html#method_getAllGruposUsuario" class="">getAllGruposUsuario()</a><br />
                                                                     <a href="../classes/Seguranca.html#method_excluirTodoProgramaGrupo" class="">excluirTodoProgramaGrupo()</a><br />
                                                                     <a href="../classes/Seguranca.html#method_transacaoCadastraProgramaGrupo" class="">transacaoCadastraProgramaGrupo()</a><br />
                                                             </section>
@@ -416,11 +416,11 @@
 
                                     <div class="row-fluid">
         <div class="span8 content class">
-            <a id="method_carregarColecaoModuloPorSistema" name="method_carregarColecaoModuloPorSistema" class="anchor"></a>
+            <a id="method_getAllModuloPorSistema" name="method_getAllModuloPorSistema" class="anchor"></a>
             <article class="method">
-                <h3 class="public ">carregarColecaoModuloPorSistema()</h3>
+                <h3 class="public ">getAllModuloPorSistema()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">carregarColecaoModuloPorSistema(integer  <span class="argument">$idSistema</span>) : array&lt;mixed,\Modulo&gt;</pre>
+                <pre class="signature" style="margin-right: 54px;">getAllModuloPorSistema(integer  <span class="argument">$idSistema</span>) : array&lt;mixed,\Modulo&gt;</pre>
                 <p><em>Carregar colecao de Modulos por sistema</em></p>
                 
 
@@ -452,11 +452,11 @@
 
                                     <div class="row-fluid">
         <div class="span8 content class">
-            <a id="method_carregarColecaoModuloPorGrupo" name="method_carregarColecaoModuloPorGrupo" class="anchor"></a>
+            <a id="method_getAllModuloPorGrupo" name="method_getAllModuloPorGrupo" class="anchor"></a>
             <article class="method">
-                <h3 class="public ">carregarColecaoModuloPorGrupo()</h3>
+                <h3 class="public ">getAllModuloPorGrupo()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">carregarColecaoModuloPorGrupo(integer  <span class="argument">$idGrupo</span>, integer  <span class="argument">$idSistema</span>) : array&lt;mixed,\Modulo&gt;</pre>
+                <pre class="signature" style="margin-right: 54px;">getAllModuloPorGrupo(integer  <span class="argument">$idGrupo</span>, integer  <span class="argument">$idSistema</span>) : array&lt;mixed,\Modulo&gt;</pre>
                 <p><em>Carregar colecao de Modulos por grupo</em></p>
                 
 
@@ -493,11 +493,11 @@
 
                                     <div class="row-fluid">
         <div class="span8 content class">
-            <a id="method_carregarColecaoProgramaPorGrupo" name="method_carregarColecaoProgramaPorGrupo" class="anchor"></a>
+            <a id="method_getAllProgramaPorGrupo" name="method_getAllProgramaPorGrupo" class="anchor"></a>
             <article class="method">
-                <h3 class="public ">carregarColecaoProgramaPorGrupo()</h3>
+                <h3 class="public ">getAllProgramaPorGrupo()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">carregarColecaoProgramaPorGrupo(integer  <span class="argument">$idGrupo</span>, integer  <span class="argument">$idModulo</span>) : array&lt;mixed,\Programa&gt;</pre>
+                <pre class="signature" style="margin-right: 54px;">getAllProgramaPorGrupo(integer  <span class="argument">$idGrupo</span>, integer  <span class="argument">$idModulo</span>) : array&lt;mixed,\Programa&gt;</pre>
                 <p><em>Carregar colecao de programas por grupo</em></p>
                 
 
@@ -534,11 +534,11 @@
 
                                     <div class="row-fluid">
         <div class="span8 content class">
-            <a id="method_carregarColecaoProgramaPorModulo" name="method_carregarColecaoProgramaPorModulo" class="anchor"></a>
+            <a id="method_getAllProgramaPorModulo" name="method_getAllProgramaPorModulo" class="anchor"></a>
             <article class="method">
-                <h3 class="public ">carregarColecaoProgramaPorModulo()</h3>
+                <h3 class="public ">getAllProgramaPorModulo()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">carregarColecaoProgramaPorModulo(integer  <span class="argument">$idModulo</span>) : array&lt;mixed,\Programa&gt;</pre>
+                <pre class="signature" style="margin-right: 54px;">getAllProgramaPorModulo(integer  <span class="argument">$idModulo</span>) : array&lt;mixed,\Programa&gt;</pre>
                 <p><em>Carregar colecao de programas por modulo</em></p>
                 
 
@@ -598,11 +598,11 @@
 
                                     <div class="row-fluid">
         <div class="span8 content class">
-            <a id="method_carregarColecaoGruposUsuario" name="method_carregarColecaoGruposUsuario" class="anchor"></a>
+            <a id="method_getAllGruposUsuario" name="method_getAllGruposUsuario" class="anchor"></a>
             <article class="method">
-                <h3 class="public ">carregarColecaoGruposUsuario()</h3>
+                <h3 class="public ">getAllGruposUsuario()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">carregarColecaoGruposUsuario(integer  <span class="argument">$idPessoa</span>) : array&lt;mixed,\Usuariogrupo&gt;</pre>
+                <pre class="signature" style="margin-right: 54px;">getAllGruposUsuario(integer  <span class="argument">$idPessoa</span>) : array&lt;mixed,\Usuariogrupo&gt;</pre>
                 <p><em>Carregar colecao de grupos do usuario</em></p>
                 
 

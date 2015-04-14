@@ -129,7 +129,7 @@ class Geracao {
         $aBanco = simplexml_load_string($this->xml);
 
         # Varre a estrutura das tabelas
-        $aRequire = $aCadastro = $aExclui = $aSelecionar = $aGetAll = $aAlterar = $aConsulta = array();
+        $aRequire = $aCadastro = $aExclui = $aSelecionar = $aGetAll = $aAlterar = $aConsultar = array();
         $copiaModelo = $modelo;
         //print_r($aBanco);exit;
         foreach($aBanco as $aTabela){
@@ -184,6 +184,8 @@ class Geracao {
         $listaSelecionar = join("\n\n", $aSelecionar);
         $listaGetAll     = join("\n\n", $aGetAll);
         $listaAlterar    = join("\n\n", $aAlterar);
+        //print "<pre>"; print_r($aAlterar); print "</pre>"; 
+        //print "<pre>"; print_r($aConsultar); print "</pre>"; 
         $listaConsultar  = join("\n\n", $aConsultar);
 
         # Substitui todas os parametros pelas variaveis ja processadas
@@ -228,7 +230,8 @@ class Geracao {
 
         # abre arquivo xml para navegacao
         $aBanco = simplexml_load_string($this->xml);
-
+        $aModeloFinal = array();
+        
         # varre a estrutura das tabelas
         foreach($aBanco as $aTabela){
             $nomeClasse = ucfirst($this->getCamelMode((string)$aTabela['NOME']));
@@ -294,7 +297,7 @@ class Geracao {
             $copiaModelo2 = $modelo2;
 
             # varre a estrutura dos campos da tabela em questao
-            $camposForm = array();
+            $camposForm = $aModeloFinal = array();
             foreach($aTabela as $oCampo){
                 # recupera campo e tabela e campos (chave estrangeira)
                 $nomeCampoOriginal = (string)$oCampo->NOME;
@@ -1034,24 +1037,28 @@ class Geracao {
                 continue;
 
             # Varre a estrutura dos campos da tabela em questao
-            foreach($aTabela as $oCampo){
+            foreach($aTabela as $oCampo){                
+                //print_r($aTabela); exit;
                 # Se o campo for chave, nao sera usado
                 if($oCampo->CHAVE == 1){
                     $pk = $oCampo->NOME;
                     
-                    if($oCampo->FKTABELA == ''){
+                    if((String)$oCampo->FKTABELA == ''){
                         continue;
                     }
                 }
-
+//print "@@{$oCampo->NOME}\n";
                 # Se o campo for do tipo numerico, nao sera usado, nao sera usado
-                if(!preg_match("#varchar#is", $oCampo->TIPO)) continue;
-
+                if(!preg_match("#varchar#is", (String)$oCampo->TIPO)) continue;
+                
                 # Se o campo tiver nomenclatura que nao remeta a nome/descricao sera eliminado 
-                if(!preg_match("#(?:usuario|login|nome_?(?:pessoa|cliente|servidor)|descricao|titulo|nm_(?:pessoa|cliente|servidor|estado_?civil|lotacao|credenciado)|desc_)#is", $oCampo->NOME)) continue;
+                if(!preg_match("#(?:nome|descricao)#is", (String)$oCampo->NOME)) continue;
+                
+                # Se o campo tiver nomenclatura que nao remeta a nome/descricao sera eliminado 
+                if(!preg_match("#(?:usuario|login|nome_?(?:pessoa|cliente|servidor)|descricao|titulo|nm_(?:pessoa|cliente|servidor|estado_?civil|lotacao|credenciado)|desc_)#is", (String)$oCampo->NOME)) continue;
                 
                 # Recupera valores a serem substituidos no modelo
-                $retorno = $oCampo->NOME;
+                $retorno = (String)$oCampo->NOME;
             }
             break;
         }

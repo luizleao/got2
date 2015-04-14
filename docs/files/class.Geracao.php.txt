@@ -462,7 +462,7 @@ class Geracao {
             foreach($aTabelaFK as $oCampoFK => $oDadosTabelaFK){
                 $nomeClasseFK	   = ucfirst($this->getCamelMode($oDadosTabelaFK['FKTABELA']));
                 $nomeObjetoFK	   = ucfirst(preg_replace("#^(?:id_?|cd_?)(.*?)#is", "$1", $oCampoFK));
-                $aCarregaColecao[] = "\$a$nomeClasseFK = \$oControle->carregarColecao$nomeClasseFK();"; 
+                $aCarregaColecao[] = "\$a$nomeClasseFK = \$oControle->getAll$nomeClasseFK();"; 
             }
 
             # monta demais valores a serem substituidos
