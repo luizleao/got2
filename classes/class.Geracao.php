@@ -1038,6 +1038,7 @@ class Geracao {
 
             # Varre a estrutura dos campos da tabela em questao
             foreach($aTabela as $oCampo){                
+                //print "@@{$oCampo->NOME}\n";
                 //print_r($aTabela); exit;
                 # Se o campo for chave, nao sera usado
                 if($oCampo->CHAVE == 1){
@@ -1047,18 +1048,24 @@ class Geracao {
                         continue;
                     }
                 }
-//print "@@{$oCampo->NOME}\n";
+
                 # Se o campo for do tipo numerico, nao sera usado, nao sera usado
                 if(!preg_match("#varchar#is", (String)$oCampo->TIPO)) continue;
                 
                 # Se o campo tiver nomenclatura que nao remeta a nome/descricao sera eliminado 
-                if(!preg_match("#(?:nome|descricao)#is", (String)$oCampo->NOME)) continue;
+                if(preg_match("#(?:nome|descricao)#is", (String)$oCampo->NOME)){
+                    $retorno = (String)$oCampo->NOME;
+                    break;
+                }
                 
                 # Se o campo tiver nomenclatura que nao remeta a nome/descricao sera eliminado 
-                if(!preg_match("#(?:usuario|login|nome_?(?:pessoa|cliente|servidor)|descricao|titulo|nm_(?:pessoa|cliente|servidor|estado_?civil|lotacao|credenciado)|desc_)#is", (String)$oCampo->NOME)) continue;
+                if(preg_match("#(?:usuario|login|nome_?(?:pessoa|cliente|servidor)|descricao|titulo|nm_(?:pessoa|cliente|servidor|estado_?civil|lotacao|credenciado)|desc_)#is", (String)$oCampo->NOME)){
+                    $retorno = (String)$oCampo->NOME;
+                    break;
+                }
                 
                 # Recupera valores a serem substituidos no modelo
-                $retorno = (String)$oCampo->NOME;
+                
             }
             break;
         }
