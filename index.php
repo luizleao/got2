@@ -84,11 +84,11 @@ foreach ($aDiretorioXML as $xml) {
                             <div class="col-lg-3 <?=($i%3==0) ? "col-lg-offset-3": ""?>center-block">
                                 <div class="btn-group dropup">
                                     <button class="btn btn-info dropdown-toggle" data-toggle="dropdown" data-loading-text="loading...">
-                                        <span class="glyphicon glyphicon-folder-open"></span> <?=ucfirst($xml)?> <span class="caret"></span>
+                                        <span class="glyphicon glyphicon-folder-open"></span> <?=ucfirst(utf8_encode($xml))?> <span class="caret"></span>
                                     </button>
                                     <ul class="dropdown-menu">
 <?php 
-    if(file_exists(dirname(__FILE__)."/geradas/$xml")){
+    if(file_exists(dirname(__FILE__)."/geradas/".utf8_encode($xml))){
 ?>
                                         <li>
                                             <a href="geradas/<?=$xml?>" target="_blank"><i class="glyphicon glyphicon-home"></i> Visualizar Página</a>

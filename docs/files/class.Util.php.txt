@@ -260,7 +260,7 @@ class Util {
      * @param string $diretorio
      * @return string[]
      */
-    static function carregarColcaoArquivosDiretorio($diretorio){
+    static function getAllArquivosDiretorio($diretorio){
         $arquivos = array();
         //$dir = dirname(__FILE__)."/../xml/";
         //$dh = opendir($dir);

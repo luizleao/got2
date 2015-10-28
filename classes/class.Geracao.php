@@ -297,7 +297,7 @@ class Geracao {
             $copiaModelo2 = $modelo2;
 
             # varre a estrutura dos campos da tabela em questao
-            $camposForm = $aModeloFinal = array();
+            $camposForm = array();
             foreach($aTabela as $oCampo){
                 # recupera campo e tabela e campos (chave estrangeira)
                 $nomeCampoOriginal = (string)$oCampo->NOME;
@@ -334,9 +334,13 @@ class Geracao {
             $copiaModelo2 = str_replace('%%ATRIBUICAO%%', $camposForm, $copiaModelo2);
 
             $aModeloFinal[] = $copiaModelo2;
+            //echo $copiaModelo2."<br />";
         }
-
+        
+        //echo "<pre>"; print_r($aModeloFinal); echo "</pre>"; 
+        
         $modeloFinal = str_replace('%%FUNCOES%%', join("\n\n", $aModeloFinal), $copiaModelo1);
+        
         $dir = dirname(dirname(__FILE__))."/geradas/".$this->projeto."/classes";
         if(!file_exists($dir)) 
             mkdir($dir);

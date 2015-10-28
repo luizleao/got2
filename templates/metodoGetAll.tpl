@@ -2,8 +2,8 @@
 	 * Carregar Colecao de dados de %%NOME_CLASS%%
 	 *
 	 * @access public
-         * @param string[] $filtro Filtro de consulta
-         * @param string[] $ordenacao Ordenação dos campos
+     * @param string[] $filtro Filtro de consulta
+     * @param string[] $ordenacao Ordenação dos campos
 	 * @return %%NOME_CLASS%%[]
 	 */
 	public function getAll%%NOME_CLASS%%($aFiltro = NULL, $aOrdenacao = NULL){

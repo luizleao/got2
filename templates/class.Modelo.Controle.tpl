@@ -8,21 +8,21 @@ require_once(dirname(__FILE__).'/class.DadosFormulario.php');
 
 class Controle{
 	
-    public $msg;
+	public $msg;
 
-    function __construct(){
-        session_start();
-        /*header("content-type: text/html; charset=UTF-8", true);
-            if(!preg_match("#index#is", $_SERVER['REQUEST_URI'])){
-                if(!isset($_SESSION['usuarioAtual'])){
-                        echo "
-                        <script>
-                                alert('Sessão expirou');
-                                window.location='index.php';
+	function __construct(){
+		session_start();
+		/*header("content-type: text/html; charset=UTF-8", true);
+			if(!preg_match("#index#is", $_SERVER['REQUEST_URI'])){
+				if(!isset($_SESSION['usuarioAtual'])){
+					echo "
+						<script>
+							alert('Sessão expirou');
+							window.location='index.php';
                         </script>";
-                        exit;
-                }
-            }
+					exit;
+				}
+			}
         */		
     }
 
@@ -31,19 +31,19 @@ class Controle{
      * 
      * @return void
      */
-    function fecharConexao(){
-        $conexao = new Conexao();
-        $conexao->close();
-    }
-    
+	function fecharConexao(){
+		$conexao = new Conexao();
+		$conexao->close();
+	}
+
     /**
      * Recupera as configurações de produção
      * 
      * @return string[]
      */
-    function getConfigProducao(){
-        $aConfig = parse_ini_file(dirname(__FILE__) . "/core/config.ini", true);
-        return $aConfig['producao'];
+	function getConfigProducao(){
+		$aConfig = parse_ini_file(dirname(__FILE__) . "/core/config.ini", true);
+		return $aConfig['producao'];
     }
     
     /**
@@ -51,19 +51,19 @@ class Controle{
      * 
      * @return string[]
      */
-    function getConfigLDAP(){
-        $aConfig = parse_ini_file(dirname(__FILE__) . "/core/config.ini", true);
-        return $aConfig['LDAP'];
-    }
+	function getConfigLDAP(){
+		$aConfig = parse_ini_file(dirname(__FILE__) . "/core/config.ini", true);
+		return $aConfig['LDAP'];
+	}
     
     /**
      * Cria instancia para a classe seguranca
      * 
      * @return Seguranca
      */
-    function get_seguranca(){
-        return new Seguranca();
-    }
+	function get_seguranca(){
+		return new Seguranca();
+	}
 	
     /**
      * Autentica o Usuario
@@ -182,9 +182,9 @@ class Controle{
      * @param bool $hora
      * @return void
      */
-    function componenteCalendario($nomeCampo, $valorInicial=NULL, $complemento=NULL,$hora=false){
-        include(dirname(dirname(__FILE__))."/componentes/componenteCalendario.php");
-    }
+	function componenteCalendario($nomeCampo, $valorInicial=NULL, $complemento=NULL,$hora=false){
+		include(dirname(dirname(__FILE__))."/componentes/componenteCalendario.php");
+	}
 
     /**
      * Componente que exibe mensagem na tela
@@ -194,9 +194,9 @@ class Controle{
      * @access public
      * @return void
      */
-    public function componenteMsg($msg, $tipo="erro"){
-        include(dirname(dirname(__FILE__))."/componentes/componenteMsg.php");
-    }
+	public function componenteMsg($msg, $tipo="erro"){
+		include(dirname(dirname(__FILE__))."/componentes/componenteMsg.php");
+	}
     
     /**
      * Componente de lista de UFs
@@ -206,7 +206,7 @@ class Controle{
      * @access public
      * @return void
      */
-    public function componenteListaUf($nomeCampo, $valor=NULL){
-        include(dirname(dirname(__FILE__))."/componentes/componenteListaUf.php");
-    }
+	public function componenteListaUf($nomeCampo, $valor=NULL){
+		include(dirname(dirname(__FILE__))."/componentes/componenteListaUf.php");
+	}
 }

@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    var classe = $(".active > span").html();
+    var classe = $("#classe").val();
     var timeout = 5000;
     /**
      * 
@@ -149,8 +149,9 @@ $(document).ready(function(){
 });
 
 function excluir(campo, valor){
-    var classe = $(".active > span").html();
-
+    var classe = $("#classe").val();
+    var timeout = 5000;
+    
     $('#modalExcluir').modal('show');
     $('#modalExcluir').find('.modal-body').html('Deseja excluir '+ classe +'?');
 

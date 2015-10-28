@@ -23,7 +23,7 @@ if($_POST){
         <ol class="breadcrumb">
             <li><a href="principal.php">Home</a></li>
             <li><a href="adm%%NOME_CLASSE%%.php">%%NOME_CLASSE%%</a></li>
-            <li class="active">Cadastrar <span>%%NOME_CLASSE%%</span></li>
+            <li class="active">Cadastrar %%NOME_CLASSE%%</li>
         </ol>
 <?php 
 if($oControle->msg != "")
@@ -40,6 +40,7 @@ if($oControle->msg != "")
                     <div class="form-group">
                         <button id="btnCadastrar" data-loading-text="loading..." type="submit" class="btn btn-primary">Salvar</button>
                         <a class="btn btn-default" href="adm%%NOME_CLASSE%%.php">Voltar</a>
+                        <input type="hidden" name="classe" id="classe" value="%%NOME_CLASSE%%" />
                     </div>
                 </div>
             </div>

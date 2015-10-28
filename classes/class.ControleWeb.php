@@ -68,9 +68,10 @@ class ControleWeb{
         $oConexao = $this->conexao($sgbd, $host, $usuario, $senha, $bd);
 
         if($oConexao){
-            $oXML = simplexml_load_string("<?xml version=\"1.0\" encoding=\"UTF-8\"?> <DATABASE NOME=\"$bd\" SGBD=\"$sgbd\"></DATABASE>");
+            $oXML = simplexml_load_string("<?xml version=\"1.0\" encoding=\"UTF-8\"?> <DATABASE NOME=\"$bd\" SGBD=\"$sgbd\"></DATABASE>");            
             $aTabela = $oConexao->getAllTabelas();
             //print"<pre>"; print_r($aTabela); print"</pre>"; exit;
+            
             foreach($aTabela as $sTabela){
                 //print"<pre>"; print_r($sTabela); print"</pre>"; exit;
                 $oTabela = $oXML->addChild("TABELA");
@@ -99,6 +100,7 @@ class ControleWeb{
                     $oCampo = $oTabela->addChild("CAMPO");
                     $oCampo->addChild("NOME", $sColuna[0]);
                     $oCampo->addChild("TIPO", $sColuna[1]);
+                    $oCampo->addChild("NULO", $sColuna[2]);
                     $oCampo->addChild("CHAVE", (($sColuna[3] == 'PRI') ? 1 : 0));
 
                     $oFK = $oConexao->dadosForeignKeyColuna($bd, $sTabela[0], $sColuna[0]);
@@ -127,10 +129,11 @@ class ControleWeb{
                 }
             }
             
-            //print "<pre>".$oXML->asXML()."</pre>"; exit;
-            $fp = fopen(dirname(dirname(__FILE__))."/xml/$bd.xml","w");
+            $fp = fopen(dirname(dirname(__FILE__))."/xml/$bd.xml", "w+");
             fputs($fp, $oXML->asXML());
             fclose($fp);
+            
+            //print "<pre>".$oXML->asXML()."</pre>"; exit;
             $this->msg = ""; //Arquivo XML gerado com sucesso
             return true;
         }
