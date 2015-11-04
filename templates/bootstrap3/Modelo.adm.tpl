@@ -66,6 +66,7 @@ else{
                 <td colspan="%%NUMERO_COLUNAS%%"><a href="cad%%NOME_CLASSE%%.php" class="btn btn-primary btn-sm" title="Cadastrar"><i class="glyphicon glyphicon-plus"></i></a></td>
             </tr>
         </table>
+        <input type="hidden" name="classe" id="classe" value="%%NOME_CLASSE%%" />
     </div>
     <?php require_once("includes/footer.php")?>
 </body>
