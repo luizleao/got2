@@ -854,7 +854,7 @@ class Geracao {
      * @param boolean $desceNivel
      * @return array[string]
      */
-    function getCamposSelect($tabela, $desceNivel=true){
+    function getCamposSelect($tabela, $alias=null, $desceNivel=true){
         # Abre arquivo xml para navegacao
         $aBanco = simplexml_load_string($this->xml);
         $aCampo = $aAux = array();
@@ -864,28 +864,41 @@ class Geracao {
                 //print_r($aTabela);
                 foreach($aTabela as $oCampo){
                     //print_r($oCampo);
-                    $aCampo[] = "$tabela.{$oCampo->NOME} as $tabela"."_{$oCampo->NOME}";
+                	if($alias == null){
+                		$alias = $tabela;
+                	}
+                	
+                	$aCampo[] = "$alias.{$oCampo->NOME} as $alias"."_{$oCampo->NOME}";
+                	             	
                     //print_r($aCampo);
-                    if($desceNivel)
-                        if((string)$oCampo->FKTABELA != '')
-                            $aAux[] = (string)$oCampo->FKTABELA;
+                    if($desceNivel){
+                        if($oCampo->FKTABELA != ''){
+                        	if(preg_match("#^(?:id_?|cd_?)(.*?)#is", $oCampo->NOME)){
+                        		$alias = strtolower(preg_replace("#^(?:id_?|cd_?)(.*?)#is", "$1", $oCampo->NOME));
+                        	}
+                        	$aAux[$alias] = $oCampo->FKTABELA;
+                        }
+                    }
+                    $alias = null;
                 }
             } else {
-                    continue;
+				continue;
             }
         }
-
+        
         // ========= Tabelas_FK =======
         if(count($aAux) > 0){
-            foreach($aAux as $tab){
-                $aAux2[] = $this->getCamposSelect($tab, false);
+            foreach($aAux as $alias => $tab){
+                $aAux2[] = $this->getCamposSelect($tab, $alias, false);
             }
         }
 
         if(count($aAux2) > 0){
-            foreach($aAux2 as $a)
-                foreach($a as $s)
+            foreach($aAux2 as $a){
+                foreach($a as $s){
                     $aCampo[] = $s;
+                }
+            }
         }
 
         return $aCampo;
@@ -928,9 +941,11 @@ class Geracao {
             }
         }
 
-        foreach($aAux as $a)
-            foreach($a as $ch=>$vl)
+        foreach($aAux as $a){
+            foreach($a as $ch=>$vl){
                 $aTab[$ch] = $vl;
+            }
+        }
 
         return $aTab;
     }
@@ -940,6 +955,7 @@ class Geracao {
      *
      * @param string $tabelaRaiz
      * @param int $key
+     * @param string $objetoFK
      * @return string[] 
      */
     function retornaArvore($tabelaRaiz, $objetoFK, $key = 0){
