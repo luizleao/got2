@@ -122,7 +122,7 @@ class Geracao {
         # Abre o template dos metodos de cadastros e armazena conteudo do modelo
         $modeloCAD        = Util::getConteudoTemplate('metodoCadastra.tpl');
         $modeloExclui     = Util::getConteudoTemplate('metodoExclui.tpl');
-        $modeloSelecionar = Util::getConteudoTemplate('metodoSeleciona.tpl');
+        $modeloGet = Util::getConteudoTemplate('metodoGet.tpl');
         $modeloGetAll     = Util::getConteudoTemplate('metodoGetAll.tpl'); 
         $modeloConsultar  = Util::getConteudoTemplate('metodoConsulta.tpl');
         $modeloAlterar    = Util::getConteudoTemplate('metodoAltera.tpl');
@@ -131,7 +131,7 @@ class Geracao {
         $aBanco = simplexml_load_string($this->xml);
 
         # Varre a estrutura das tabelas
-        $aRequire = $aCadastro = $aExclui = $aSelecionar = $aGetAll = $aAlterar = $aConsultar = array();
+        $aRequire = $aCadastro = $aExclui = $aGet = $aGetAll = $aAlterar = $aConsultar = array();
         $copiaModelo = $modelo;
         //print_r($aBanco);exit;
         foreach($aBanco as $aTabela){
@@ -151,7 +151,7 @@ class Geracao {
             $nomeClasse             = ucfirst($this->getCamelMode($aTabela['NOME']));
             $copiaModeloCAD         = str_replace('%%NOME_CLASS%%',   $nomeClasse, $modeloCAD);
             $copiaModeloExclui      = str_replace('%%NOME_CLASS%%',   $nomeClasse, $modeloExclui);
-            $copiaModeloSelecionar  = str_replace('%%NOME_CLASS%%',   $nomeClasse, $modeloSelecionar);
+            $copiaModeloGet  = str_replace('%%NOME_CLASS%%',   $nomeClasse, $modeloGet);
             $copiaModeloGetAll      = str_replace('%%NOME_CLASS%%',   $nomeClasse, $modeloGetAll);
             $copiaModeloAlterar     = str_replace('%%NOME_CLASS%%',   $nomeClasse, $modeloAlterar);
             $copiaModeloConsultar   = str_replace('%%NOME_CLASS%%',   $nomeClasse, $modeloConsultar);
@@ -159,31 +159,31 @@ class Geracao {
             $montaObjeto   = $this->retornaObjetosMontados($aTabela['NOME']);
             $montaObjetoBD = $this->retornaObjetosBDMontados($aTabela['NOME']);
 
-            $copiaModeloCAD         = str_replace('%%MONTA_OBJETO%%',   $montaObjeto,   $copiaModeloCAD);
-            $copiaModeloCAD         = str_replace('%%MONTA_OBJETOBD%%', $montaObjetoBD, $copiaModeloCAD);
-            $copiaModeloExclui      = str_replace('%%MONTA_OBJETOBD%%', $montaObjetoBD, $copiaModeloExclui);
-            $copiaModeloSelecionar  = str_replace('%%MONTA_OBJETOBD%%', $montaObjetoBD, $copiaModeloSelecionar);
-            $copiaModeloSelecionar  = str_replace('%%DOC_LISTA_PK%%',   $listaPKDoc,    $copiaModeloSelecionar);
-            $copiaModeloSelecionar  = str_replace('%%LISTA_PK%%', 	$listaPK,       $copiaModeloSelecionar);
-            $copiaModeloGetAll      = str_replace('%%MONTA_OBJETOBD%%', $montaObjetoBD, $copiaModeloGetAll);
-            $copiaModeloAlterar     = str_replace('%%MONTA_OBJETO%%',   $montaObjeto,   $copiaModeloAlterar);
-            $copiaModeloAlterar     = str_replace('%%MONTA_OBJETOBD%%', $montaObjetoBD, $copiaModeloAlterar);
-            $copiaModeloConsultar   = str_replace('%%MONTA_OBJETOBD%%', $montaObjetoBD, $copiaModeloConsultar);
+            $copiaModeloCAD       = str_replace('%%MONTA_OBJETO%%',   $montaObjeto,   $copiaModeloCAD);
+            $copiaModeloCAD       = str_replace('%%MONTA_OBJETOBD%%', $montaObjetoBD, $copiaModeloCAD);
+            $copiaModeloExclui    = str_replace('%%MONTA_OBJETOBD%%', $montaObjetoBD, $copiaModeloExclui);
+            $copiaModeloGet       = str_replace('%%MONTA_OBJETOBD%%', $montaObjetoBD, $copiaModeloGet);
+            $copiaModeloGet       = str_replace('%%DOC_LISTA_PK%%',   $listaPKDoc,    $copiaModeloGet);
+            $copiaModeloGet       = str_replace('%%LISTA_PK%%', 	  $listaPK,       $copiaModeloGet);
+            $copiaModeloGetAll    = str_replace('%%MONTA_OBJETOBD%%', $montaObjetoBD, $copiaModeloGetAll);
+            $copiaModeloAlterar	  = str_replace('%%MONTA_OBJETO%%',   $montaObjeto,   $copiaModeloAlterar);
+            $copiaModeloAlterar   = str_replace('%%MONTA_OBJETOBD%%', $montaObjetoBD, $copiaModeloAlterar);
+            $copiaModeloConsultar = str_replace('%%MONTA_OBJETOBD%%', $montaObjetoBD, $copiaModeloConsultar);
 
-            $aRequire[]    = "require_once(dirname(__FILE__).'/bd/class.$nomeClasse"."BD.php');";
-            $aCadastro[]   = $copiaModeloCAD;
-            $aExclui[]     = $copiaModeloExclui;
-            $aSelecionar[] = $copiaModeloSelecionar;
-            $aGetAll[]     = $copiaModeloGetAll;
-            $aAlterar[]    = $copiaModeloAlterar;
-            $aConsultar[]  = $copiaModeloConsultar;
+            $aRequire[]   = "require_once(dirname(__FILE__).'/bd/class.$nomeClasse"."BD.php');";
+            $aCadastro[]  = $copiaModeloCAD;
+            $aExclui[]    = $copiaModeloExclui;
+            $aGet[] 	  = $copiaModeloGet;
+            $aGetAll[]    = $copiaModeloGetAll;
+            $aAlterar[]   = $copiaModeloAlterar;
+            $aConsultar[] = $copiaModeloConsultar;
         }
 
         # Monta demais valores a serem substituidos
         $listaRequire    = join("\n",   $aRequire);
         $listaCadastro   = join("\n\n", $aCadastro);
         $listaExclui     = join("\n\n", $aExclui);
-        $listaSelecionar = join("\n\n", $aSelecionar);
+        $listaSelecionar = join("\n\n", $aGet);
         $listaGetAll     = join("\n\n", $aGetAll);
         $listaAlterar    = join("\n\n", $aAlterar);
         //print "<pre>"; print_r($aAlterar); print "</pre>"; 
@@ -476,8 +476,8 @@ class Geracao {
 
             # monta demais valores a serem substituidos
             $sPKRequest      = join($aPKRequest, ", ");
-            $sTituloAdm      = join($aTituloAdm, "\n\t\t\t");
-            $sCampoAdm       = join($aCampoAdm,  "\n\t\t\t");
+            $sTituloAdm      = join($aTituloAdm, "\n\t\t\t\t\t");
+            $sCampoAdm       = join($aCampoAdm,  "\n\t\t\t\t\t");
             $sCampoCad       = join($aCampoCad,  "\n");
             $sCampoEdit      = join($aCampoEdit, "\n");
             $sCampoPK        = join($aCampoPK,   "\n");

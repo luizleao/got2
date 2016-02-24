@@ -94,7 +94,7 @@ class %%NOME_CLASSE%%BDBase {
         }
 	}
 	
-	function selecionar(%%LISTA_CHAVES%%){
+	function get(%%LISTA_CHAVES%%){
         $sql = "
                 select 
 					%%COLUNAS%% 

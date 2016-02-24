@@ -18,7 +18,7 @@ session_destroy();
                 <h6>Sistema de Gestão de %%PROJETO%%</h6>
                 <input type="text" class="form-control" id="login" name="login" autofocus="autofocus" placeholder="Login" />
                 <input type="password" class="form-control" id="senha" name="senha" placeholder="Senha" />
-                <button class="btn btn-success btn-sm" data-loading-text="loading..." name="btnLogar" id="btnLogar" type="submit"><i class="glyphicon glyphicon-ok"></i> Entrar</button>
+                <button class="btn btn-success btn-sm" data-loading-text="Carregado..." name="btnLogar" id="btnLogar" type="submit"><i class="glyphicon glyphicon-ok"></i> Entrar</button>
             </form>
         </div>
         <div class="push"></div>

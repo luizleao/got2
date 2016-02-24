@@ -3,7 +3,7 @@ require_once(dirname(__FILE__)."/classes/class.Controle.php");
 
 $oControle = new Controle();
 $a%%NOME_CLASSE%% = $oControle->getAll%%NOME_CLASSE%%();
-//print "<pre>";print_r($a%%NOME_CLASSE%%);print "</pre>";
+//Util::trace($a%%NOME_CLASSE%%);
 
 if($_REQUEST['acao'] == 'excluir'){
     print ($oControle->exclui%%NOME_CLASSE%%(%%PK_REQUEST%%)) ? "" : $oControle->msg; exit;
@@ -12,62 +12,61 @@ if($_REQUEST['acao'] == 'excluir'){
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-    <?php require_once("includes/header.php");?>
+	<?php require_once("includes/header.php");?>
 </head>
 <body>
-    <?php require_once("includes/modals.php");?>
-    <div class="container">
-        <?php require_once("includes/titulo.php");?>
-        <?php require_once("includes/menu.php");?>
-        <ol class="breadcrumb">
-            <li><a href="principal.php">Home</a></li>
-            <li class="active">Administrar <span>%%NOME_CLASSE%%</span></li>
-        </ol>
+	<?php require_once("includes/modals.php");?>
+	<div class="container">
+		<?php require_once("includes/titulo.php");?>
+		<?php require_once("includes/menu.php");?>
+		<ol class="breadcrumb">
+			<li><a href="principal.php">Home</a></li>
+			<li class="active">Administrar %%NOME_CLASSE%%</li>
+		</ol>
 <?php 
 if($oControle->msg != "")
 	$oControle->componenteMsg($oControle->msg, "erro");
 ?>
-        <table class="table table-striped">
+		<table class="table table-striped">
 <?php
 if($a%%NOME_CLASSE%%){
-?>
-	
-            <thead>
-                <tr>
-                    %%TITULOATRIBUTOS%%
-                    <th></th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
+?>	
+			<thead>
+				<tr>
+					%%TITULOATRIBUTOS%%
+					<th></th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
 <?php
 	foreach($a%%NOME_CLASSE%% as $o%%NOME_CLASSE%%){
 ?>
-                <tr>
-                    %%VALORATRIBUTOS%%
-                    %%ADM_EDIT%%
-                    %%ADM_DELETE%%
-                </tr>
+				<tr>
+					%%VALORATRIBUTOS%%
+					%%ADM_EDIT%%
+					%%ADM_DELETE%%
+				</tr>
 <?php
 	}
 ?>
-            </tbody>
+			</tbody>
 <?php
 }
 else{
 ?>
-            <tr>
-                    <td colspan="%%NUMERO_COLUNAS%%" align="center">N&atilde;o h&aacute; registros cadastrados!</td>
-            </tr>
+			<tr>
+				<td colspan="%%NUMERO_COLUNAS%%" align="center">N&atilde;o h&aacute; registros cadastrados!</td>
+			</tr>
 <?php
 }
 ?>
-            <tr>
-                <td colspan="%%NUMERO_COLUNAS%%"><a href="cad%%NOME_CLASSE%%.php" class="btn btn-primary btn-sm" title="Cadastrar"><i class="glyphicon glyphicon-plus"></i></a></td>
-            </tr>
-        </table>
-        <input type="hidden" name="classe" id="classe" value="%%NOME_CLASSE%%" />
-    </div>
-    <?php require_once("includes/footer.php")?>
+			<tr>
+				<td colspan="%%NUMERO_COLUNAS%%"><a href="cad%%NOME_CLASSE%%.php" class="btn btn-primary btn-sm" title="Cadastrar"><i class="glyphicon glyphicon-plus"></i></a></td>
+			</tr>
+		</table>
+		<input type="hidden" name="classe" id="classe" value="%%NOME_CLASSE%%" />
+	</div>
+	<?php require_once("includes/footer.php")?>
 </body>
 </html>

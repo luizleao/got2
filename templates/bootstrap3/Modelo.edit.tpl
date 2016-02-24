@@ -1,12 +1,12 @@
 <?php
 require_once("classes/class.Controle.php");
 $oControle = new Controle();
-$o%%NOME_CLASSE%% = $oControle->selecionar%%NOME_CLASSE%%($_REQUEST['%%ID_PK%%']);
- 
 // ================= Edicao do %%NOME_CLASSE%% ========================= 
 if($_POST){
 	print ($oControle->altera%%NOME_CLASSE%%()) ? "" : $oControle->msg; exit;
 }
+
+$o%%NOME_CLASSE%% = $oControle->get%%NOME_CLASSE%%($_REQUEST['%%ID_PK%%']);
 %%CARREGA_COLECAO%%
 ?>
 <!DOCTYPE html>
@@ -36,11 +36,10 @@ if($oControle->msg != "")
                     %%ATRIBUICAO%%
                 </div>
             </div>
-            </div>
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-actions">
-                        <button id="btnEditar" data-loading-text="loading..." type="submit" class="btn btn-primary">Salvar</button>
+                        <button id="btnEditar" data-loading-text="Carregando..." type="submit" class="btn btn-primary">Salvar</button>
                         <a class="btn btn-default" href="adm%%NOME_CLASSE%%.php">Voltar</a>
                         %%CHAVE_PRIMARIA%%
                         <input type="hidden" name="classe" id="classe" value="%%NOME_CLASSE%%" />
