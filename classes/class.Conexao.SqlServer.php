@@ -16,16 +16,9 @@ class ConexaoSqlServer implements IConexao{
 
     function __construct($servidor = 'Local'){
         switch ($servidor){
-            case 'Local':
-                $this->set_conexao(HOST,USER,PASSWD,DB);
-            break;
-
-            case 'Vazia':
-            break;
-
-            default:
-                die("Servidor $servidor inexistente");
-            break;
+            case 'Local': $this->set_conexao(HOST,USER,PASSWD,DB); break;
+            case 'Vazia': break;
+            default: die("Servidor $servidor inexistente"); break;
          }
     }
     
@@ -217,23 +210,28 @@ class ConexaoSqlServer implements IConexao{
      * @return string[]
      */
     public function dadosForeignKeyColuna($db, $tabela, $coluna) {
-        $this->execute("select 
-                            /*r.CONSTRAINT_NAME,
-                            t1.TABLE_NAME as tabela_de, 
-                            k1.COLUMN_NAME as campo_de,*/
-                            t2.TABLE_NAME as tabela_para,
-                            k2.COLUMN_NAME as campo_para
-                        from 
-                            INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS r
-                        join INFORMATION_SCHEMA.TABLE_CONSTRAINTS t1 on (t1.CONSTRAINT_NAME = r.CONSTRAINT_NAME)
-                        join INFORMATION_SCHEMA.TABLE_CONSTRAINTS t2 on (t2.CONSTRAINT_NAME = r.UNIQUE_CONSTRAINT_NAME)
-                        join INFORMATION_SCHEMA.KEY_COLUMN_USAGE k1 on (k1.CONSTRAINT_NAME = r.CONSTRAINT_NAME)
-                        join INFORMATION_SCHEMA.KEY_COLUMN_USAGE k2 on (k2.CONSTRAINT_NAME = r.UNIQUE_CONSTRAINT_NAME)
-                        where 
-                            t1.table_name            = '$tabela'
-                            and k1.COLUMN_NAME       = '$coluna'
-                            and r.CONSTRAINT_CATALOG = '$db'");
-
+    	$sql = "select 
+					/*r.CONSTRAINT_NAME,
+					t1.TABLE_NAME as tabela_de, 
+					k1.COLUMN_NAME as campo_de,*/
+					t2.TABLE_NAME as tabela_para,
+					k2.COLUMN_NAME as campo_para
+				from 
+					INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS r
+				join INFORMATION_SCHEMA.TABLE_CONSTRAINTS t1 
+					on (t1.CONSTRAINT_NAME = r.CONSTRAINT_NAME)
+				join INFORMATION_SCHEMA.TABLE_CONSTRAINTS t2 
+					on (t2.CONSTRAINT_NAME = r.UNIQUE_CONSTRAINT_NAME)
+				join INFORMATION_SCHEMA.KEY_COLUMN_USAGE k1 
+					on (k1.CONSTRAINT_NAME = r.CONSTRAINT_NAME)
+				join INFORMATION_SCHEMA.KEY_COLUMN_USAGE k2 
+					on (k2.CONSTRAINT_NAME = r.UNIQUE_CONSTRAINT_NAME)
+				where 
+					t1.table_name            = '$tabela'
+					and k1.COLUMN_NAME       = '$coluna'
+					and r.CONSTRAINT_CATALOG = '$db'";
+    	
+        $this->execute($sql);
         return $this->fetchReg();
     }
 
@@ -243,7 +241,14 @@ class ConexaoSqlServer implements IConexao{
      * @return string[]
      */
     public function getAllTabelas() {
-        $this->execute("select table_name, table_schema from INFORMATION_SCHEMA.TABLES where TABLE_TYPE = 'BASE TABLE'");
+    	$sql = "select 
+   					table_name, 
+   					table_schema 
+				from 
+					INFORMATION_SCHEMA.TABLES 
+				where 
+					TABLE_TYPE = 'BASE TABLE'";
+        $this->execute($sql);
         $aDados = array();
         while ($aReg = $this->fetchReg()){
             $aDados[] = $aReg;

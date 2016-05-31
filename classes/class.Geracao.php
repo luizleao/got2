@@ -1,5 +1,6 @@
 <?php
 require_once(dirname(__FILE__).'/class.Form.php');
+require_once(dirname(__FILE__).'/class.Util.php');
 /**
  * Classe Geração
  * 
@@ -73,11 +74,11 @@ class Geracao {
                     # Processa nome original da tabela estrangeira
                     $nomeFKClasse = ucfirst($this->getCamelMode((string)$oCampo->FKTABELA));
                     
-//                    if($nomeFKClasse == $nomeClasse){
-                        $nomeCampo = "o".ucfirst(preg_replace("#^(?:id_?|cd_?)(.*?)#is", "$1", $nomeCampo));
-//                    }
-//                     else {
-//                        $nomeCampo = "o$nomeFKClasse";
+//					if($nomeFKClasse == $nomeClasse){
+						$nomeCampo = "o".ucfirst(preg_replace("#^(?:id_?|cd_?)(.*?)#is", "$1", $nomeCampo));
+//					}
+//					else {
+						$nomeCampo = "o$nomeFKClasse";
 //                    }
                 }
 
@@ -552,7 +553,7 @@ class Geracao {
      *
      * @return bool
      */
-    function geraClassesMapeamento(){
+function geraClassesMapeamento(){
         # Abre o template da classe basica e armazena conteudo do modelo
         $modelo = Util::getConteudoTemplate('class.ModeloMAP.tpl');
 
@@ -573,18 +574,19 @@ class Geracao {
 
             foreach($aTabela as $oCampo){
                 # Processa nome original da tabela estrangeira
-                $nomeFKClasse	= ucfirst($this->getCamelMode((string)$oCampo->FKTABELA));
-                $objetoFKClasse = $nomeFKClasse;
+                $objetoFK = ucfirst($this->getCamelMode((string)$oCampo->FKTABELA));
+                $tabelaFK = (string)$oCampo->FKTABELA;
 
                 # Testando nova implementacao - Tirar caso ocorrer erro
                 /*
                 if($nomeFKClasse == $nomeClasse)
-                    $objetoFKClasse = ucfirst(preg_replace("#^(?:id_?|cd_?)(.*?)#is", "$1", (string)$oCampo->NOME));
-				*/
+                    $objetoFK = ucfirst(preg_replace("#^(?:id_?|cd_?)(.*?)#is", "$1", (string)$oCampo->NOME));
+				
                 
                 if((string)$oCampo->FKTABELA != ''){
-                	$objetoFKClasse = ucfirst(preg_replace("#^(?:id_?|cd_?)(.*?)#is", "$1", (string)$oCampo->NOME));
+                	$objetoFK = ucfirst(preg_replace("#^(?:id_?|cd_?)(.*?)#is", "$1", (string)$oCampo->NOME));
                 }
+                */
                 
                 //$nomeCampo = $this->getCamelMode((string)$oCampo->NOME); Alteracao SUDAM
                 $nomeCampo = (string)$oCampo->NOME;
@@ -595,16 +597,16 @@ class Geracao {
                     if($oCampo->CHAVE == "0"){
                         $objToRegInsert[] = "\t\t\$reg['".(string)$oCampo->NOME."'] = $objetoClasse"."->$nomeCampo;";
                     }
-                    $regToObj[]       = "\t\t$objetoClasse"."->$nomeCampo = \$reg['$nomeTabelaOriginal"."_".(string)$oCampo->NOME."'];";
+                    $regToObj[] = "\t\t$objetoClasse"."->$nomeCampo = \$reg['$nomeTabelaOriginal"."_".(string)$oCampo->NOME."'];";
                     
                 }
                 else{
-                    $objToReg[] = "\t\t\$o$objetoFKClasse = $objetoClasse"."->o$objetoFKClasse;\n\t\t\$reg['".(string)$oCampo->NOME."'] = \$o$objetoFKClasse"."->".(string)$oCampo->FKCAMPO.";";
+                    $objToReg[] = "\t\t\$o$objetoFK = $objetoClasse"."->o$objetoFK;\n\t\t\$reg['".(string)$oCampo->NOME."'] = \$o$objetoFK"."->".(string)$oCampo->FKCAMPO.";";
                     if($oCampo->CHAVE == "0"){
-                        $objToRegInsert[] = "\t\t\$o$objetoFKClasse = $objetoClasse"."->o$objetoFKClasse;\n\t\t\$reg['".(string)$oCampo->NOME."'] = \$o$objetoFKClasse"."->".(string)$oCampo->FKCAMPO.";";
+                        $objToRegInsert[] = "\t\t\$o$objetoFK = $objetoClasse"."->o$objetoFK;\n\t\t\$reg['".(string)$oCampo->NOME."'] = \$o$objetoFK"."->".(string)$oCampo->FKCAMPO.";";
                     }
-                    $x 			= $this->retornaArvore((string)$oCampo->FKTABELA, $objetoFKClasse);
-                    $regToObj[] = "\n$x\t\t$objetoClasse"."->o$objetoFKClasse = \$o$objetoFKClasse;";
+                    $aux 		= $this->retornaArvore($tabelaFK, $objetoFK);
+                    $regToObj[] = "\n$aux\t\t$objetoClasse"."->o$objetoFK = \$o$objetoFK;";
                 }
             }
 
@@ -850,9 +852,9 @@ class Geracao {
      * Retorna os atributos q serão usados no comando select de uma tabela
      * 
      * @param string $tabela
-     * @param int $i
+     * @param string $alias
      * @param boolean $desceNivel
-     * @return array[string]
+     * @return string[]
      */
     function getCamposSelect($tabela, $alias=null, $desceNivel=true){
         # Abre arquivo xml para navegacao
@@ -873,10 +875,11 @@ class Geracao {
                     //print_r($aCampo);
                     if($desceNivel){
                         if($oCampo->FKTABELA != ''){
-                        	if(preg_match("#^(?:id_?|cd_?)(.*?)#is", $oCampo->NOME)){
+                        	//TODO: Definir regras de geração de alias para tabelas que possuem mais de uma referência para uma mesma tabela
+                        	/*if(preg_match("#^(?:id_?|cd_?)(.*?)#is", $oCampo->NOME)){
                         		$alias = strtolower(preg_replace("#^(?:id_?|cd_?)(.*?)#is", "$1", $oCampo->NOME));
-                        	}
-                        	$aAux[$alias] = $oCampo->FKTABELA;
+                        	}*/
+                        	$aAux[(string)$oCampo->FKTABELA] = $oCampo->FKTABELA;
                         }
                     }
                     $alias = null;
@@ -885,6 +888,8 @@ class Geracao {
 				continue;
             }
         }
+        
+        //Util::trace($aAux);
         
         // ========= Tabelas_FK =======
         if(count($aAux) > 0){
@@ -954,8 +959,8 @@ class Geracao {
      * Retorna arvore de objetos de uma tabela. Método usado na geracao de Classes Mapeamento
      *
      * @param string $tabelaRaiz
-     * @param int $key
      * @param string $objetoFK
+     * @param int $key
      * @return string[] 
      */
     function retornaArvore($tabelaRaiz, $objetoFK, $key = 0){
@@ -986,7 +991,7 @@ class Geracao {
 
                 # monta parametros a serem substituidos posteriormente
                 if((string)$oCampo->FKTABELA == '')
-                    $resultado[] = "\t\t$objetoClasse"."->$nomeCampo = \$reg['".strtolower($objetoFK)."_".(string)$oCampo->NOME."'];";
+                    $resultado[] = "\t\t$objetoClasse"."->$nomeCampo = \$reg['$tabelaRaiz"."_".(string)$oCampo->NOME."'];";
                 //else
                     //$resultado[] = $this->retornaArvore((string)$oCampo->FKTABELA, 0)."\t\t$objetoClasse"."->o$nomeFKClasse = \$o$nomeFKClasse;";
             }
