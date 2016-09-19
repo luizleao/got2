@@ -147,7 +147,8 @@ $(document).ready(function(){
      * 
      * @author luizleao
      */
-    $("ul.dropdown-menu > li > a#btnGerarArtefatos").click(function () {
+    $("a#btnGerarArtefatos").click(function () {
+    //$("ul.dropdown-menu > li > a#btnGerarArtefatos").click(function () {
          $.ajax({
             url       : 'index.php?acao=gerar',
             type      : 'post',
@@ -185,8 +186,11 @@ $(document).ready(function(){
      * 
      * @author luizleao
      */
-    $("ul.dropdown-menu > li > a#btnExcluirXML").click(function () {
-         $.ajax({
+    $("a#btnExcluirXML").click(function () {
+    	
+    //$("ul.dropdown-menu > li > a#btnExcluirXML").click(function () {
+        /* 
+    	$.ajax({
             url       : 'index.php?acao=excluirXML',
             type      : 'post',
             data      : 'xml='+$(this).data("xml"),
@@ -213,6 +217,37 @@ $(document).ready(function(){
         });
         $('#modalResposta').on('shown.bs.modal', function (){
             $('#modalResposta').find('#btnFechar').focus();
+        });
+        */
+    	arquivoXml = $(this).data("xml");
+    	$('#modalExcluir').modal('show');
+        $('#modalExcluir').find('.modal-body').html('Deseja excluir o arquivo "'+$(this).data("xml")+'.xml"?');
+
+        $('#btnSim').click(function () {
+            $.ajax({
+            	url       : 'index.php?acao=excluirXML',
+                type      : 'post',
+                data      : 'xml='+arquivoXml,
+                dataType  : 'html',
+                timeout    : tempoTimeout,
+                beforeSend: function(){
+                    //$('#btnGerarArtefatos').button('loading');
+                },
+                success    : function(retorno){
+                	//alert(retorno);
+                    $('#modalExcluir').modal('hide');
+                    $('#modalResposta').find('.modal-body').html((retorno !== '' && retorno !== '1') ? '<img src="img/ico_error.png" /> '+retorno : '<img src="img/ico_success.png" /> XML excluido com sucesso');
+                    $('#modalResposta').modal('show');
+                    $('#modalResposta').on('hide.bs.modal', function () {
+                    	window.location = './';
+                    });
+                },
+                error	   : function(retorno){
+                    $('#modalExcluir').modal('hide');
+                    $('#modalResposta').find('.modal-body').html('<img src="img/ico_error.png" /> ERRO: '+retorno);
+                    $('#modalResposta').modal('show');
+                }
+            });
         });
     });
 });

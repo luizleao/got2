@@ -76,45 +76,41 @@ switch ($_REQUEST['acao']) {
                             <span class="label label-info">Bases de Dados Mapeadas</span>
                         </p>
                         <div class="row">
-                        	<table class="table table-striped table-condensed">
-                        		<thead>
-                        			<tr>
-                        				<th></th>
-                        				<th>Ver Site</th>
-                        				<th>Ver XML</th>
-                        				<th>Excluir</th>
-                        				<th>Bootstrap2</th>
-                        				<th>Bootstrap3</th>
-                        			</tr>
-                        		</thead>
-                        		<tbody>
 <?php
 //Util::trace($aDiretorioXML);
 $i=1;
 foreach ($aDiretorioXML as $xml) {
 ?>
-									<tr>
-										<td><?=ucfirst(utf8_encode($xml))?></td>
-										<td>
+<table class="">
+	
+</table>
+                            <div class="col-lg-3 <?=($i%3==0) ? "col-lg-offset-3": ""?>center-block">
+                                <div class="btn-group dropup">
+                                    <button class="btn btn-info dropdown-toggle" data-toggle="dropdown" data-loading-text="loading...">
+                                        <span class="glyphicon glyphicon-folder-open"></span> <?=ucfirst(utf8_encode($xml))?> <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
 <?php 
     if(file_exists(dirname(__FILE__)."/geradas/".utf8_encode($xml))){
 ?>
-                                            <a class="btn btn-default btn-xs" href="geradas/<?=$xml?>" target="_blank"><i class="glyphicon glyphicon-home"></i></a>
+                                        <li>
+                                            <a href="geradas/<?=$xml?>" target="_blank"><i class="glyphicon glyphicon-home"></i> Visualizar Página</a>
+                                        </li>
 <?php
         $i++;
     }
 ?>
-										</td>
-										<td><a class="btn btn-default btn-xs" href="xml/<?=$xml?>.xml?" target="_blank"><i class="glyphicon glyphicon-tag"></i></a></td>
-										<td><a class="btn btn-default btn-xs" href="#" id="btnExcluirXML" data-xml="<?=$xml?>"><i class="glyphicon glyphicon-trash"></i></a></td>
-										<td><a class="btn btn-default btn-xs" href="#" id="btnGerarArtefatos" data-xml="<?=$xml?>" data-gui="bootstrap2"><i class="glyphicon glyphicon-wrench"></i></a></td>
-										<td><a class="btn btn-default btn-xs" href="#" id="btnGerarArtefatos" data-xml="<?=$xml?>" data-gui="bootstrap3"><i class="glyphicon glyphicon-wrench"></i></a></td>
-									</tr>
+                                        <li><a href="xml/<?=$xml?>.xml?" target="_blank"><i class="glyphicon glyphicon-chevron-right"></i> Visualizar XML</a></li>
+                                        <li><a href="#" id="btnExcluirXML" data-xml="<?=$xml?>"><i class="glyphicon glyphicon-trash"></i> Excluir XML</a></li>
+                                        <li class="divider"></li>
+                                        <li><a href="#" id="btnGerarArtefatos" data-xml="<?=$xml?>" data-gui="bootstrap2"><i class="glyphicon glyphicon-wrench"></i> Gerar Artefatos - Bootstrap 2</a></li>
+                                        <li><a href="#" id="btnGerarArtefatos" data-xml="<?=$xml?>" data-gui="bootstrap3"><i class="glyphicon glyphicon-wrench"></i> Gerar Artefatos - Bootstrap 3</a></li>
+                                    </ul>
+                                </div>
+                            </div>
 <?php
 }
 ?>
-								</tbody>
-							</table>
                         </div>
                     </div>
                 </div>

@@ -1,9 +1,10 @@
 <?php 
 $textoHora = ($hora) ? "%d/%m/%Y %H:%M:%S" : "%d/%m/%Y";
+$size = ($hora) ? 21 : 10;
 ?>
 <div class="row">
     <div class="col-md-10">
-        <input name="<?=$nomeCampo;?>" value="<?=$valorInicial?>" type="text" id="<?=$nomeCampo;?>" size="18" readonly="readonly" <?=$complemento?> class="form-control" />
+        <input name="<?=$nomeCampo;?>" value="<?=$valorInicial?>" type="text" id="<?=$nomeCampo;?>" size="<?=$size?>" class="form-control" <?=$complemento?> />
     </div>
     <div class="col-md-2">    
         <img src="img/ico_calendar.png" id="btnData<?=$nomeCampo;?>" style="cursor: pointer; border-width: 0px" title="Escolha a data" />
