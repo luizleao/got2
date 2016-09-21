@@ -566,17 +566,19 @@ function geraClassesMapeamento(){
             # Recupera o nome da tabela e gera o nome da classe
             $nomeTabela         = ucfirst((string)$aTabela['NOME']);
             $nomeTabelaOriginal = (string)$aTabela['NOME'];
-
+            
             $nomeClasse   = ucfirst($this->getCamelMode($nomeTabela));
             $objetoClasse = "\$o$nomeClasse";
             # Varre a estrutura dos campos da tabela em questao
-            $objToReg = $regToObj = $objToRegInsert = array();
+            $aTabelaCampos = $objToReg = $regToObj = $objToRegInsert = array();
 
+            $aTabelaCampos = $this->getCamposArray($nomeTabelaOriginal);
+            
             foreach($aTabela as $oCampo){
                 # Processa nome original da tabela estrangeira
-                $objetoFK = ucfirst($this->getCamelMode((string)$oCampo->FKTABELA));
-                $tabelaFK = (string)$oCampo->FKTABELA;
-
+                $objetoFK 	   = ucfirst($this->getCamelMode((string)$oCampo->FKTABELA));
+                $tabelaFK 	   = (string)$oCampo->FKTABELA;
+                
                 # Testando nova implementacao - Tirar caso ocorrer erro
                 /*
                 if($nomeFKClasse == $nomeClasse)
@@ -609,13 +611,18 @@ function geraClassesMapeamento(){
                     $regToObj[] = "\n$aux\t\t$objetoClasse"."->o$objetoFK = \$o$objetoFK;";
                 }
             }
-
+	
             # Monta demais valores a serem substituidos
             $objToReg       = join($objToReg,"\n");
             $objToRegInsert = join($objToRegInsert,"\n");
             $regToObj       = join($regToObj,"\n");
 
             # Substitui todas os parametros pelas variaveis ja processadas
+            
+                        
+            $sTabelaCampos = $this->converteTabelaCamposToString($aTabelaCampos);
+            
+            $copiaModelo = str_replace('%%ARRAY_CAMPOS%%',      $sTabelaCampos,	$copiaModelo);
             $copiaModelo = str_replace('%%NOME_CLASSE%%',       $nomeClasse,    $copiaModelo);
             $copiaModelo = str_replace('%%OBJETO_CLASSE%%',     $objetoClasse,  $copiaModelo);
             $copiaModelo = str_replace('%%OBJ_TO_REG%%',        $objToReg,      $copiaModelo);
@@ -889,6 +896,7 @@ function geraClassesMapeamento(){
             }
         }
         
+        
         //Util::trace($aAux);
         
         // ========= Tabelas_FK =======
@@ -908,7 +916,72 @@ function geraClassesMapeamento(){
 
         return $aCampo;
     }
+    
+    /**
+     * Retorna os atributos q serão usados no comando select de uma tabela
+     *
+     * @param string $tabela
+     * @param string $alias
+     * @param boolean $desceNivel
+     * @return string[]
+     */
+    function getCamposArray($tabela, $alias=null, $desceNivel=true){
+    	# Abre arquivo xml para navegacao
+    	$aBanco = simplexml_load_string($this->xml);
+    	$aCampo = $aAux = array();
+    	$tabelaAtual = $tabela;
+    	foreach($aBanco as $aTabela){
+    		if((string)$aTabela['NOME'] == $tabela){
+    			//print_r($aTabela);
+    			foreach($aTabela as $oCampo){
+    				//print_r($oCampo);
+    				if($alias == null || $alias == ''){
+    					$alias = $tabela;
+    				}
+    				 
+    				$aCampo[(string)$alias][] = (string)$oCampo->NOME;
+    				 
+    				//print_r($aCampo);
+    				if($desceNivel){
+    					if($oCampo->FKTABELA != ''){
+    						//TODO: Definir regras de geração de alias para tabelas que possuem mais de uma referência para uma mesma tabela
+    						/*if(preg_match("#^(?:id_?|cd_?)(.*?)#is", $oCampo->NOME)){
+    						 $alias = strtolower(preg_replace("#^(?:id_?|cd_?)(.*?)#is", "$1", $oCampo->NOME));
+    						 }*/
+    						$aAux[(string)$oCampo->FKTABELA] = (string)$oCampo->FKTABELA;
+    					}
+    				}
+    				$alias = null;
+    			}
+    		} else {
+    			continue;
+    		}
+    	}
+    
+    	// ========= Tabelas_FK =======
+    	if(count($aAux) > 0){
+    		foreach($aAux as $alias => $tab){
+    			$aCampo = array_merge($aCampo, $this->getCamposArray($tab, $alias, false));
+    		}
+    	}
+    
+    	return $aCampo;
+    }
 
+    
+    function converteTabelaCamposToString($array){
+    	foreach($array as $c1=>$aValor){
+    		foreach($aValor as $c2=>$v){
+    			$array[$c1][$c2] = "'$v'";
+    		}
+    	}
+    	
+    	foreach($array as $c=>$aValor){
+    		$sAux[] = "'{$c}' => [".join($aValor, ", \n")."]";
+    	}
+    	return "[".join($sAux,", \n")."]";
+    }
+    
     /**
      * Retorna as tabelas 
      *
