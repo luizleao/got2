@@ -13,6 +13,11 @@ switch($_REQUEST['sgbd']){
         $oConexao = new ConexaoSqlServer('Vazia');
         $oConexao->set_conexao($_REQUEST['host'], $_REQUEST['login'], $_REQUEST['senha']);
     break;
+    
+    case "postgre":
+    	$oConexao = new ConexaoPostgre('Vazia');
+    	$oConexao->set_conexao($_REQUEST['host'], $_REQUEST['login'], $_REQUEST['senha']);
+    break;
 }
 
 echo json_encode($oConexao->databases());

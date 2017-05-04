@@ -72,6 +72,7 @@ class Controle{
      * @return object
      */
     function autenticaUsuario($login, $senha){
+/*    
         $oUsuarioBD = new UsuarioBD();
         $oSeguranca = $this->get_seguranca();
         $oUsuario = $oUsuarioBD->autenticaUsuario($login, $senha);
@@ -92,6 +93,7 @@ class Controle{
             return false;
         }
         unset($oUsuario);
+*/        
         return true;
     }
     
@@ -115,15 +117,15 @@ class Controle{
             ldap_set_option($ad, LDAP_OPT_REFERRALS, 0);
 
             // Bind to the directory server.
-            $bd = ldap_bind($ad, $aConfig['dominio']."\\".$login, $senha) or die("Não foi possível pesquisa no AD.");    
+            $bd = @ldap_bind($ad, $aConfig['dominio']."\\".$login, $senha) or die("Não foi possível pesquisa no AD.");    
             if($bd){
-                /* DEFINE O DN DO SERVIDOR LDAP */     
+                // DEFINE O DN DO SERVIDOR LDAP     
                 $dn = "ou={$aConfig['dominio']}, dc={$aConfig['dominio']}, dc={$aConfig['dc']}";
                 $filter="(|(member=$login)(sAMAccountName=$login))";
                 //$filter = "(|(sn=$usuario*)(givenname=$usuario*)(uid=$usuario))";
-                /* EXECUTA O FILTRO NO SERVIDOR LDAP */     
+                // EXECUTA O FILTRO NO SERVIDOR LDAP     
                 $sr = ldap_search($ad, $dn, $filter);        
-                /* PEGA AS INFORMAÇÕES QUE O FILTRO RETORNOU */     
+                // PEGA AS INFORMAÇÕES QUE O FILTRO RETORNOU     
                 $info = ldap_get_entries($ad, $sr);	
 
                 $_SESSION['usuarioAtual']['login'] 	= $info[0]['samaccountname'][0];
@@ -147,6 +149,7 @@ class Controle{
             $this->msg = $e->getMessage();
             return false;
         }
+		return true;        
     }
 // ============ Funcoes de Cadastro ==================
 	

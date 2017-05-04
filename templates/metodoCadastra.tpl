@@ -2,11 +2,15 @@
 	 * Cadastrar %%NOME_CLASS%%
 	 *
 	 * @access public
+	 * @param $post
 	 * @return bool
 	 */
-	public function cadastra%%NOME_CLASS%%(){
+	public function cadastra%%NOME_CLASS%%($post = NULL){
 		// recebe dados do formulario
-		$post = DadosFormulario::formularioCadastro%%NOME_CLASS%%();
+		if($post == NULL){
+			$post = DadosFormulario::formularioCadastro%%NOME_CLASS%%();
+		}
+		
 		$_SESSION["post"] = $post;
 		// valida dados do formulario
 		$oValidador = new ValidadorFormulario();
@@ -15,7 +19,7 @@
 			return false;
 		}
 		// cria variaveis para validacao com as chaves do array
-		foreach($post as $i => $v) $$i = $v;
+		foreach($post as $i => $v) $$i = utf8_encode($v);
 		// cria objeto para grava-lo no BD
 		%%MONTA_OBJETO%%
 		%%MONTA_OBJETOBD%%

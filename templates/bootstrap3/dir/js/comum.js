@@ -10,24 +10,20 @@ function print_r(oForm){
     params[j++] = 'Array(\n';
     for(var i=0; i<oForm.elements.length; i++){
         switch(oForm.elements[i].type){
-            case "text":
-            case "hidden":
-            case "password":
-            case "textarea":
-            case "select-one":
-                params[j++] = '\t['+ oForm.elements[i].name + '] => ' + escape(oForm.elements[i].value) + ',\n';
-            break;
-            case "radio":
-            case "checkbox":
-                if(oForm.elements[i].checked) 
-                    params[j++] = '\t['+ oForm.elements[i].name + '] => ' + escape(oForm.elements[i].value) + ',\n';
-            break;
-            case "select-multiple":
-                for(var z=0; z<oForm.elements[i].options.length; z++){
-                    if(oForm.elements[i].options[z].selected) 
-                        params[j++] = '\t['+ oForm.elements[i].name + '] => ' + escape(oForm.elements[i].options[z].value) + ',\n';
-                }
-            break;
+	        case "radio":
+	        case "checkbox":
+	            if(oForm.elements[i].checked) 
+	                params[j++] = oForm.elements[i].name + '=' + valor;
+	        break;
+	        case "select-multiple":
+	            for(var z=0; z<oForm.elements[i].options.length; z++){
+	                if(oForm.elements[i].options[z].selected) 
+	                    params[j++] = oForm.elements[i].name + '=' + escape(oForm.elements[i].options[z].value);
+	            }
+	        break;
+	        default:
+	            params[j++] = oForm.elements[i].name + '=' + valor;
+	        break;
         }
     }
     params[j++] = ')';

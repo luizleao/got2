@@ -5,3 +5,8 @@
 <script type="text/javascript" src="js/crud.js"></script>
 <script type="text/javascript" src="js/jscalendar/js/jscal2.js"></script>
 <script type="text/javascript" src="js/jscalendar/js/lang/pt.js"></script>
+
+<script type="text/javascript" src="js/angular.1.3.1.min.js"></script>
+<script type="text/javascript" src="js/angular-resource.1.3.1.min.js"></script>
+
+<script type="text/javascript" src="js/controllers/app.js"></script>

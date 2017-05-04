@@ -43,7 +43,7 @@ class ConexaoPostgre implements IConexao {
             case 'Vazia':
             break;
             default:
-                    die("Servidor $servidor inexistente");
+				die("Servidor $servidor inexistente");
             break;
         }
     }
@@ -57,8 +57,13 @@ class ConexaoPostgre implements IConexao {
      * @param string $bd Banco de dados selecionado
      * @return void
      */
-    function set_conexao($host,$user,$senha,$bd){
-        $this->conexao = @pg_connect("host=$host dbname=$bd user=$user password=$senha") or die (pg_last_error());
+    function set_conexao($host,$user,$senha,$bd=NULL){
+    	
+    	$conn = "host=$host user=$user password=$senha";
+    	if($bd != "")
+    		$conn .= " dbname=$bd";
+    	
+        $this->conexao = pg_connect($conn) or die(pg_last_error());
     }
     
     /**
@@ -163,7 +168,7 @@ class ConexaoPostgre implements IConexao {
      * @return string[]
      */
     function databases(){
-        $this->execute("SHOW DATABASES");
+        $this->execute("SELECT datname FROM pg_database WHERE datistemplate = false;");
         $aDatabases = array();
         while ($aReg = $this->fetchRow()){
             $aDatabases[] = $aReg[0];
@@ -178,7 +183,42 @@ class ConexaoPostgre implements IConexao {
      * @return string[]
      */
     public function getAllColunasTabela($tabela) {
-        
+    	$sql = "SELECT 
+					a.attname as Field, 
+					format_type(t.oid, null) as Type,
+					a.attnotnull as Null,
+					NULL as Key,
+					NULL as Default,
+					NULL as Extra
+				--	n.nspname as esquema, 
+				--	c.relname as tabela, 
+				--	c.*
+				FROM 
+					pg_namespace n 
+				inner join pg_class c
+					on (n.oid = c.relnamespace)
+				inner join pg_attribute a
+					on (a.attrelid = c.oid)
+				inner join pg_type t
+					on (a.atttypid = t.oid)
+					-- pg_index i
+				 WHERE 
+					c.relkind = 'r'     -- no indices
+					and n.nspname not like 'pg\\_%' -- no catalogs
+					and n.nspname != 'information_schema' -- no information_schema
+					and a.attnum > 0        -- no system att's
+					and not a.attisdropped   -- no dropped columns
+					and n.nspname = 'public'
+					and c.relname = '$tabela'
+				 ORDER BY 
+					nspname, relname, attname;";
+    	$this->execute($sql);
+    	
+    	$aDados = array();
+    	while ($aReg = $this->fetchReg()){
+    		$aDados[] = $aReg;
+    	}
+    	return $aDados;
     }
     
     /**
@@ -187,7 +227,20 @@ class ConexaoPostgre implements IConexao {
      * @return string[]
      */
     public function getAllTabelas() {
-        
+    	$sql = "select
+   					table_name,
+   					table_schema
+				from
+					INFORMATION_SCHEMA.TABLES
+				where
+					TABLE_TYPE = 'BASE TABLE'";
+    	
+    	$this->execute($sql);
+    	$aDados = array();
+    	while ($aReg = $this->fetchReg()){
+    		$aDados[] = $aReg;
+    	}
+    	return $aDados;
     }
     
     /**
@@ -199,6 +252,41 @@ class ConexaoPostgre implements IConexao {
      * @return string[]
      */
     public function dadosForeignKeyColuna($db, $tabela, $coluna) {
-        
+    	$sql = "SELECT
+	/*				n.nspname AS esquema_de,
+					nf.nspname AS esquema_para,
+					ct.conname AS chave,
+					pg_get_constraintdef(ct.oid) AS criar_sql,			
+					cl.relname AS tabela_de,
+					a.attname AS coluna_de,
+	*/
+					clf.relname AS tabela_para,
+					af.attname AS coluna_para
+				
+				FROM 
+					pg_catalog.pg_attribute a
+				JOIN pg_catalog.pg_class cl 
+					ON (a.attrelid = cl.oid 
+						AND cl.relkind = 'r')
+				JOIN pg_catalog.pg_namespace n 
+					ON (n.oid = cl.relnamespace)
+				JOIN pg_catalog.pg_constraint ct 
+					ON (a.attrelid = ct.conrelid 
+						AND ct.confrelid != 0 
+						AND ct.conkey[1] = a.attnum)
+				JOIN pg_catalog.pg_class clf 
+					ON (ct.confrelid = clf.oid 
+						AND clf.relkind = 'r')
+				JOIN pg_catalog.pg_namespace nf 
+					ON (nf.oid = clf.relnamespace)
+				JOIN pg_catalog.pg_attribute af 
+					ON (af.attrelid = ct.confrelid 
+						AND af.attnum = ct.confkey[1])
+				where
+					cl.relname 	  = '$tabela'
+					and a.attname = '$coluna'";
+    	 
+    	$this->execute($sql);
+    	return $this->fetchReg();
     }
 }

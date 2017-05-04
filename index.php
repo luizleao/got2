@@ -42,9 +42,10 @@ switch ($_REQUEST['acao']) {
                                     <option value="">Selecione</option>
                                     <option value="mysql">MySQL</option>
                                     <option value="sqlserver">SQL Server</option>
+                                    <option value="postgre">PostgreSQL</option>
                                 </select>
                         </div>
-                         <div class="form-group">
+                        <div class="form-group">
                             <label for="host">Host</label>
                             <input type="text" id="host" name="host" value="" class="form-control" />
                         </div>
@@ -83,8 +84,10 @@ switch ($_REQUEST['acao']) {
                         				<th>Ver Site</th>
                         				<th>Ver XML</th>
                         				<th>Excluir</th>
-                        				<th>Bootstrap2</th>
-                        				<th>Bootstrap3</th>
+                        				<th>Bootstrap 2</th>
+                        				<th>Bootstrap 3</th>
+                        				<th>Bootstrap 4</th>
+                        				<th>Materialize</th>
                         			</tr>
                         		</thead>
                         		<tbody>
@@ -99,7 +102,7 @@ foreach ($aDiretorioXML as $xml) {
 <?php 
     if(file_exists(dirname(__FILE__)."/geradas/".utf8_encode($xml))){
 ?>
-                                            <a class="btn btn-default btn-xs" href="geradas/<?=$xml?>" target="_blank"><i class="glyphicon glyphicon-home"></i></a>
+                                            <a class="btn btn-default btn-xs" href="geradas/<?=$xml?>/" target="_blank"><i class="glyphicon glyphicon-home"></i></a>
 <?php
         $i++;
     }
@@ -109,6 +112,8 @@ foreach ($aDiretorioXML as $xml) {
 										<td><a class="btn btn-default btn-xs" href="#" id="btnExcluirXML" data-xml="<?=$xml?>"><i class="glyphicon glyphicon-trash"></i></a></td>
 										<td><a class="btn btn-default btn-xs" href="#" id="btnGerarArtefatos" data-xml="<?=$xml?>" data-gui="bootstrap2"><i class="glyphicon glyphicon-wrench"></i></a></td>
 										<td><a class="btn btn-default btn-xs" href="#" id="btnGerarArtefatos" data-xml="<?=$xml?>" data-gui="bootstrap3"><i class="glyphicon glyphicon-wrench"></i></a></td>
+										<td><a class="btn btn-default btn-xs" href="#" id="btnGerarArtefatos" data-xml="<?=$xml?>" data-gui="bootstrap4"><i class="glyphicon glyphicon-wrench"></i></a></td>
+										<td><a class="btn btn-default btn-xs" href="#" id="btnGerarArtefatos" data-xml="<?=$xml?>" data-gui="materialize"><i class="glyphicon glyphicon-wrench"></i></a></td>
 									</tr>
 <?php
 }

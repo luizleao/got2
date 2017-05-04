@@ -6,7 +6,7 @@
 	 */
 	public function altera%%NOME_CLASS%%(){
 		// recebe dados do formulario
-		$post = DadosFormulario::formularioCadastro%%NOME_CLASS%%(2);		
+		$post = DadosFormulario::formularioCadastro%%NOME_CLASS%%(NULL, 2);		
 		// valida dados do formulario
 		$oValidador = new ValidadorFormulario();
 		if(!$oValidador->validaFormularioCadastro%%NOME_CLASS%%($post,2)){

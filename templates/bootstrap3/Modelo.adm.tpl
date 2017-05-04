@@ -14,9 +14,9 @@ if($_REQUEST['acao'] == 'excluir'){
 <head>
 	<?php require_once("includes/header.php");?>
 </head>
-<body>
+<body ng-app="app">
 	<?php require_once("includes/modals.php");?>
-	<div class="container">
+	<div class="container" ng-controller="%%NOME_CLASSE%%Controller">
 		<?php require_once("includes/titulo.php");?>
 		<?php require_once("includes/menu.php");?>
 		<ol class="breadcrumb">
@@ -27,7 +27,7 @@ if($_REQUEST['acao'] == 'excluir'){
 if($oControle->msg != "")
 	$oControle->componenteMsg($oControle->msg, "erro");
 ?>
-		<table class="table table-striped">
+		<table class="table table-condensed table-striped">
 <?php
 if($a%%NOME_CLASSE%%){
 ?>	
@@ -49,21 +49,19 @@ if($a%%NOME_CLASSE%%){
 				</tr>
 <?php
 	}
-?>
-			</tbody>
-<?php
 }
 else{
 ?>
-			<tr>
-				<td colspan="%%NUMERO_COLUNAS%%" align="center">N&atilde;o h&aacute; registros cadastrados!</td>
-			</tr>
+				<tr>
+					<td colspan="%%NUMERO_COLUNAS%%" align="center">N&atilde;o h&aacute; registros cadastrados!</td>
+				</tr>
 <?php
 }
 ?>
-			<tr>
-				<td colspan="%%NUMERO_COLUNAS%%"><a href="cad%%NOME_CLASSE%%.php" class="btn btn-primary btn-sm" title="Cadastrar"><i class="glyphicon glyphicon-plus"></i></a></td>
-			</tr>
+				<tr>
+					<td colspan="%%NUMERO_COLUNAS%%"><a href="cad%%NOME_CLASSE%%.php" class="btn btn-primary btn-xs" title="Cadastrar"><i class="glyphicon glyphicon-plus"></i></a></td>
+				</tr>
+			</tbody>
 		</table>
 		<input type="hidden" name="classe" id="classe" value="%%NOME_CLASSE%%" />
 	</div>

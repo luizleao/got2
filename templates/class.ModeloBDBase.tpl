@@ -97,7 +97,7 @@ class %%NOME_CLASSE%%BDBase {
 	function get(%%LISTA_CHAVES%%){
         $sql = "
                 select 
-					%%COLUNAS%% 
+					".%%NOME_CLASSE%%MAP::dataToSelect()." 
                 from
 					%%TABELA_JOIN%% 
                 where
@@ -121,7 +121,7 @@ class %%NOME_CLASSE%%BDBase {
     function getAll($aFiltro = NULL, $aOrdenacao = NULL){
         $sql = "
 				select
-					%%COLUNAS%% 
+					".%%NOME_CLASSE%%MAP::dataToSelect()." 
 				from
 					%%TABELA_JOIN%%";
         
@@ -170,11 +170,12 @@ class %%NOME_CLASSE%%BDBase {
 
         $sql = "
 				select
-					%%COLUNAS%% 
+					".%%NOME_CLASSE%%MAP::dataToSelect()." 
 				from
 					%%TABELA_JOIN%%
                 where
-					%%CHAVES_WHERE_CONS%%";
+					".%%NOME_CLASSE%%MAP::filterLike($valor);
+					
         //print "<pre>$sql</pre>";
         try{
             $this->oConexao->execute($sql);

@@ -42,8 +42,8 @@ class Form {
         
         // Analisado o Tipo de Dados
         // Moeda
-        }elseif (preg_match("#(?:valor|pre[cç]o|moeda|va?l_|desconto|despesa)#is", $campo)){
-            if(preg_match("#(?:money|float|double|number)#is", $tipoDado)){
+        } elseif (preg_match("#(?:valor|pre[cç]o|moeda|va?l_|desconto|despesa)#is", $campo)){
+            if(preg_match("#(?:money|float|double|number|decimal)#is", $tipoDado)){
                 $modelo = Util::getConteudoTemplate($gui.'/Modelo.Form.Moeda.tpl');
             
                 $modelo = str_replace('%%CAMPO%%', $campo, $modelo);
@@ -226,13 +226,13 @@ class Form {
                 break;
             case 'CAD':
                 $retorno = "
-                            <label for=\"$campo\">$label</label>
-                            <?php \$oControle" . "->componenteCalendario('$campo')?>";
+                            \t<label for=\"$campo\">$label</label>
+                            \t<?php \$oControle" . "->componenteCalendario('$campo')?>";
                 break;
             case 'EDIT':
                 $retorno = "
-                            <label for=\"$campo\">$label</label>
-                            <?php \$oControle" . "->componenteCalendario('$campo', Util::formataDataBancoForm($obj" . "->$campo))?>";
+                            \t<label for=\"$campo\">$label</label>
+                            \t<?php \$oControle" . "->componenteCalendario('$campo', Util::formataDataBancoForm($obj" . "->$campo))?>";
                 break;
         }
         return $retorno;
@@ -254,13 +254,13 @@ class Form {
                 break;
             case 'CAD':
                 $retorno = "
-                            <label for=\"$campo\">$label</label>
-                            <?php \$oControle" . "->componenteCalendario('$campo', NULL, NULL, true)?>";
+                            \t<label for=\"$campo\">$label</label>
+                            \t<?php \$oControle" . "->componenteCalendario('$campo', NULL, NULL, true)?>";
                 break;
             case 'EDIT':
                 $retorno = "
-                            <label for=\"$campo\">$label</label>
-                            <?php \$oControle" . "->componenteCalendario('$campo', Util::formataDataHoraBancoForm($obj" . "->$campo), NULL, true)?>";
+                            \t<label for=\"$campo\">$label</label>
+                            \t<?php \$oControle" . "->componenteCalendario('$campo', Util::formataDataHoraBancoForm($obj" . "->$campo), NULL, true)?>";
                 break;
         }
         return $retorno;

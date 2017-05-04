@@ -1,21 +1,8 @@
 $(document).ready(function(){
-    var dadosBranco = {
-        host:  "",
-        login: "",
-        senha: ""
-    };
-    
-    var dadosMysql = {
-        host: "localhost",
-        login: "root",
-        senha: "root"
-    };
-    
-    var dadosSqlServer = {
-        host:  "172.16.107.88",
-        login: "sa",
-        senha: "cgti*2013"
-    };
+    var dadosBranco    = {host:"", login:"", senha: ""};   
+    var dadosMysql 	   = {host:"localhost", login:"root", senha:"root"};    
+    var dadosSqlServer = {host:"172.16.107.88", login:"sa", senha:"cgti*2013"};    
+    var dadosPostgre   = {host:"localhost", login:"postgres", senha:"postgres"};
     
     var classe       = $(".active > span").html();
     var tempoTimeout = 1000000;
@@ -31,6 +18,7 @@ $(document).ready(function(){
         switch($("#sgbd").val()){
             case "mysql":     objFormTemp = dadosMysql; break;
             case "sqlserver": objFormTemp = dadosSqlServer; break;
+            case "postgre":   objFormTemp = dadosPostgre; break;            
             default:          objFormTemp = dadosBranco; break;
         }
         

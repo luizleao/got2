@@ -14,9 +14,9 @@ $o%%NOME_CLASSE%% = $oControle->get%%NOME_CLASSE%%($_REQUEST['%%ID_PK%%']);
 <head>
     <?php require_once("includes/header.php");?>
 </head>
-<body>
+<body ng-app="app">
     <?php require_once("includes/modals.php");?>
-    <div class="container">
+    <div class="container" ng-controller="%%NOME_CLASSE%%Controller">
         <?php 
         require_once("includes/titulo.php"); 
         require_once("includes/menu.php"); 

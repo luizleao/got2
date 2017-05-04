@@ -193,13 +193,26 @@ class Util {
     }
 
     /**
-     * Formata o valor em moeda
+     * Formata o valor em moeda form
      * 
      * @param string $valor
      * @return float
      */
     static function formataMoeda($valor){
         return number_format($valor, 2, ",", ".");
+    }
+    
+    /**
+     * Formata o valor em moeda BD
+     *
+     * @param string $valor
+     * @return float
+     */
+    static function formataMoedaBanco($valor){
+    	$valor = str_replace(".", "", $valor);
+    	$valor = str_replace(",", ".", $valor);
+    	
+    	return $valor;
     }
     
     /**
@@ -469,5 +482,9 @@ class Util {
             print "Erro!! - ".$e->getMessage();
             return false;
         }
+    }
+    
+    static function limpaCampo($campo){
+    	return preg_replace("#[\.\-\(\)\s/]#", "", $campo);
     }
 }

@@ -13,9 +13,9 @@ if($_POST){
 <head>
 	<?php require_once("includes/header.php");?>
 </head>
-<body>
+<body ng-app="app">
 	<?php require_once("includes/modals.php");?>
-	<div class="container">
+	<div class="container" ng-controller="%%NOME_CLASSE%%Controller">
 		<?php 
 		require_once("includes/titulo.php"); 
 		require_once("includes/menu.php"); 

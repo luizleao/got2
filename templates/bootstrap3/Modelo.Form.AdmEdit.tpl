@@ -1,1 +1,1 @@
-<td><a class="btn btn-success btn-sm" href="edit%%CLASSE%%.php?%%ID_PK%%=<?=$o%%CLASSE%%->%%PK%%;?>" title="Editar"><i class="glyphicon glyphicon-edit"></i></a></td>
+<td><a class="btn btn-success btn-xs" href="edit%%CLASSE%%.php?%%ID_PK%%=<?=$o%%CLASSE%%->%%PK%%;?>" title="Editar"><i class="glyphicon glyphicon-edit"></i></a></td>

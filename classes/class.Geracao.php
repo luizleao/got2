@@ -256,8 +256,8 @@ class Geracao {
                 //$nomeCampo = $nomeCampoOriginal;
 
                 # monta parametros a serem substituidos posteriormente
-                $label = ($nomeFKClasse != '') ? ucfirst(strtolower($nomeFKClasse)) : ucfirst(str_replace($nomeClasse,"",$nomeCampoOriginal));;					
-                $camposForm[] = ((int)$oCampo->CHAVE == 1) ? "if(\$acao == 2){\n\t\t\tif(\$$nomeCampoOriginal == ''){\n\t\t\t\t\$this->msg = \"$label invalido!\";\n\t\t\t\treturn false;\n\t\t\t}\n\t\t}" : "if(\$$nomeCampoOriginal == ''){\n\t\t\t\$this->msg = \"$label invalido!\";\n\t\t\treturn false;\n\t\t}\t";
+                $label = ($nomeFKClasse != '') ? ucfirst(strtolower($nomeFKClasse)) : ucfirst(str_replace($nomeClasse,"",$nomeCampoOriginal));
+                $camposForm[] = ((int)$oCampo->CHAVE == 1) ? "if(\$acao == 2){\n\t\t\tif(\$$nomeCampoOriginal == ''){\n\t\t\t\t\$this->msg = \"$label inválido!\";\n\t\t\t\treturn false;\n\t\t\t}\n\t\t}" : "if(\$$nomeCampoOriginal == ''){\n\t\t\t\$this->msg = \"$label inválido!\";\n\t\t\treturn false;\n\t\t}\t";
             }
             # monta demais valores a serem substituidos
             $camposForm = join($camposForm,"\n\t\t");
@@ -310,22 +310,29 @@ class Geracao {
                 # monta parametros a serem substituidos posteriormente
                 switch ((string)$oCampo->TIPO) {
                     case 'date':
-                        $camposForm[] = "\$post[\"$nomeCampoOriginal\"] = Util::formataDataFormBanco(strip_tags(addslashes(trim(\$_REQUEST[\"$nomeCampoOriginal\"]))));";
+                        $camposForm[] = "\$post[\"$nomeCampoOriginal\"] = Util::formataDataFormBanco(strip_tags(addslashes(trim(\$post[\"$nomeCampoOriginal\"]))));";
                     break;
 
                     case 'datetime':
                     case 'timestamp':
-                        $camposForm[] = "\$post[\"$nomeCampoOriginal\"] = Util::formataDataHoraFormBanco(strip_tags(addslashes(trim(\$_REQUEST[\"$nomeCampoOriginal\"]))));";
+                        $camposForm[] = "\$post[\"$nomeCampoOriginal\"] = Util::formataDataHoraFormBanco(strip_tags(addslashes(trim(\$post[\"$nomeCampoOriginal\"]))));";
                     break;
 
                     default:
-                        if((int)$oCampo->CHAVE == 1)
-                            if((string)$aTabela['TIPO_TABELA'] != 'NORMAL')
-                                $camposForm[] = "\$post[\"$nomeCampoOriginal\"] = strip_tags(addslashes(trim(\$_REQUEST[\"$nomeCampoOriginal\"])));";
-                            else
-                                $camposForm[] = "if(\$acao == 2){\n\t\t\t\$post[\"$nomeCampoOriginal\"] = strip_tags(addslashes(trim(\$_REQUEST[\"$nomeCampoOriginal\"])));\n\t\t}";
-                        else
-                            $camposForm[] = "\$post[\"$nomeCampoOriginal\"] = strip_tags(addslashes(trim(\$_REQUEST[\"$nomeCampoOriginal\"])));";
+                    	if(preg_match("#decimal#i", $oCampo->TIPO)){
+                    		if(preg_match("#(?:preco|valor)#i", $oCampo->NOME)){
+                    			$camposForm[] = "\$post[\"$nomeCampoOriginal\"] = Util::formataMoedaBanco(strip_tags(addslashes(trim(\$post[\"$nomeCampoOriginal\"]))));";
+                    		}
+                    	} else {
+                    		
+	                        if((int)$oCampo->CHAVE == 1)
+	                            if((string)$aTabela['TIPO_TABELA'] != 'NORMAL')
+	                                $camposForm[] = "\$post[\"$nomeCampoOriginal\"] = strip_tags(addslashes(trim(\$post[\"$nomeCampoOriginal\"])));";
+	                            else
+	                                $camposForm[] = "if(\$acao == 2){\n\t\t\t\$post[\"$nomeCampoOriginal\"] = strip_tags(addslashes(trim(\$post[\"$nomeCampoOriginal\"])));\n\t\t}";
+	                        else
+	                            $camposForm[] = "\$post[\"$nomeCampoOriginal\"] = strip_tags(addslashes(trim(\$post[\"$nomeCampoOriginal\"])));";
+                    	}
                     break;
                 }
             }
@@ -389,6 +396,7 @@ class Geracao {
             $PK = $ID_PK = $label = $campoAdm = $componenteCad = $componenteEdit = NULL;
 
             foreach($aTabela as $oCampo){
+            	
                 $nomeFKClasse = ucfirst($this->getCamelMode((string)$oCampo->FKTABELA));
                 //$label        = ((string)$oCampo->FKCAMPO != '') ? ucfirst(preg_replace("#^(?:id_?|cd_?)(.*?)#is", "$1", (string)$oCampo->NOME)) : 
                 $label        = ((string)$oCampo->FKCAMPO != '') ? $nomeFKClasse :
@@ -451,12 +459,13 @@ class Geracao {
                                 $componenteEdit = (preg_match("#(?:senha|password)#is", $oCampo->NOME))   ? 
                                                                   Form::geraPassword($objetoClasse, (string)$oCampo->NOME, $label, 'EDIT', $this->gui) :
                                                                   Form::geraInput($objetoClasse,    (string)$oCampo->NOME, $label, 'EDIT', (string)$oCampo->TIPO, $this->gui);
+                                //Util::trace($oCampo);
                             }
                             # ============ Campo Enum =============
                             if(preg_match("#enum#i", (string)$oCampo->TIPO)){
                                 $componenteCad  = Form::geraEnum($objetoClasse, (string)$oCampo->NOME, (string)$oCampo->TIPO, $label, 'CAD', $this->gui);
                                 $componenteEdit = Form::geraEnum($objetoClasse, (string)$oCampo->NOME, (string)$oCampo->TIPO, $label, 'EDIT', $this->gui);	
-                            } 
+                            }
                         break;
                     }
                 }

@@ -13,7 +13,10 @@ $oControle = new Controle();
         <?php 
         require_once("includes/titulo.php");
         require_once("includes/menu.php");
+        
+        Util::trace($_SESSION['usuarioAtual']);
         ?>
+        
     </div>
     <?php require_once("includes/footer.php")?>
 </body>

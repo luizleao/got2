@@ -2,6 +2,7 @@
 require_once(dirname(__FILE__)."/class.IConexao.php");
 require_once(dirname(__FILE__)."/class.Conexao.MySql.php");
 require_once(dirname(__FILE__)."/class.Conexao.SqlServer.php");
+require_once(dirname(__FILE__)."/class.Conexao.Postgre.php");
 //require_once(dirname(__FILE__)."/class.Conexao.PDO.php");
 require_once(dirname(__FILE__)."/class.DiretorioXML.php");
 require_once(dirname(__FILE__)."/class.Geracao.php");

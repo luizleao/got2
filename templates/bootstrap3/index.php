@@ -13,9 +13,7 @@ session_destroy();
     <div id="wrap">
         <div class="container">
             <form class="form-signin" onsubmit="return false;">
-                <img src="img/logo.png" />
-                <h4 class="form-signin-heading">%%PROJETO%%</h4>
-                <h6>Sistema de Gestão de %%PROJETO%%</h6>
+                <?php require_once("includes/titulo.php");?>
                 <input type="text" class="form-control" id="login" name="login" autofocus="autofocus" placeholder="Login" />
                 <input type="password" class="form-control" id="senha" name="senha" placeholder="Senha" />
                 <button class="btn btn-success btn-sm" data-loading-text="Carregado..." name="btnLogar" id="btnLogar" type="submit"><i class="glyphicon glyphicon-ok"></i> Entrar</button>
