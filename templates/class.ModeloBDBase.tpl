@@ -105,8 +105,8 @@ class %%NOME_CLASSE%%BDBase {
         try{
             $this->oConexao->execute($sql);
             if($this->oConexao->numRows() != 0){
-                $aReg = $this->oConexao->fetchReg();
-                return %%NOME_CLASSE%%MAP::rsToObj($aReg);
+                $oReg = $this->oConexao->fetchReg();
+                return %%NOME_CLASSE%%MAP::rsToObj($oReg);
             } else {
                 $this->msg = "Nenhum registro encontrado!";
                 return false;
@@ -138,8 +138,8 @@ class %%NOME_CLASSE%%BDBase {
             $this->oConexao->execute($sql);
             $aObj = array();
             if($this->oConexao->numRows() != 0){
-                while ($aReg = $this->oConexao->fetchReg()){
-                    $aObj[] = %%NOME_CLASSE%%MAP::rsToObj($aReg);
+                while ($oReg = $this->oConexao->fetchReg()){
+                    $aObj[] = %%NOME_CLASSE%%MAP::rsToObj($oReg);
                 }
                 return $aObj;
             } else {
@@ -156,8 +156,8 @@ class %%NOME_CLASSE%%BDBase {
         $sql = "select count(*) from %%TABELA%%";
         try{
             $this->oConexao->execute($sql);
-            $aReg = $this->oConexao->fetchReg();
-            return (int) $aReg[0];
+            $oReg = $this->oConexao->fetchReg();
+            return (int) $oReg[0];
         }
         catch(PDOException $e){
             $this->msg = $e->getMessage();
@@ -181,8 +181,8 @@ class %%NOME_CLASSE%%BDBase {
             $this->oConexao->execute($sql);
             $aObj = array();
             if($this->oConexao->numRows() != 0){
-                while ($aReg = $this->oConexao->fetchReg()){
-                    $aObj[] = %%NOME_CLASSE%%MAP::rsToObj($aReg);
+                while ($oReg = $this->oConexao->fetchReg()){
+                    $aObj[] = %%NOME_CLASSE%%MAP::rsToObj($oReg);
                 }
                 return $aObj;
             } else {

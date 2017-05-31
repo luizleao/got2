@@ -7,10 +7,17 @@
 	 * @return %%NOME_CLASS%%[]
 	 */
 	public function getAll%%NOME_CLASS%%($aFiltro = NULL, $aOrdenacao = NULL){
-		%%MONTA_OBJETOBD%%
-		if($o%%NOME_CLASS%%BD->msg != ''){
-			$this->msg = $o%%NOME_CLASS%%BD->msg;
+		try{		
+			%%MONTA_OBJETOBD%%
+			$aux = $o%%NOME_CLASS%%BD->getAll($aFiltro, $aOrdenacao);
+			
+			if($o%%NOME_CLASS%%BD->msg != ''){
+				$this->msg = $o%%NOME_CLASS%%BD->msg;
+				return false;
+			}
+			return $aux; 
+		} catch(Exception $e){
+			$this->msg = $e->getMessage();
 			return false;
 		}
-		return $o%%NOME_CLASS%%BD->getAll($aFiltro, $aOrdenacao);
 	}

@@ -2,12 +2,13 @@
 require_once(dirname(__FILE__)."/classes/class.Controle.php");
 
 $oControle = new Controle();
-$a%%NOME_CLASSE%% = $oControle->getAll%%NOME_CLASSE%%();
-//Util::trace($a%%NOME_CLASSE%%);
 
 if($_REQUEST['acao'] == 'excluir'){
     print ($oControle->exclui%%NOME_CLASSE%%(%%PK_REQUEST%%)) ? "" : $oControle->msg; exit;
 }
+
+$a%%NOME_CLASSE%% = $oControle->getAll%%NOME_CLASSE%%();
+//Util::trace($a%%NOME_CLASSE%%);
 ?>
 <!DOCTYPE html>
 <html lang="pt">
