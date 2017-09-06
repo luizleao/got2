@@ -4,7 +4,7 @@ require_once(dirname(__FILE__)."/classes/class.Controle.php");
 $oControle = new Controle();
 
 if($_REQUEST['acao'] == 'excluir'){
-    print ($oControle->exclui%%NOME_CLASSE%%(%%PK_REQUEST%%)) ? "" : $oControle->msg; exit;
+    print ($oControle->excluir%%NOME_CLASSE%%(%%PK_REQUEST%%)) ? "" : $oControle->msg; exit;
 }
 
 $a%%NOME_CLASSE%% = $oControle->getAll%%NOME_CLASSE%%();

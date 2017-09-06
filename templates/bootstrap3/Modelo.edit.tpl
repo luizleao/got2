@@ -3,7 +3,7 @@ require_once("classes/class.Controle.php");
 $oControle = new Controle();
 // ================= Edicao do %%NOME_CLASSE%% ========================= 
 if($_POST){
-	print ($oControle->altera%%NOME_CLASSE%%()) ? "" : $oControle->msg; exit;
+	print ($oControle->alterar%%NOME_CLASSE%%()) ? "" : $oControle->msg; exit;
 }
 
 $o%%NOME_CLASSE%% = $oControle->get%%NOME_CLASSE%%($_REQUEST['%%ID_PK%%']);

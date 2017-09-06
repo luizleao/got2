@@ -1,11 +1,11 @@
 <?php
 require_once(dirname(__FILE__)."/classes/class.Controle.php");
 $oControle = new Controle();
-$o%%NOME_CLASSE%% = $oControle->selecionar%%NOME_CLASSE%%($_REQUEST['%%ID_PK%%']);
+$o%%NOME_CLASSE%% = $oControle->get%%NOME_CLASSE%%($_REQUEST['%%ID_PK%%']);
  
 // ================= Edicao do %%NOME_CLASSE%% ========================= 
 if($_POST){
-	print ($oControle->altera%%NOME_CLASSE%%()) ? "" : $oControle->msg; exit;
+	print ($oControle->alterar%%NOME_CLASSE%%()) ? "" : $oControle->msg; exit;
 }
 %%CARREGA_COLECAO%%
 ?>

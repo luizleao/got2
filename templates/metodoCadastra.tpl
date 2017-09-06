@@ -5,7 +5,7 @@
 	 * @param $post
 	 * @return bool
 	 */
-	public function cadastra%%NOME_CLASS%%($post = NULL){
+	public function cadastrar%%NOME_CLASS%%($post = NULL){
 		// recebe dados do formulario
 		if($post == NULL){
 			$post = DadosFormulario::formularioCadastro%%NOME_CLASS%%();

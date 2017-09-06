@@ -6,7 +6,7 @@ $a%%NOME_CLASSE%% = $oControle->getAll%%NOME_CLASSE%%();
 //print "<pre>";print_r($a%%NOME_CLASSE%%);print "</pre>";
 
 if($_REQUEST['acao'] == 'excluir'){
-    print ($oControle->exclui%%NOME_CLASSE%%(%%PK_REQUEST%%)) ? "" : $oControle->msg; exit;
+    print ($oControle->excluir%%NOME_CLASSE%%(%%PK_REQUEST%%)) ? "" : $oControle->msg; exit;
 }
 ?>
 <!DOCTYPE html>

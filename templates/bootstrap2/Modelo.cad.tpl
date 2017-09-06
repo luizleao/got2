@@ -4,7 +4,7 @@ $oControle = new Controle();
 
 // ================= Cadastrar %%NOME_CLASSE%% ========================= 
 if($_POST){
-	print ($oControle->cadastra%%NOME_CLASSE%%()) ? "" : $oControle->msg; exit;
+	print ($oControle->cadastrar%%NOME_CLASSE%%()) ? "" : $oControle->msg; exit;
 }
 %%CARREGA_COLECAO%%
 ?>

@@ -149,27 +149,29 @@ class Geracao {
             $listaPK    = join(",", $aPK);
 
             # Recupera o nome da tabela e gera os valores a serem gerados
-            $nomeClasse             = ucfirst($this->getCamelMode($aTabela['NOME']));
-            $copiaModeloCAD         = str_replace('%%NOME_CLASS%%',   $nomeClasse, $modeloCAD);
-            $copiaModeloExclui      = str_replace('%%NOME_CLASS%%',   $nomeClasse, $modeloExclui);
-            $copiaModeloGet  = str_replace('%%NOME_CLASS%%',   $nomeClasse, $modeloGet);
-            $copiaModeloGetAll      = str_replace('%%NOME_CLASS%%',   $nomeClasse, $modeloGetAll);
-            $copiaModeloAlterar     = str_replace('%%NOME_CLASS%%',   $nomeClasse, $modeloAlterar);
-            $copiaModeloConsultar   = str_replace('%%NOME_CLASS%%',   $nomeClasse, $modeloConsultar);
+            $nomeClasse           = ucfirst($this->getCamelMode($aTabela['NOME']));
+            $copiaModeloCAD       = str_replace('%%NOME_CLASS%%', $nomeClasse, $modeloCAD);
+            $copiaModeloExclui    = str_replace('%%NOME_CLASS%%', $nomeClasse, $modeloExclui);
+            $copiaModeloGet  	  = str_replace('%%NOME_CLASS%%', $nomeClasse, $modeloGet);
+            $copiaModeloGetAll    = str_replace('%%NOME_CLASS%%', $nomeClasse, $modeloGetAll);
+            $copiaModeloAlterar   = str_replace('%%NOME_CLASS%%', $nomeClasse, $modeloAlterar);
+            $copiaModeloConsultar = str_replace('%%NOME_CLASS%%', $nomeClasse, $modeloConsultar);
 
-            $montaObjeto   = $this->retornaObjetosMontados($aTabela['NOME']);
+            $montaObjetoCAD   = $this->retornaObjetosMontados($aTabela['NOME']);
+            $montaObjetoEDIT  = $this->retornaObjetosMontados($aTabela['NOME'], "edit");
+            
             $montaObjetoBD = $this->retornaObjetosBDMontados($aTabela['NOME']);
 
-            $copiaModeloCAD       = str_replace('%%MONTA_OBJETO%%',   $montaObjeto,   $copiaModeloCAD);
-            $copiaModeloCAD       = str_replace('%%MONTA_OBJETOBD%%', $montaObjetoBD, $copiaModeloCAD);
-            $copiaModeloExclui    = str_replace('%%MONTA_OBJETOBD%%', $montaObjetoBD, $copiaModeloExclui);
-            $copiaModeloGet       = str_replace('%%MONTA_OBJETOBD%%', $montaObjetoBD, $copiaModeloGet);
-            $copiaModeloGet       = str_replace('%%DOC_LISTA_PK%%',   $listaPKDoc,    $copiaModeloGet);
-            $copiaModeloGet       = str_replace('%%LISTA_PK%%', 	  $listaPK,       $copiaModeloGet);
-            $copiaModeloGetAll    = str_replace('%%MONTA_OBJETOBD%%', $montaObjetoBD, $copiaModeloGetAll);
-            $copiaModeloAlterar	  = str_replace('%%MONTA_OBJETO%%',   $montaObjeto,   $copiaModeloAlterar);
-            $copiaModeloAlterar   = str_replace('%%MONTA_OBJETOBD%%', $montaObjetoBD, $copiaModeloAlterar);
-            $copiaModeloConsultar = str_replace('%%MONTA_OBJETOBD%%', $montaObjetoBD, $copiaModeloConsultar);
+            $copiaModeloCAD       = str_replace('%%MONTA_OBJETO%%',   $montaObjetoCAD,  $copiaModeloCAD);
+            $copiaModeloCAD       = str_replace('%%MONTA_OBJETOBD%%', $montaObjetoBD,   $copiaModeloCAD);
+            $copiaModeloExclui    = str_replace('%%MONTA_OBJETOBD%%', $montaObjetoBD,   $copiaModeloExclui);
+            $copiaModeloGet       = str_replace('%%MONTA_OBJETOBD%%', $montaObjetoBD,   $copiaModeloGet);
+            $copiaModeloGet       = str_replace('%%DOC_LISTA_PK%%',   $listaPKDoc,      $copiaModeloGet);
+            $copiaModeloGet       = str_replace('%%LISTA_PK%%', 	  $listaPK,         $copiaModeloGet);
+            $copiaModeloGetAll    = str_replace('%%MONTA_OBJETOBD%%', $montaObjetoBD,   $copiaModeloGetAll);
+            $copiaModeloAlterar	  = str_replace('%%MONTA_OBJETO%%',   $montaObjetoEDIT, $copiaModeloAlterar);
+            $copiaModeloAlterar   = str_replace('%%MONTA_OBJETOBD%%', $montaObjetoBD,   $copiaModeloAlterar);
+            $copiaModeloConsultar = str_replace('%%MONTA_OBJETOBD%%', $montaObjetoBD,   $copiaModeloConsultar);
 
             $aRequire[]   = "require_once(dirname(__FILE__).'/bd/class.$nomeClasse"."BD.php');";
             $aCadastro[]  = $copiaModeloCAD;
@@ -215,7 +217,7 @@ class Geracao {
         fclose($fpConfig);
 
         copy(dirname(__FILE__)."/core/class.Seguranca.php", "$dir/class.Seguranca.php");
-        copy(dirname(__FILE__)."/class.Util.php",	    "$dir/core/class.Util.php");
+        copy(dirname(__FILE__)."/class.Util.php",	   		"$dir/core/class.Util.php");
         copy(dirname(__FILE__)."/class.Conexao.php",        "$dir/core/class.Conexao.php");
         
         return true;
@@ -1257,9 +1259,10 @@ function geraClassesMapeamento(){
      * Retorna a instancia o objeto montada relacionada a tabela selecionada
      *
      * @param string $tabela
+     * @param string $tipo 
      * @return string
      */ 
-    function retornaObjetosMontados($tabela){		
+    function retornaObjetosMontados($tabela, $tipo="cad"){		
         $nomeClasse = ucfirst($this->getCamelMode($tabela));
         $aAtributos = $this->retornaAtributos($tabela);
         $sAtributos = join(",",$aAtributos);
@@ -1271,7 +1274,7 @@ function geraClassesMapeamento(){
         }
 
         $str[] = "\$o$nomeClasse = new $nomeClasse(".$sAtributos.");";
-        return join($str,"\n\t\t");
+        return ($tipo == "cad") ? join($str,"\n\t\t") : join($str,"\n\t\t\t");;
     }
 
     /**
