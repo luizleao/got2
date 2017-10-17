@@ -5,7 +5,8 @@ header('Content-type: text/json');
 
 switch($_REQUEST['sgbd']){
     case "mysql":
-        $oConexao = new ConexaoMySql('Vazia');
+    	//$oConexao = new ConexaoMySql('Vazia');
+    	$oConexao = new ConexaoMySqli('Vazia');
         $oConexao->set_conexao($_REQUEST['host'], $_REQUEST['login'], $_REQUEST['senha']);
     break;
     

@@ -9,7 +9,7 @@ require_once(dirname(__FILE__).'/class.Util.php');
  * @author Luiz Leão <luizleao@gmail.com>
  */
 class Geracao {
-    /**
+	/**
      * Nome do Projeto
      * 
      * @var string 
@@ -69,10 +69,10 @@ class Geracao {
             # Varre a estrutura dos campos da tabela em questao
             $aAtributo = $aListaAtributo = $aAtribuicao = $aFuncaoGet = $aFuncaoSet = array();
             foreach($aTabela as $oCampo){
-                $nomeCampo 	  = (string)$oCampo->NOME;
-                if((string)$oCampo->FKTABELA != ''){
+                $nomeCampo 	  = (string)$oCampo['NOME'];
+                if((string)$oCampo['FKTABELA'] != ''){
                     # Processa nome original da tabela estrangeira
-                    $nomeFKClasse = ucfirst($this->getCamelMode((string)$oCampo->FKTABELA));
+                    $nomeFKClasse = ucfirst($this->getCamelMode((string)$oCampo['FKTABELA']));
                     
 //					if($nomeFKClasse == $nomeClasse){
 						$nomeCampo = "o".ucfirst(preg_replace("#^(?:id_?|cd_?)(.*?)#is", "$1", $nomeCampo));
@@ -84,7 +84,7 @@ class Geracao {
 
                 # Atribui resultados
                 $aAtributo[] 	  = "\tpublic \$$nomeCampo;";
-                $aListaAtributo[] = ((string)$oCampo->FKTABELA != '') ? "$nomeFKClasse \$$nomeCampo = NULL" : "\$$nomeCampo = NULL";
+                $aListaAtributo[] = ((string)$oCampo['FKTABELA'] != '') ? "$nomeFKClasse \$$nomeCampo = NULL" : "\$$nomeCampo = NULL";
                 $aAtribuicao[] 	  = "\t\t\$this->$nomeCampo = \$$nomeCampo;";
             }
 
@@ -138,9 +138,9 @@ class Geracao {
         foreach($aBanco as $aTabela){
             $aPKDoc = $aPK = array(); 
             foreach($aTabela as $oCampo){
-                if((string)$oCampo->CHAVE == '1'){
-                    $aPKDoc[] = "\t * @param integer \$".(string)$oCampo->NOME;
-                    $aPK[]    = "\$".(string)$oCampo->NOME;
+                if((string)$oCampo['CHAVE'] == '1'){
+                    $aPKDoc[] = "\t * @param integer \$".(string)$oCampo['NOME'];
+                    $aPK[]    = "\$".(string)$oCampo['NOME'];
                 }
             }
 
@@ -211,6 +211,9 @@ class Geracao {
         # ============ Adicionando Classes de core/Config =========
         $modeloConfig = Util::getConteudoTemplate("Modelo.Config.".$aBanco['SGBD'].".tpl");
         $modeloConfig = str_replace('%%DATABASE%%', $this->projeto, $modeloConfig);
+        $modeloConfig = str_replace('%%HOST%%', $aBanco['HOST'], $modeloConfig);
+        $modeloConfig = str_replace('%%USER%%', $aBanco['USER'], $modeloConfig);
+        $modeloConfig = str_replace('%%SENHA%%', $aBanco['SENHA'], $modeloConfig);
         
         $fpConfig = fopen("$dir/core/config.ini","w"); 	
         fputs($fpConfig, $modeloConfig); 
@@ -249,9 +252,9 @@ class Geracao {
             $camposForm = array();
             foreach($aTabela as $oCampo){
                 # recupera campo e tabela e campos (chave estrangeira)
-                $nomeCampoOriginal = (string)$oCampo->NOME;
+                $nomeCampoOriginal = (string)$oCampo['NOME'];
                 # processa nome original da tabela estrangeira
-                $nomeFKClasse = (string)$oCampo->FKTABELA;
+                $nomeFKClasse = (string)$oCampo['FKTABELA'];
                 $objetoFKClasse = "\$o$nomeFKClasse";
 
                 $nomeCampo = $nomeCampoOriginal;
@@ -259,7 +262,7 @@ class Geracao {
 
                 # monta parametros a serem substituidos posteriormente
                 $label = ($nomeFKClasse != '') ? ucfirst(strtolower($nomeFKClasse)) : ucfirst(str_replace($nomeClasse,"",$nomeCampoOriginal));
-                $camposForm[] = ((int)$oCampo->CHAVE == 1) ? "if(\$acao == 2){\n\t\t\tif(\$$nomeCampoOriginal == ''){\n\t\t\t\t\$this->msg = \"$label inválido!\";\n\t\t\t\treturn false;\n\t\t\t}\n\t\t}" : "if(\$$nomeCampoOriginal == ''){\n\t\t\t\$this->msg = \"$label inválido!\";\n\t\t\treturn false;\n\t\t}\t";
+                $camposForm[] = ((int)$oCampo['CHAVE'] == 1) ? "if(\$acao == 2){\n\t\t\tif(\$$nomeCampoOriginal == ''){\n\t\t\t\t\$this->msg = \"$label inválido!\";\n\t\t\t\treturn false;\n\t\t\t}\n\t\t}" : "if(\$$nomeCampoOriginal == ''){\n\t\t\t\$this->msg = \"$label inválido!\";\n\t\t\treturn false;\n\t\t}\t";
             }
             # monta demais valores a serem substituidos
             $camposForm = join($camposForm,"\n\t\t");
@@ -305,12 +308,12 @@ class Geracao {
             $camposForm = array();
             foreach($aTabela as $oCampo){
                 # recupera campo e tabela e campos (chave estrangeira)
-                $nomeCampoOriginal = (string)$oCampo->NOME;
+                $nomeCampoOriginal = (string)$oCampo['NOME'];
                 $nomeCampo 	   = $nomeCampoOriginal;
                 //$nomeCampo 	   = $nomeCampoOriginal;
 
                 # monta parametros a serem substituidos posteriormente
-                switch ((string)$oCampo->TIPO) {
+                switch ((string)$oCampo['TIPO']) {
                     case 'date':
                         $camposForm[] = "\$post[\"$nomeCampoOriginal\"] = Util::formataDataFormBanco(strip_tags(addslashes(trim(\$post[\"$nomeCampoOriginal\"]))));";
                     break;
@@ -321,13 +324,13 @@ class Geracao {
                     break;
 
                     default:
-                    	if(preg_match("#decimal#i", $oCampo->TIPO)){
-                    		if(preg_match("#(?:preco|valor)#i", $oCampo->NOME)){
+                    	if(preg_match("#decimal#i", $oCampo['TIPO'])){
+                    		if(preg_match("#(?:preco|valor)#i", $oCampo['NOME'])){
                     			$camposForm[] = "\$post[\"$nomeCampoOriginal\"] = Util::formataMoedaBanco(strip_tags(addslashes(trim(\$post[\"$nomeCampoOriginal\"]))));";
                     		}
                     	} else {
                     		
-	                        if((int)$oCampo->CHAVE == 1)
+	                        if((int)$oCampo['CHAVE'] == 1)
 	                            if((string)$aTabela['TIPO_TABELA'] != 'NORMAL')
 	                                $camposForm[] = "\$post[\"$nomeCampoOriginal\"] = strip_tags(addslashes(trim(\$post[\"$nomeCampoOriginal\"])));";
 	                            else
@@ -399,74 +402,74 @@ class Geracao {
 
             foreach($aTabela as $oCampo){
             	
-                $nomeFKClasse = ucfirst($this->getCamelMode((string)$oCampo->FKTABELA));
-                //$label        = ((string)$oCampo->FKCAMPO != '') ? ucfirst(preg_replace("#^(?:id_?|cd_?)(.*?)#is", "$1", (string)$oCampo->NOME)) : 
-                $label        = ((string)$oCampo->FKCAMPO != '') ? $nomeFKClasse :
-                                                                   ucfirst(str_replace((string)$aTabela['NOME'], "", (string)$oCampo->NOME));
+                $nomeFKClasse = ucfirst($this->getCamelMode((string)$oCampo['FKTABELA']));
+                //$label        = ((string)$oCampo['FKCAMPO'] != '') ? ucfirst(preg_replace("#^(?:id_?|cd_?)(.*?)#is", "$1", (string)$oCampo['NOME'])) : 
+                $label        = ((string)$oCampo['FKCAMPO'] != '') ? $nomeFKClasse :
+                                                                   ucfirst(str_replace((string)$aTabela['NOME'], "", (string)$oCampo['NOME']));
 
-                $campoAdm = ((string)$oCampo->FKCAMPO != '') ? $objetoClasse."->o$label"."->".$this->getTituloCombo((string)$oCampo->FKTABELA) :
-                                                               $objetoClasse."->$oCampo->NOME";
+                $campoAdm = ((string)$oCampo['FKCAMPO'] != '') ? $objetoClasse."->o$label"."->".$this->getTituloCombo((string)$oCampo['FKTABELA']) :
+                                                               $objetoClasse."->".$oCampo['NOME'];
 
-                if((int)$oCampo->CHAVE == 1){
-                    $aPKRequest[] = "\$_REQUEST['{$oCampo->NOME}']";
-                    $aCampoPK[]   = Form::geraHidden((string)$oCampo->NOME);
+                if((int)$oCampo['CHAVE'] == 1){
+                    $aPKRequest[] = "\$_REQUEST['{$oCampo['NOME']}']";
+                    $aCampoPK[]   = Form::geraHidden((string)$oCampo['NOME']);
 
-                    if((string)$oCampo->FKTABELA != ''){ // Tabela cuja PK = FK => Relacao 1:1
-                        $PK    = "o$nomeFKClasse"."->".$oCampo->FKCAMPO;
-                        $ID_PK = $oCampo->FKCAMPO;
+                    if((string)$oCampo['FKTABELA'] != ''){ // Tabela cuja PK = FK => Relacao 1:1
+                        $PK    = "o$nomeFKClasse"."->".$oCampo['FKCAMPO'];
+                        $ID_PK = $oCampo['FKCAMPO'];
 
-                        //print "($objetoClasse, {$oCampo->NOME}, $label, $nomeFKClasse, ".$this->getTituloCombo((string)$oCampo->FKTABELA).", 'CAD')\n";
-                        $componenteCad  = Form::geraSelect($objetoClasse, (string)$oCampo->NOME, $label, $oCampo->FKCAMPO, $this->getTituloCombo((string)$oCampo->FKTABELA), 'CAD', $this->gui);
-                        $componenteEdit = Form::geraSelect($objetoClasse, (string)$oCampo->NOME, $label, $oCampo->FKCAMPO, $this->getTituloCombo((string)$oCampo->FKTABELA), 'EDIT', $this->gui);
+                        //print "($objetoClasse, {$oCampo['NOME']}, $label, $nomeFKClasse, ".$this->getTituloCombo((string)$oCampo['FKTABELA']).", 'CAD')\n";
+                        $componenteCad  = Form::geraSelect($objetoClasse, (string)$oCampo['NOME'], $label, $oCampo['FKCAMPO'], $this->getTituloCombo((string)$oCampo['FKTABELA']), 'CAD', $this->gui);
+                        $componenteEdit = Form::geraSelect($objetoClasse, (string)$oCampo['NOME'], $label, $oCampo['FKCAMPO'], $this->getTituloCombo((string)$oCampo['FKTABELA']), 'EDIT', $this->gui);
 
                     } else {
-                        $PK    = (string)$oCampo->NOME;
-                        $ID_PK = (string)$oCampo->NOME;
+                        $PK    = (string)$oCampo['NOME'];
+                        $ID_PK = (string)$oCampo['NOME'];
                     }
                 } else {
-                    switch((string)$oCampo->TIPO){
+                    switch((string)$oCampo['TIPO']){
                         case "date":
-                            $componenteCad  = Form::geraCalendario($objetoClasse, (string)$oCampo->NOME, $label, 'CAD');
-                            $componenteEdit = Form::geraCalendario($objetoClasse, (string)$oCampo->NOME, $label, 'EDIT');
-                            $campoAdm       = Form::geraCalendario($objetoClasse, (string)$oCampo->NOME, $label, 'ADM');
+                            $componenteCad  = Form::geraCalendario($objetoClasse, (string)$oCampo['NOME'], $label, 'CAD');
+                            $componenteEdit = Form::geraCalendario($objetoClasse, (string)$oCampo['NOME'], $label, 'EDIT');
+                            $campoAdm       = Form::geraCalendario($objetoClasse, (string)$oCampo['NOME'], $label, 'ADM');
                         break;
 
                         case "datetime":
                         case "timestamp":
-                            $componenteCad  = Form::geraCalendarioDataHora($objetoClasse, (string)$oCampo->NOME, $label, 'CAD');
-                            $componenteEdit = Form::geraCalendarioDataHora($objetoClasse, (string)$oCampo->NOME, $label, 'EDIT');
-                            $campoAdm       = Form::geraCalendarioDataHora($objetoClasse, (string)$oCampo->NOME, $label, 'ADM');
+                            $componenteCad  = Form::geraCalendarioDataHora($objetoClasse, (string)$oCampo['NOME'], $label, 'CAD');
+                            $componenteEdit = Form::geraCalendarioDataHora($objetoClasse, (string)$oCampo['NOME'], $label, 'EDIT');
+                            $campoAdm       = Form::geraCalendarioDataHora($objetoClasse, (string)$oCampo['NOME'], $label, 'ADM');
                         break;
 
                         case "text": 
-                            $componenteCad  = Form::geraTextArea($objetoClasse, (string)$oCampo->NOME, $label, 'CAD', $this->gui);
-                            $componenteEdit = Form::geraTextArea($objetoClasse, (string)$oCampo->NOME, $label, 'EDIT', $this->gui);
+                            $componenteCad  = Form::geraTextArea($objetoClasse, (string)$oCampo['NOME'], $label, 'CAD', $this->gui);
+                            $componenteEdit = Form::geraTextArea($objetoClasse, (string)$oCampo['NOME'], $label, 'EDIT', $this->gui);
                         break;
 
                         case "tinyint(1)": 
-                            $componenteCad  = Form::geraCheckBox($objetoClasse, (string)$oCampo->NOME, $label, 'CAD', $this->gui);
-                            $componenteEdit = Form::geraCheckBox($objetoClasse, (string)$oCampo->NOME, $label, 'EDIT', $this->gui);
+                            $componenteCad  = Form::geraCheckBox($objetoClasse, (string)$oCampo['NOME'], $label, 'CAD', $this->gui);
+                            $componenteEdit = Form::geraCheckBox($objetoClasse, (string)$oCampo['NOME'], $label, 'EDIT', $this->gui);
                         break;
 
                         default:
-                            if($oCampo->FKCAMPO != ''){
-                                $componenteCad  = Form::geraSelect($objetoClasse, (string)$oCampo->NOME, $label, $oCampo->FKCAMPO, $this->getTituloCombo((string)$oCampo->FKTABELA), 'CAD', $this->gui);
-                                $componenteEdit = Form::geraSelect($objetoClasse, (string)$oCampo->NOME, $label, $oCampo->FKCAMPO, $this->getTituloCombo((string)$oCampo->FKTABELA), 'EDIT', $this->gui);
+                            if($oCampo['FKCAMPO'] != ''){
+                                $componenteCad  = Form::geraSelect($objetoClasse, (string)$oCampo['NOME'], $label, $oCampo['FKCAMPO'], $this->getTituloCombo((string)$oCampo['FKTABELA']), 'CAD', $this->gui);
+                                $componenteEdit = Form::geraSelect($objetoClasse, (string)$oCampo['NOME'], $label, $oCampo['FKCAMPO'], $this->getTituloCombo((string)$oCampo['FKTABELA']), 'EDIT', $this->gui);
                             }
                             else{
-                                $componenteCad  = (preg_match("#(?:senha|password)#is", $oCampo->NOME))   ? 
-                                                                  Form::geraPassword($objetoClasse, (string)$oCampo->NOME, $label, 'CAD', $this->gui) :
-                                                                  Form::geraInput($objetoClasse,    (string)$oCampo->NOME, $label, 'CAD', (string)$oCampo->TIPO, $this->gui);
+                                $componenteCad  = (preg_match("#(?:senha|password)#is", $oCampo['NOME']))   ? 
+                                                                  Form::geraPassword($objetoClasse, (string)$oCampo['NOME'], $label, 'CAD', $this->gui) :
+                                                                  Form::geraInput($objetoClasse,    (string)$oCampo['NOME'], $label, 'CAD', (string)$oCampo['TIPO'], $this->gui);
 
-                                $componenteEdit = (preg_match("#(?:senha|password)#is", $oCampo->NOME))   ? 
-                                                                  Form::geraPassword($objetoClasse, (string)$oCampo->NOME, $label, 'EDIT', $this->gui) :
-                                                                  Form::geraInput($objetoClasse,    (string)$oCampo->NOME, $label, 'EDIT', (string)$oCampo->TIPO, $this->gui);
+                                $componenteEdit = (preg_match("#(?:senha|password)#is", $oCampo['NOME']))   ? 
+                                                                  Form::geraPassword($objetoClasse, (string)$oCampo['NOME'], $label, 'EDIT', $this->gui) :
+                                                                  Form::geraInput($objetoClasse,    (string)$oCampo['NOME'], $label, 'EDIT', (string)$oCampo['TIPO'], $this->gui);
                                 //Util::trace($oCampo);
                             }
                             # ============ Campo Enum =============
-                            if(preg_match("#enum#i", (string)$oCampo->TIPO)){
-                                $componenteCad  = Form::geraEnum($objetoClasse, (string)$oCampo->NOME, (string)$oCampo->TIPO, $label, 'CAD', $this->gui);
-                                $componenteEdit = Form::geraEnum($objetoClasse, (string)$oCampo->NOME, (string)$oCampo->TIPO, $label, 'EDIT', $this->gui);	
+                            if(preg_match("#enum#i", (string)$oCampo['TIPO'])){
+                                $componenteCad  = Form::geraEnum($objetoClasse, (string)$oCampo['NOME'], (string)$oCampo['TIPO'], $label, 'CAD', $this->gui);
+                                $componenteEdit = Form::geraEnum($objetoClasse, (string)$oCampo['NOME'], (string)$oCampo['TIPO'], $label, 'EDIT', $this->gui);	
                             }
                         break;
                     }
@@ -587,36 +590,36 @@ function geraClassesMapeamento(){
             
             foreach($aTabela as $oCampo){
                 # Processa nome original da tabela estrangeira
-                $objetoFK 	   = ucfirst($this->getCamelMode((string)$oCampo->FKTABELA));
-                $tabelaFK 	   = (string)$oCampo->FKTABELA;
+                $objetoFK 	   = ucfirst($this->getCamelMode((string)$oCampo['FKTABELA']));
+                $tabelaFK 	   = (string)$oCampo['FKTABELA'];
                 
                 # Testando nova implementacao - Tirar caso ocorrer erro
                 /*
                 if($nomeFKClasse == $nomeClasse)
-                    $objetoFK = ucfirst(preg_replace("#^(?:id_?|cd_?)(.*?)#is", "$1", (string)$oCampo->NOME));
+                    $objetoFK = ucfirst(preg_replace("#^(?:id_?|cd_?)(.*?)#is", "$1", (string)$oCampo['NOME']));
 				
                 
-                if((string)$oCampo->FKTABELA != ''){
-                	$objetoFK = ucfirst(preg_replace("#^(?:id_?|cd_?)(.*?)#is", "$1", (string)$oCampo->NOME));
+                if((string)$oCampo['FKTABELA'] != ''){
+                	$objetoFK = ucfirst(preg_replace("#^(?:id_?|cd_?)(.*?)#is", "$1", (string)$oCampo['NOME']));
                 }
                 */
                 
-                //$nomeCampo = $this->getCamelMode((string)$oCampo->NOME); Alteracao SUDAM
-                $nomeCampo = (string)$oCampo->NOME;
+                //$nomeCampo = $this->getCamelMode((string)$oCampo['NOME']); Alteracao SUDAM
+                $nomeCampo = (string)$oCampo['NOME'];
 
                 # Monta parametros a serem substituidos posteriormente
-                if($oCampo->FKTABELA == ''){
-                    $objToReg[]       = "\t\t\$reg['".(string)$oCampo->NOME."'] = $objetoClasse"."->$nomeCampo;";
-                    if($oCampo->CHAVE == "0"){
-                        $objToRegInsert[] = "\t\t\$reg['".(string)$oCampo->NOME."'] = $objetoClasse"."->$nomeCampo;";
+                if($oCampo['FKTABELA'] == ''){
+                    $objToReg[]       = "\t\t\$reg['".(string)$oCampo['NOME']."'] = $objetoClasse"."->$nomeCampo;";
+                    if($oCampo['CHAVE'] == "0"){
+                        $objToRegInsert[] = "\t\t\$reg['".(string)$oCampo['NOME']."'] = $objetoClasse"."->$nomeCampo;";
                     }
-                    $regToObj[] = "\t\t$objetoClasse"."->$nomeCampo = \$reg['$nomeTabelaOriginal"."_".(string)$oCampo->NOME."'];";
+                    $regToObj[] = "\t\t$objetoClasse"."->$nomeCampo = \$reg['$nomeTabelaOriginal"."_".(string)$oCampo['NOME']."'];";
                     
                 }
                 else{
-                    $objToReg[] = "\t\t\$o$objetoFK = $objetoClasse"."->o$objetoFK;\n\t\t\$reg['".(string)$oCampo->NOME."'] = \$o$objetoFK"."->".(string)$oCampo->FKCAMPO.";";
-                    if($oCampo->CHAVE == "0"){
-                        $objToRegInsert[] = "\t\t\$o$objetoFK = $objetoClasse"."->o$objetoFK;\n\t\t\$reg['".(string)$oCampo->NOME."'] = \$o$objetoFK"."->".(string)$oCampo->FKCAMPO.";";
+                    $objToReg[] = "\t\t\$o$objetoFK = $objetoClasse"."->o$objetoFK;\n\t\t\$reg['".(string)$oCampo['NOME']."'] = \$o$objetoFK"."->".(string)$oCampo['FKCAMPO'].";";
+                    if($oCampo['CHAVE'] == "0"){
+                        $objToRegInsert[] = "\t\t\$o$objetoFK = $objetoClasse"."->o$objetoFK;\n\t\t\$reg['".(string)$oCampo['NOME']."'] = \$o$objetoFK"."->".(string)$oCampo['FKCAMPO'].";";
                     }
                     $aux 		= $this->retornaArvore($tabelaFK, $objetoFK);
                     $regToObj[] = "\n$aux\t\t$objetoClasse"."->o$objetoFK = \$o$objetoFK;";
@@ -676,42 +679,42 @@ function geraClassesMapeamento(){
             $i = 2;
 
             foreach($aTabela as $oCampo){
-                $nomeCampo = (string)$oCampo->NOME;
+                $nomeCampo = (string)$oCampo['NOME'];
 
                 # recupera valores a serem substituidos no modelo
                 $aCampoInsert[] = $nomeCampo;
-                if((int)$oCampo->CHAVE == 1){
+                if((int)$oCampo['CHAVE'] == 1){
                     $aChaveWhere[]    = "$nomeCampo = {\$reg['$nomeCampo']}";
                     $aChaveWhereSel[] = (string)$aTabela['NOME'].".$nomeCampo = \$$nomeCampo";
                     $aChaveWhereDel[] = "$nomeCampo = \$$nomeCampo";
                     $aChave[]         = "\$$nomeCampo";
                     $aVerificaPK[]    = $nomeCampo;
                     $aChaveAltera[]    = "\$cv == \"$nomeCampo\"";
-                    if((string)$oCampo->FKTABELA != ''){
+                    if((string)$oCampo['FKTABELA'] != ''){
                         $aCampoUpdate[] = "$nomeCampo = \".\$reg['$nomeCampo'].\"";
                     }
                 }
                 else{
-                    $aCampoUpdate[] = ((string)$oCampo->FKTABELA != '') ? 
+                    $aCampoUpdate[] = ((string)$oCampo['FKTABELA'] != '') ? 
                                         "$nomeCampo = \".\$reg['$nomeCampo'].\"" : 
                                         "$nomeCampo = '\".\$reg['$nomeCampo'].\"'";				
                 }
 
-                if((string)$oCampo->FKTABELA != ''){
+                if((string)$oCampo['FKTABELA'] != ''){
                     $aValorInsert[] = (preg_match("#[dD]ata.*[Cc]adastro#is", $nomeCampo)) ? "\".\$oConexao->data_cadastro_padrao.\"" : "\".\$reg['$nomeCampo'].\"";
-                    $tabelaFK       = ((string)$aTabela['SCHEMA'] != "") ? (string)$aTabela['SCHEMA'].".".(string)$oCampo->FKTABELA : (string)$oCampo->FKTABELA;
-                    $aFKJoin[]      = "$tabelaFK \n\t\t\t\t\ton (".(string)$aTabela['NOME'].".$nomeCampo = ".(string)$oCampo->FKTABELA.".".(string)$oCampo->FKCAMPO.")";
+                    $tabelaFK       = ((string)$aTabela['SCHEMA'] != "") ? (string)$aTabela['SCHEMA'].".".(string)$oCampo['FKTABELA'] : (string)$oCampo['FKTABELA'];
+                    $aFKJoin[]      = "$tabelaFK \n\t\t\t\t\ton (".(string)$aTabela['NOME'].".$nomeCampo = ".(string)$oCampo['FKTABELA'].".".(string)$oCampo['FKCAMPO'].")";
                     
                     $i++;
                 }
                 else{
-                    $aValorInsert[] = ((int)$oCampo->CHAVE == 1) ? 
+                    $aValorInsert[] = ((int)$oCampo['CHAVE'] == 1) ? 
                                                       "\".\$reg['$nomeCampo'].\"" : 
                                                       "'\".\$reg['$nomeCampo'].\"'";
                 }
 
                 // =========== Montagem dos Campos da Consulta =============
-                if((int)$oCampo->CHAVE != 1){
+                if((int)$oCampo['CHAVE'] != 1){
                     $aCampoConsulta[] = (string)$aTabela['NOME'].".$nomeCampo like '\$valor'";
                 }	
             }
@@ -888,16 +891,16 @@ function geraClassesMapeamento(){
                 		$alias = $tabela;
                 	}
                 	
-                	$aCampo[] = "$alias.{$oCampo->NOME} as $alias"."_{$oCampo->NOME}";
+                	$aCampo[] = "$alias.{$oCampo['NOME']} as $alias"."_{$oCampo['NOME']}";
                 	             	
                     //print_r($aCampo);
                     if($desceNivel){
-                        if($oCampo->FKTABELA != ''){
+                        if($oCampo['FKTABELA'] != ''){
                         	//TODO: Definir regras de geração de alias para tabelas que possuem mais de uma referência para uma mesma tabela
-                        	/*if(preg_match("#^(?:id_?|cd_?)(.*?)#is", $oCampo->NOME)){
-                        		$alias = strtolower(preg_replace("#^(?:id_?|cd_?)(.*?)#is", "$1", $oCampo->NOME));
+                        	/*if(preg_match("#^(?:id_?|cd_?)(.*?)#is", $oCampo['NOME'])){
+                        		$alias = strtolower(preg_replace("#^(?:id_?|cd_?)(.*?)#is", "$1", $oCampo['NOME']));
                         	}*/
-                        	$aAux[(string)$oCampo->FKTABELA] = $oCampo->FKTABELA;
+                        	$aAux[(string)$oCampo['FKTABELA']] = $oCampo['FKTABELA'];
                         }
                     }
                     $alias = null;
@@ -950,16 +953,16 @@ function geraClassesMapeamento(){
     					$alias = $tabela;
     				}
     				 
-    				$aCampo[(string)$alias][] = (string)$oCampo->NOME;
+    				$aCampo[(string)$alias][] = (string)$oCampo['NOME'];
     				 
     				//print_r($aCampo);
     				if($desceNivel){
-    					if($oCampo->FKTABELA != ''){
+    					if($oCampo['FKTABELA'] != ''){
     						//TODO: Definir regras de geração de alias para tabelas que possuem mais de uma referência para uma mesma tabela
-    						/*if(preg_match("#^(?:id_?|cd_?)(.*?)#is", $oCampo->NOME)){
-    						 $alias = strtolower(preg_replace("#^(?:id_?|cd_?)(.*?)#is", "$1", $oCampo->NOME));
+    						/*if(preg_match("#^(?:id_?|cd_?)(.*?)#is", $oCampo['NOME'])){
+    						 $alias = strtolower(preg_replace("#^(?:id_?|cd_?)(.*?)#is", "$1", $oCampo['NOME']));
     						 }*/
-    						$aAux[(string)$oCampo->FKTABELA] = (string)$oCampo->FKTABELA;
+    						$aAux[(string)$oCampo['FKTABELA']] = (string)$oCampo['FKTABELA'];
     					}
     				}
     				$alias = null;
@@ -1007,21 +1010,21 @@ function geraClassesMapeamento(){
         foreach($aBanco as $aTabela){
             if((string)$aTabela['NOME'] == $tabela){
                 foreach($aTabela as $oCampo){
-                    if((int)$oCampo->CHAVE == 1){
+                    if((int)$oCampo['CHAVE'] == 1){
                         if($desceNivel){
 //                          $aTab[$tabela] = $tabela;
-                            $aTab[$tabela][] = array("tab_rel" => (string)$oCampo->FKTABELA,
-                                                     "campo"   => (string)$oCampo->NOME,
-                                                     "fk"      => (string)$oCampo->FKCAMPO);
+                            $aTab[$tabela][] = array("tab_rel" => (string)$oCampo['FKTABELA'],
+                                                     "campo"   => (string)$oCampo['NOME'],
+                                                     "fk"      => (string)$oCampo['FKCAMPO']);
                         }
                     }
-                    if((string)$oCampo->FKTABELA != ''){
-                        //$aTab[] = (string)$oCampo->FKTABELA;
-                        $aTab[(string)$oCampo->FKTABELA] = array("tab_rel" => $tabela,
-                                                                 "campo"   => (string)$oCampo->NOME,
-                                                                 "fk" 	   => (string)$oCampo->FKCAMPO);
+                    if((string)$oCampo['FKTABELA'] != ''){
+                        //$aTab[] = (string)$oCampo['FKTABELA'];
+                        $aTab[(string)$oCampo['FKTABELA']] = array("tab_rel" => $tabela,
+                                                                 "campo"   => (string)$oCampo['NOME'],
+                                                                 "fk" 	   => (string)$oCampo['FKCAMPO']);
                         if($desceNivel){
-                            $aAux[] = $this->getTabelasJoin((string)$oCampo->FKTABELA, false);
+                            $aAux[] = $this->getTabelasJoin((string)$oCampo['FKTABELA'], false);
                         }
                     }
                 }
@@ -1067,17 +1070,17 @@ function geraClassesMapeamento(){
             foreach($aTabela as $oCampo){
                 # recupera nome e tabela (chave estrangeira)
                 if($key){
-                    if((int)$oCampo->CHAVE == 0) continue;
+                    if((int)$oCampo['CHAVE'] == 0) continue;
                 }
 
-                $nomeFKClasse = ucfirst($this->getCamelMode((string)$oCampo->FKTABELA));
-                $nomeCampo    = (string)$oCampo->NOME;
+                $nomeFKClasse = ucfirst($this->getCamelMode((string)$oCampo['FKTABELA']));
+                $nomeCampo    = (string)$oCampo['NOME'];
 
                 # monta parametros a serem substituidos posteriormente
-                if((string)$oCampo->FKTABELA == '')
-                    $resultado[] = "\t\t$objetoClasse"."->$nomeCampo = \$reg['$tabelaRaiz"."_".(string)$oCampo->NOME."'];";
+                if((string)$oCampo['FKTABELA'] == '')
+                    $resultado[] = "\t\t$objetoClasse"."->$nomeCampo = \$reg['$tabelaRaiz"."_".(string)$oCampo['NOME']."'];";
                 //else
-                    //$resultado[] = $this->retornaArvore((string)$oCampo->FKTABELA, 0)."\t\t$objetoClasse"."->o$nomeFKClasse = \$o$nomeFKClasse;";
+                    //$resultado[] = $this->retornaArvore((string)$oCampo['FKTABELA'], 0)."\t\t$objetoClasse"."->o$nomeFKClasse = \$o$nomeFKClasse;";
             }
             return join($resultado,"\n")."\n";
         }
@@ -1131,7 +1134,7 @@ function geraClassesMapeamento(){
             # Varre a estrutura dos campos da tabela em questao
             foreach($aTabela as $oCampo){
                 # Recupera valores a serem substituidos no modelo
-                $aRetorno[] = (string)$oCampo->FKTABELA;
+                $aRetorno[] = (string)$oCampo['FKTABELA'];
             }
             break;
         }
@@ -1157,29 +1160,29 @@ function geraClassesMapeamento(){
 
             # Varre a estrutura dos campos da tabela em questao
             foreach($aTabela as $oCampo){                
-                //print "@@{$oCampo->NOME}\n";
+                //print "@@{$oCampo['NOME']}\n";
                 //print_r($aTabela); exit;
                 # Se o campo for chave, nao sera usado
-                if($oCampo->CHAVE == 1){
-                    $pk = $oCampo->NOME;
+                if($oCampo['CHAVE'] == 1){
+                    $pk = $oCampo['NOME'];
                     
-                    if((String)$oCampo->FKTABELA == ''){
+                    if((String)$oCampo['FKTABELA'] == ''){
                         continue;
                     }
                 }
 
                 # Se o campo for do tipo numerico, nao sera usado, nao sera usado
-                if(!preg_match("#varchar#is", (String)$oCampo->TIPO)) continue;
+                if(!preg_match("#varchar#is", (String)$oCampo['TIPO'])) continue;
                 
                 # Se o campo tiver nomenclatura que nao remeta a nome/descricao sera eliminado 
-                if(preg_match("#(?:nome|descricao)#is", (String)$oCampo->NOME)){
-                    $retorno = (String)$oCampo->NOME;
+                if(preg_match("#(?:nome|descricao)#is", (String)$oCampo['NOME'])){
+                    $retorno = (String)$oCampo['NOME'];
                     break;
                 }
                 
                 # Se o campo tiver nomenclatura que nao remeta a nome/descricao sera eliminado 
-                if(preg_match("#(?:usuario|login|nome_?(?:pessoa|cliente|servidor)|descricao|titulo|nm_(?:pessoa|cliente|servidor|estado_?civil|lotacao|credenciado)|desc_)#is", (String)$oCampo->NOME)){
-                    $retorno = (String)$oCampo->NOME;
+                if(preg_match("#(?:usuario|login|nome_?(?:pessoa|cliente|servidor)|descricao|titulo|nm_(?:pessoa|cliente|servidor|estado_?civil|lotacao|credenciado)|desc_)#is", (String)$oCampo['NOME'])){
+                    $retorno = (String)$oCampo['NOME'];
                     break;
                 }
                 
@@ -1212,10 +1215,10 @@ function geraClassesMapeamento(){
             # varre a estrutura dos campos da tabela em questao
             foreach($aTabela as $oCampo){
                 # recupera valores a serem substituidos no modelo
-                if((string)trim($oCampo->FKTABELA) == "") 
+                if((string)trim($oCampo['FKTABELA']) == "") 
                     continue;
-                $aRetorno[(string)trim($oCampo->NOME)] = array("FKTABELA" => (string)trim($oCampo->FKTABELA),
-                                                               "FKCAMPO" => (string)trim($oCampo->FKCAMPO));
+                $aRetorno[(string)trim($oCampo['NOME'])] = array("FKTABELA" => (string)trim($oCampo['FKTABELA']),
+                                                               "FKCAMPO" => (string)trim($oCampo['FKCAMPO']));
             }
             break;
         }
@@ -1240,13 +1243,13 @@ function geraClassesMapeamento(){
             # varre a estrutura dos campos da tabela em questao
             foreach($aTabela as $oCampo){
                 # recupera valores a serem substituidos no modelo
-                $sFKTabela = (string)$oCampo->FKTABELA;
+                $sFKTabela = (string)$oCampo['FKTABELA'];
                 if($sFKTabela != ''){
                     $nomeClasse = ucfirst($this->getCamelMode($sFKTabela));
                     $aRetorno[] = "\$o".$nomeClasse;
                 }
                 else{
-                    $aRetorno[] = "\$".(string)$oCampo->NOME;
+                    $aRetorno[] = "\$".(string)$oCampo['NOME'];
                 }
             }
             break;

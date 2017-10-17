@@ -1,6 +1,7 @@
 <?php
 require_once(dirname(__FILE__)."/class.IConexao.php");
 require_once(dirname(__FILE__)."/class.Conexao.MySql.php");
+require_once(dirname(__FILE__)."/class.Conexao.MySqli.php");
 require_once(dirname(__FILE__)."/class.Conexao.SqlServer.php");
 require_once(dirname(__FILE__)."/class.Conexao.Postgre.php");
 //require_once(dirname(__FILE__)."/class.Conexao.PDO.php");
@@ -38,7 +39,8 @@ class ControleWeb{
      */
     function conexao($sgbd, $host, $usuario, $senha, $bd=NULL){
         switch($sgbd){
-            case "mysql":     $oConexao = new ConexaoMySql('Vazia');     break;        
+            //case "mysql":     $oConexao = new ConexaoMySql('Vazia');     break;        
+            case "mysql":     $oConexao = new ConexaoMySqli('Vazia');     break;
             case "sqlserver": $oConexao = new ConexaoSqlServer('Vazia'); break;
             case "postgre":   $oConexao = new ConexaoPostgre('Vazia');   break;
         }
@@ -69,7 +71,7 @@ class ControleWeb{
         $oConexao = $this->conexao($sgbd, $host, $usuario, $senha, $bd);
 
         if($oConexao){
-            $oXML = simplexml_load_string("<?xml version=\"1.0\" encoding=\"UTF-8\"?> <DATABASE NOME=\"$bd\" SGBD=\"$sgbd\"></DATABASE>");            
+            $oXML = simplexml_load_string("<?xml version=\"1.0\" encoding=\"UTF-8\"?> <DATABASE NOME=\"$bd\" SGBD=\"$sgbd\" HOST=\"$host\" USER=\"$usuario\" SENHA=\"$senha\"></DATABASE>");            
             $aTabela = $oConexao->getAllTabelas();
             //print"<pre>"; print_r($aTabela); print"</pre>"; exit;
             
@@ -82,7 +84,7 @@ class ControleWeb{
                     case "mysql":     $oTabela->addAttribute("SCHEMA", ""); break;
                     case "sqlserver": $oTabela->addAttribute("SCHEMA", $sTabela[1]); break;
                 }
-                
+                             
                 $aColuna = $oConexao->getAllColunasTabela($sTabela[0]);
                 //print "<pre>"; print_r($aColuna); print "</pre>"; exit;
                 
@@ -99,19 +101,27 @@ class ControleWeb{
                     }
                                         
                     $oCampo = $oTabela->addChild("CAMPO");
-                    $oCampo->addChild("NOME", $sColuna[0]);
+/*                     $oCampo->addChild("NOME", $sColuna[0]);
                     $oCampo->addChild("TIPO", $sColuna[1]);
                     $oCampo->addChild("NULO", $sColuna[2]);
-                    $oCampo->addChild("CHAVE", (($sColuna[3] == 'PRI') ? 1 : 0));
+                    $oCampo->addChild("CHAVE", (($sColuna[3] == 'PRI') ? 1 : 0)); */
+                    $oCampo->addAttribute("NOME", $sColuna[0]);
+                    $oCampo->addAttribute("TIPO", $sColuna[1]);
+                    $oCampo->addAttribute("NULO", $sColuna[2]);
+                    $oCampo->addAttribute("CHAVE", (($sColuna[3] == 'PRI') ? 1 : 0));
 
                     $oFK = $oConexao->dadosForeignKeyColuna($bd, $sTabela[0], $sColuna[0]);
                     
                     if($oFK[0] != ''){
-                        $oFkTabela = $oCampo->addChild("FKTABELA", $oFK[0]);
-                        $oFkCampo  = $oCampo->addChild("FKCAMPO",  $oFK[1]);
+/*                         $oFkTabela = $oCampo->addChild("FKTABELA", $oFK[0]);
+                        $oFkCampo  = $oCampo->addChild("FKCAMPO",  $oFK[1]); */
+                    	$oFkTabela = $oCampo->addAttribute("FKTABELA", $oFK[0]);
+                    	$oFkCampo  = $oCampo->addAttribute("FKCAMPO",  $oFK[1]);
                     } else {
-                        $oFkTabela = $oCampo->addChild("FKTABELA", "");
-                        $oFkCampo  = $oCampo->addChild("FKCAMPO",  "");
+/*                         $oFkTabela = $oCampo->addChild("FKTABELA", "");
+                        $oFkCampo  = $oCampo->addChild("FKCAMPO",  ""); */
+                    	$oFkTabela = $oCampo->addAttribute("FKTABELA", "");
+                    	$oFkCampo  = $oCampo->addAttribute("FKCAMPO",  "");
                     }
                 }
 
@@ -144,6 +154,111 @@ class ControleWeb{
         }
     }
     
+    
+    /**
+     * Gera o Json que contém as meta-informações do banco de dados
+     *
+     * @param string $sgbd Tipo de SGBD
+     * @param string $host Endereço do servidor
+     * @param string $usuario Usuário do banco
+     * @param string $senha Senha do Usuário
+     * @param string $bd Banco de dados selecionado
+     * @return boolean
+     */
+    function gerarJson($sgbd, $host, $usuario, $senha, $bd){
+    	//die("$sgbd, $host, $usuario, $senha, $bd");
+    	
+    	/*
+			
+
+    	 */
+    	
+    	$oConexao = $this->conexao($sgbd, $host, $usuario, $senha, $bd);
+    	
+    	if($oConexao){
+    		$oXML = simplexml_load_string("<?xml version=\"1.0\" encoding=\"UTF-8\"?> <DATABASE NOME=\"$bd\" SGBD=\"$sgbd\" HOST=\"$host\" USER=\"$usuario\" SENHA=\"$senha\"></DATABASE>");
+    		$aTabela = $oConexao->getAllTabelas();
+    		//print"<pre>"; print_r($aTabela); print"</pre>"; exit;
+    		
+    		foreach($aTabela as $sTabela){
+    			//print"<pre>"; print_r($sTabela); print"</pre>"; exit;
+    			$oTabela = $oXML->addChild("TABELA");
+    			$oTabela->addAttribute("NOME", $sTabela[0]);
+    			
+    			switch($sgbd){
+    				case "mysql":     $oTabela->addAttribute("SCHEMA", ""); break;
+    				case "sqlserver": $oTabela->addAttribute("SCHEMA", $sTabela[1]); break;
+    			}
+    			
+    			$aColuna = $oConexao->getAllColunasTabela($sTabela[0]);
+    			//print "<pre>"; print_r($aColuna); print "</pre>"; exit;
+    			
+    			$qtd_pk_sem_incremento = 0;
+    			$qtd_pk_com_incremento = 0;
+    			
+    			foreach($aColuna as $sColuna){
+    				if($sColuna[3] == 'PRI'){
+    					if($sColuna[5] == 'auto_increment'){
+    						$qtd_pk_com_incremento++;
+    					} else {
+    						$qtd_pk_sem_incremento++;
+    					}
+    				}
+    				
+    				$oCampo = $oTabela->addChild("CAMPO");
+    				/*                     $oCampo->addChild("NOME", $sColuna[0]);
+    				 $oCampo->addChild("TIPO", $sColuna[1]);
+    				 $oCampo->addChild("NULO", $sColuna[2]);
+    				 $oCampo->addChild("CHAVE", (($sColuna[3] == 'PRI') ? 1 : 0)); */
+    				$oCampo->addAttribute("NOME", $sColuna[0]);
+    				$oCampo->addAttribute("TIPO", $sColuna[1]);
+    				$oCampo->addAttribute("NULO", $sColuna[2]);
+    				$oCampo->addAttribute("CHAVE", (($sColuna[3] == 'PRI') ? 1 : 0));
+    				
+    				$oFK = $oConexao->dadosForeignKeyColuna($bd, $sTabela[0], $sColuna[0]);
+    				
+    				if($oFK[0] != ''){
+    					/*                         $oFkTabela = $oCampo->addChild("FKTABELA", $oFK[0]);
+    					 $oFkCampo  = $oCampo->addChild("FKCAMPO",  $oFK[1]); */
+    					$oFkTabela = $oCampo->addAttribute("FKTABELA", $oFK[0]);
+    					$oFkCampo  = $oCampo->addAttribute("FKCAMPO",  $oFK[1]);
+    				} else {
+    					/*                         $oFkTabela = $oCampo->addChild("FKTABELA", "");
+    					 $oFkCampo  = $oCampo->addChild("FKCAMPO",  ""); */
+    					$oFkTabela = $oCampo->addAttribute("FKTABELA", "");
+    					$oFkCampo  = $oCampo->addAttribute("FKCAMPO",  "");
+    				}
+    			}
+    			
+    			//print "Tabela: {$reg[0]}\n qtd_pk_com_incremento: $qtd_pk_com_incremento \n qtd_pk_sem_incremento: $qtd_pk_sem_incremento\n\n";
+    			// ========== Verificar tipo da tabela ============
+    			if($qtd_pk_com_incremento == 1){
+    				$oTabela->addAttribute("TIPO_TABELA", 'NORMAL');
+    			} else {
+    				if($qtd_pk_sem_incremento == 2){
+    					$oTabela->addAttribute("TIPO_TABELA", 'N:M');
+    				} elseif($qtd_pk_sem_incremento == 1) {
+    					$oTabela->addAttribute("TIPO_TABELA", '1:1');
+    				} else {
+    					$oTabela->addAttribute("TIPO_TABELA", 'NORMAL');
+    				}
+    			}
+    		}
+    		
+    		$fp = fopen(dirname(dirname(__FILE__))."/xml/$bd.xml", "w+");
+    		fputs($fp, $oXML->asXML());
+    		fclose($fp);
+    		
+    		//print "<pre>".$oXML->asXML()."</pre>"; exit;
+    		$this->msg = ""; //Arquivo XML gerado com sucesso
+    		return true;
+    	}
+    	else{
+    		$this->msg = "Falha na geração do XML";
+    		return false;
+    	}
+    }
+    
     /**
      * Gera os artefatos de software
      * 
@@ -153,7 +268,7 @@ class ControleWeb{
      * @return string
      */
     public function gerarArtefatos($xml, $gui, $moduloSeguranca){
-        $oGeracao = new Geracao(dirname(dirname(__FILE__))."/xml/$xml.xml", $gui, $xml);
+    	$oGeracao = new Geracao(dirname(dirname(__FILE__))."/xml/$xml.xml", $gui, $xml);
         $msg = "Log de Geração de Artefatos - Projeto <strong>$xml</strong>: <br />";
         $msg .= "Engine gráfica: <strong>$gui</strong>: <br /><hr /><pre>";
         $msg .= str_pad("Geracao geraClassesBasicas ",50,".").           ((!$oGeracao->geraClassesBasicas())                       ? "Falha" : "Ok")."\n";

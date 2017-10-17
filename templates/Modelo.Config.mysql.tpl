@@ -1,9 +1,9 @@
 [producao]
-server    = "localhost";
+server    = "%%HOST%%";
 db	  = "%%DATABASE%%";
 sistema	  = "%%DATABASE%%";
-username  = "root";
-pw 	  = "root";
+username  = "%%USER%%";
+pw 	  = "%%SENHA%%";
 tipo_sgbd = "mysql:host";
 label_db  = "dbname";
 

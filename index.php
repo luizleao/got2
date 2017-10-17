@@ -9,8 +9,12 @@ switch ($_REQUEST['acao']) {
         echo ($oControle->gerarXML($_REQUEST['sgbd'], $_REQUEST['host'], $_REQUEST['login'], $_REQUEST['senha'], $_REQUEST['database'])) ? "" : $oControle->msg; exit;
     break;
     
+    case "json":
+    	echo ($oControle->gerarJson($_REQUEST['sgbd'], $_REQUEST['host'], $_REQUEST['login'], $_REQUEST['senha'], $_REQUEST['database'])) ? "" : $oControle->msg; exit;
+    	break;
+    
     case "gerar": 
-        echo $oControle->gerarArtefatos($_REQUEST['xml'], $_REQUEST['gui'], false); exit;
+    	echo $oControle->gerarArtefatos($_REQUEST['xml'], $_REQUEST['gui'], false); exit;
     break;
     
     case "excluirXML":
@@ -32,7 +36,7 @@ switch ($_REQUEST['acao']) {
             <!-- Main component for a primary marketing message or call to action -->
             <form role="form" onsubmit="return false;">
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <p>
                             <span class="label label-success">Conectar Banco</span>
                         </p>
@@ -67,7 +71,8 @@ switch ($_REQUEST['acao']) {
                             <div class="input-group">
                                 <select name="database" id="database" class="form-control"></select>
                                 <span class="input-group-btn">
-                                    <button id="btnGerar" data-loading-text="loading..." type="submit" class="btn btn-success">Mapear BD</button>
+                                    <button id="btnGerarXml" data-loading-text="loading..." type="submit" class="btn btn-success">XML</button>
+                                    <button id="btnGerarJson" data-loading-text="loading..." type="submit" class="btn btn-info">JSON</button>
                                 </span>
                             </div>
                         </div>

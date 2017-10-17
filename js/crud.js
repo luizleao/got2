@@ -72,7 +72,7 @@ $(document).ready(function(){
                         $('#btnConectar').button('reset');
                         $("#database").empty();
                         $.each(json, function(chave, valor){
-                            $("#database").append(new Option(valor, valor, true, true));
+                            $("#database").append(new Option(valor, valor, false, false));
                         });
                         $('#btnGerar').removeClass("disabled");
                     }
@@ -95,19 +95,19 @@ $(document).ready(function(){
      * 
      * @author luizleao
      */
-    $("#btnGerar").click(function () {
+    $("#btnGerarXml").click(function () {
         $.ajax({
             url       : 'index.php?acao=xml',
             type      : 'post',
             data      : retornaParametros(document.forms[0]),
             dataType  : 'html',
             beforeSend: function(){
-                $('#btnGerar').button('loading');
+                $('#btnGerarXml').button('loading');
             },
             timeout   : tempoTimeout,
             success   : function(retorno){
                 //print_r(document.forms[0]);
-                $('#btnGerar').button('reset');
+                $('#btnGerarXml').button('reset');
 
                 if(retorno !== '')
                     $('#modalResposta').find('.modal-body').html('<img src="img/ico_error.png" /> '+retorno);
@@ -119,7 +119,7 @@ $(document).ready(function(){
                 });
             },
             error: function (event, jqXHR, ajaxSettings){
-                $('#btnGerar').button('reset');
+                $('#btnGerarXml').button('reset');
                 $('#modalResposta').find('.modal-body').html('<img src="img/ico_error.png" /> '+event +'-' +jqXHR +'-' +ajaxSettings);
                 $('#modalResposta').modal('show');
             }
@@ -128,6 +128,46 @@ $(document).ready(function(){
             $('#modalResposta').find('#btnFechar').focus();
         });
     });
+    
+    /**
+     * 
+     * Funcao Gerar Json
+     * 
+     * @author luizleao
+     */
+    $("#btnGerarJson").click(function () {
+        $.ajax({
+            url       : 'index.php?acao=json',
+            type      : 'post',
+            data      : retornaParametros(document.forms[0]),
+            dataType  : 'html',
+            beforeSend: function(){
+                $('#btnGerarJson').button('loading');
+            },
+            timeout   : tempoTimeout,
+            success   : function(retorno){
+                //print_r(document.forms[0]);
+                $('#btnGerarJson').button('reset');
+
+                if(retorno !== '')
+                    $('#modalResposta').find('.modal-body').html('<img src="img/ico_error.png" /> '+retorno);
+                else
+                    $('#modalResposta').find('.modal-body').html('<img src="img/ico_success.png" /> Json gerado com sucesso');
+                $('#modalResposta').modal('show');
+                $('#modalResposta').on('hide.bs.modal', function (){
+                    window.location = './';
+                });
+            },
+            error: function (event, jqXHR, ajaxSettings){
+                $('#btnGerarJson').button('reset');
+                $('#modalResposta').find('.modal-body').html('<img src="img/ico_error.png" /> '+event +'-' +jqXHR +'-' +ajaxSettings);
+                $('#modalResposta').modal('show');
+            }
+        });
+        $('#modalResposta').on('shown.bs.modal', function (){
+            $('#modalResposta').find('#btnFechar').focus();
+        });
+    });    
     
     /**
      * 
@@ -140,7 +180,7 @@ $(document).ready(function(){
          $.ajax({
             url       : 'index.php?acao=gerar',
             type      : 'post',
-            data      : 'xml='+$(this).data("xml")+'&gui='+$(this).data("gui"),
+            data      : 'xml='+$(this).data("xml")+'&gui='+$(this).data("gui"),           
             dataType  : 'html',
             beforeSend: function(){
                 //this.button('loading');
