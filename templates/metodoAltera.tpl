@@ -16,7 +16,7 @@
 				return false;
 			}
 			// cria variaveis para validacao com as chaves do array
-			foreach($post as $i => $v) $$i = $v;
+			foreach($post as $i => $v) $$i = utf8_encode($v);
 			// cria objeto para grava-lo no BD
 			%%MONTA_OBJETO%%		
 		}		
