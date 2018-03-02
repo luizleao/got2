@@ -7,7 +7,7 @@ if($_REQUEST['acao'] == 'excluir'){
     print ($oControle->excluir%%NOME_CLASSE%%(%%PK_REQUEST%%)) ? "" : $oControle->msg; exit;
 }
 
-$a%%NOME_CLASSE%% = $oControle->getAll%%NOME_CLASSE%%();
+$a%%NOME_CLASSE%% = ($_POST) ? $oControle->consultar%%NOME_CLASSE%%($_REQUEST['txtConsulta']) : $oControle->getAll%%NOME_CLASSE%%();
 //Util::trace($a%%NOME_CLASSE%%);
 ?>
 <!DOCTYPE html>
@@ -24,6 +24,20 @@ $a%%NOME_CLASSE%% = $oControle->getAll%%NOME_CLASSE%%();
 			<li><a href="principal.php">Home</a></li>
 			<li class="active">Administrar %%NOME_CLASSE%%</li>
 		</ol>
+		<form action="" method="post">
+			<div class="row">
+				<div class="col-md-6">
+					<div class="input-group h2">
+					<input name="txtConsulta" class="form-control" id="txtConsulta" type="text" placeholder="Pesquisar %%NOME_CLASSE%%" value="<?=$_REQUEST['txtConsulta']?>" autofocus />
+					<span class="input-group-btn">
+						<button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+						<a href="cad%%NOME_CLASSE%%.php" class="btn btn-success" title="Cadastrar %%NOME_CLASSE%%"><i class="glyphicon glyphicon-plus"></i></a>
+					</span>
+					</div>
+				</div>
+			</div>
+		</form>
+
 <?php 
 if($oControle->msg != "")
 	$oControle->componenteMsg($oControle->msg, "erro");
@@ -37,6 +51,7 @@ if($a%%NOME_CLASSE%%){
 					%%TITULOATRIBUTOS%%
 					<th></th>
 					<th></th>
+					<th></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -45,6 +60,7 @@ if($a%%NOME_CLASSE%%){
 ?>
 				<tr>
 					%%VALORATRIBUTOS%%
+					%%ADM_INFO%%
 					%%ADM_EDIT%%
 					%%ADM_DELETE%%
 				</tr>

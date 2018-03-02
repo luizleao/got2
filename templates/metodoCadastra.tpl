@@ -7,9 +7,7 @@
 	 */
 	public function cadastrar%%NOME_CLASS%%($post = NULL){
 		// recebe dados do formulario
-		if($post == NULL){
-			$post = DadosFormulario::formularioCadastro%%NOME_CLASS%%();
-		}
+		$post = DadosFormulario::formularioCadastro%%NOME_CLASS%%($post);
 		
 		$_SESSION["post"] = $post;
 		// valida dados do formulario

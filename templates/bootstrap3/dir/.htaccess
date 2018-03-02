@@ -1,0 +1,29 @@
+RewriteEngine on
+#RewriteBase /blog_materialize
+
+#RewriteCond %{SCRIPT_NAME} ^.*index.php$ 
+#RewriteRule ^.*$ index.php [L,NC]
+
+
+# Se não foi requerido um arquivo vazio (-s)
+RewriteCond %{REQUEST_FILENAME} !-s [OR]
+
+# Se não foi requerido um link simbólico (-l)
+RewriteCond %{REQUEST_FILENAME} !-l [OR]
+
+# ou um arquivo (-f)
+RewriteCond %{REQUEST_FILENAME} !-f [OR]
+
+# ou um diretório (-d)
+RewriteCond %{REQUEST_FILENAME} !-d [OR]
+#RewriteCond %{REQUEST_FILENAME} !\.(js|gif|jpg|png|css|txt)$ [OR]
+RewriteCond %{REQUEST_URI} !\.(css|gif|ico|jpg|js|png|swf|txt)$
+
+
+RewriteRule ^.*home$ principal.php [L,NC]
+RewriteRule ^.*resIndex$ resIndex.php [L,NC]
+RewriteRule ^.*logoff$ logoff.php [L,NC]
+RewriteRule ^.*sair$ logoff.php [L,NC]
+RewriteRule ^(.*)/(cad)$ cad$1.php [L,NC]
+RewriteRule ^(.*)/(adm)$ adm$1.php [L,NC]
+RewriteRule ^(.*)/edit/([0-9]+)$ edit$1.php?id$1=$2 [L,NC]

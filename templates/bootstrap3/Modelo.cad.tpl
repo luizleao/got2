@@ -23,7 +23,7 @@ if($_POST){
 		<ol class="breadcrumb">
 			<li><a href="principal.php">Home</a></li>
 			<li><a href="adm%%NOME_CLASSE%%.php">%%NOME_CLASSE%%</a></li>
-			<li class="active">Cadastrar %%NOME_CLASSE%%</li>
+			<li class="active">Cadastrar</li>
 		</ol>
 <?php 
 if($oControle->msg != "")

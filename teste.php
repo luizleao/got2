@@ -21,7 +21,7 @@ include(dirname(__FILE__)."/classes/class.Geracao.php");
 //print "-->".$oGeracao->getTituloCombo("post"). "\n";
 //print $oGeracao->getTituloCombo("sicas_lotacao"). "\n";
 //print_r($b);
-
+/*
 $database = new stdClass();
 $database->nome = "blog";
 $database->sgbd = "mysql";
@@ -39,7 +39,9 @@ $database->aTabela[0]->aCampo[0]->chave = '1';
 $database->aTabela[0]->aCampo[0]->fktabela = '';
 $database->aTabela[0]->aCampo[0]->fkcampo = '';
 
+
 //CAMPO NOME="idComentario" TIPO="int(10) unsigned" NULO="NO" CHAVE="1" FKTABELA="" FKCAMPO=""
-//Util::trace($database);
+Util::trace($database);
 
 echo json_encode($database);
+*/

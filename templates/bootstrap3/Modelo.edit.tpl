@@ -24,7 +24,7 @@ $o%%NOME_CLASSE%% = $oControle->get%%NOME_CLASSE%%($_REQUEST['%%ID_PK%%']);
         <ol class="breadcrumb">
             <li><a href="principal.php">Home</a></li>
             <li><a href="adm%%NOME_CLASSE%%.php">%%NOME_CLASSE%%</a></li>
-            <li class="active">Editar %%NOME_CLASSE%%</li>
+            <li class="active">Editar</li>
         </ol>
 <?php 
 if($oControle->msg != "")

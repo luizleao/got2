@@ -7,7 +7,28 @@
  * @author Luiz Leão <luizleao@gmail.com>
  */
 class Form {
-    /**
+	/**
+	 * Gera campo para o template Detail
+	 *
+	 * @param string $obj Objeto selecionado
+	 * @param string $campo atributo a ser analisado
+	 * @param string $label Rótulo do atributo
+	 * @param string $tipoTela Tipo de formulário: CAD - Cadastro, EDIT - Edição
+	 * @param string $gui Tipo de GUI (Graphic User Interface)
+	 * @return string
+	 */
+	static function geraDetailText($obj, $campo, $label, $gui) {
+		$retorno = Util::getConteudoTemplate($gui.'/Modelo.Detail.Text.tpl');
+		
+		$value = "$obj"."->$campo";
+		
+		$retorno = str_replace('%%LABEL%%', $label, $retorno);
+		$retorno = str_replace('%%VALOR%%', $value, $retorno);
+		
+		return $retorno;
+	}
+	
+	/**
      * Gera componentes input
      * 
      * @param string $obj Objeto a ser editado
@@ -299,6 +320,25 @@ class Form {
     static function geraHidden($campo) {
         $retorno = "<input name=\"$campo\" type=\"hidden\" id=\"$campo\" value=\"<?=\$_REQUEST['$campo']?>\" />";
         return $retorno;
+    }
+    
+    /**
+     * Gera botão de informação
+     *
+     * @param string $nomeClasse Nome da Classe
+     * @param string $idPK Nome do campo PK do objeto a ser editado
+     * @param string $PK Nome da chave primária da classe
+     * @param string $gui Tipo de GUI (Graphic User Interface)
+     * @return string
+     */
+    static function geraAdmInfo($nomeClasse, $idPK, $PK, $gui) {
+    	$retorno = Util::getConteudoTemplate($gui.'/Modelo.Form.AdmInfo.tpl');
+    	
+    	$retorno = str_replace('%%CLASSE%%', $nomeClasse, $retorno);
+    	$retorno = str_replace('%%ID_PK%%',  $idPK,       $retorno);
+    	$retorno = str_replace('%%PK%%',     $PK,         $retorno);
+    	
+    	return $retorno;
     }
     
     /**

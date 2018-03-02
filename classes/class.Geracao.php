@@ -377,6 +377,7 @@ class Geracao {
         $modeloAdm   = Util::getConteudoTemplate($this->gui.'/Modelo.adm.tpl');
         $modeloCad   = Util::getConteudoTemplate($this->gui.'/Modelo.cad.tpl');
         $modeloEdit  = Util::getConteudoTemplate($this->gui.'/Modelo.edit.tpl');
+        $modeloDetail = Util::getConteudoTemplate($this->gui.'/Modelo.detail.tpl');
 
         $dir = '';
 
@@ -392,7 +393,8 @@ class Geracao {
             $copiaModeloAdm  = $modeloAdm;
             $copiaModeloCad  = $modeloCad;
             $copiaModeloEdit = $modeloEdit;
-
+            $copiaModeloDetail = $modeloDetail;
+            
             $nomeClasse	  = ucfirst($this->getCamelMode((string)$aTabela['NOME']));
             $objetoClasse = "\$o$nomeClasse";
 
@@ -407,7 +409,7 @@ class Geracao {
                 $label        = ((string)$oCampo['FKCAMPO'] != '') ? $nomeFKClasse :
                                                                    ucfirst(str_replace((string)$aTabela['NOME'], "", (string)$oCampo['NOME']));
 
-                $campoAdm = ((string)$oCampo['FKCAMPO'] != '') ? $objetoClasse."->o$label"."->".$this->getTituloCombo((string)$oCampo['FKTABELA']) :
+                $campoAdm = ((string)$oCampo['FKCAMPO'] != '') ? $objetoClasse."->o$label"."->".$this->getTituloObjeto((string)$oCampo['FKTABELA']) :
                                                                $objetoClasse."->".$oCampo['NOME'];
 
                 if((int)$oCampo['CHAVE'] == 1){
@@ -418,15 +420,17 @@ class Geracao {
                         $PK    = "o$nomeFKClasse"."->".$oCampo['FKCAMPO'];
                         $ID_PK = $oCampo['FKCAMPO'];
 
-                        //print "($objetoClasse, {$oCampo['NOME']}, $label, $nomeFKClasse, ".$this->getTituloCombo((string)$oCampo['FKTABELA']).", 'CAD')\n";
-                        $componenteCad  = Form::geraSelect($objetoClasse, (string)$oCampo['NOME'], $label, $oCampo['FKCAMPO'], $this->getTituloCombo((string)$oCampo['FKTABELA']), 'CAD', $this->gui);
-                        $componenteEdit = Form::geraSelect($objetoClasse, (string)$oCampo['NOME'], $label, $oCampo['FKCAMPO'], $this->getTituloCombo((string)$oCampo['FKTABELA']), 'EDIT', $this->gui);
+                        //print "($objetoClasse, {$oCampo['NOME']}, $label, $nomeFKClasse, ".$this->getTituloObjeto((string)$oCampo['FKTABELA']).", 'CAD')\n";
+                        $componenteCad  = Form::geraSelect($objetoClasse, (string)$oCampo['NOME'], $label, $oCampo['FKCAMPO'], $this->getTituloObjeto((string)$oCampo['FKTABELA']), 'CAD', $this->gui);
+                        $componenteEdit = Form::geraSelect($objetoClasse, (string)$oCampo['NOME'], $label, $oCampo['FKCAMPO'], $this->getTituloObjeto((string)$oCampo['FKTABELA']), 'EDIT', $this->gui);
 
                     } else {
                         $PK    = (string)$oCampo['NOME'];
                         $ID_PK = (string)$oCampo['NOME'];
                     }
                 } else {
+                	$campoDetail = Form::geraDetailText($objetoClasse, (string)$oCampo['NOME'], $label, $this->gui);
+                	
                     switch((string)$oCampo['TIPO']){
                         case "date":
                             $componenteCad  = Form::geraCalendario($objetoClasse, (string)$oCampo['NOME'], $label, 'CAD');
@@ -453,8 +457,8 @@ class Geracao {
 
                         default:
                             if($oCampo['FKCAMPO'] != ''){
-                                $componenteCad  = Form::geraSelect($objetoClasse, (string)$oCampo['NOME'], $label, $oCampo['FKCAMPO'], $this->getTituloCombo((string)$oCampo['FKTABELA']), 'CAD', $this->gui);
-                                $componenteEdit = Form::geraSelect($objetoClasse, (string)$oCampo['NOME'], $label, $oCampo['FKCAMPO'], $this->getTituloCombo((string)$oCampo['FKTABELA']), 'EDIT', $this->gui);
+                                $componenteCad  = Form::geraSelect($objetoClasse, (string)$oCampo['NOME'], $label, $oCampo['FKCAMPO'], $this->getTituloObjeto((string)$oCampo['FKTABELA']), 'CAD', $this->gui);
+                                $componenteEdit = Form::geraSelect($objetoClasse, (string)$oCampo['NOME'], $label, $oCampo['FKCAMPO'], $this->getTituloObjeto((string)$oCampo['FKTABELA']), 'EDIT', $this->gui);
                             }
                             else{
                                 $componenteCad  = (preg_match("#(?:senha|password)#is", $oCampo['NOME']))   ? 
@@ -478,6 +482,7 @@ class Geracao {
                 $aCampoEdit[] = $componenteEdit;
                 $aTituloAdm[] = "<th>$label</th>";
                 $aCampoAdm[]  = "<td><?=$campoAdm?></td>";
+                $aCampoDetail[] = $campoDetail;
             }
 
             # ===== Montar lista dos metodos Carregar Colecao =======
@@ -496,30 +501,36 @@ class Geracao {
             $sCampoCad       = join($aCampoCad,  "\n");
             $sCampoEdit      = join($aCampoEdit, "\n");
             $sCampoPK        = join($aCampoPK,   "\n");
+            $sCampoDetail    = join($aCampoDetail,   "\n");
             $sGetAll = (count($aGetAll)>0) ? join($aGetAll,"\n") : "";
 
             # substitui todas os parametros pelas variaveis ja processadas
             $copiaModeloAdm = str_replace('%%NOME_CLASSE%%',     $nomeClasse, $copiaModeloAdm);
             $copiaModeloAdm = str_replace('%%TITULOATRIBUTOS%%', $sTituloAdm, $copiaModeloAdm);
             $copiaModeloAdm = str_replace('%%VALORATRIBUTOS%%',  $sCampoAdm,  $copiaModeloAdm);
+            $copiaModeloAdm = str_replace('%%ADM_INFO%%',  	 (($PK != '') ? Form::geraAdmInfo($nomeClasse, $ID_PK, $PK, $this->gui) : ''),  $copiaModeloAdm);
             $copiaModeloAdm = str_replace('%%ADM_EDIT%%',  	 (($PK != '') ? Form::geraAdmEdit($nomeClasse, $ID_PK, $PK, $this->gui) : ''),  $copiaModeloAdm);
             $copiaModeloAdm = str_replace('%%ADM_DELETE%%',      (($PK != '') ? Form::geraAdmDelete($nomeClasse, $ID_PK, $PK, $this->gui) : ''), $copiaModeloAdm);
-
+            
             /* ========= 2 devido as colunas Editar e Excluir ============= */
             $copiaModeloAdm = str_replace('%%NUMERO_COLUNAS%%',  count($aTituloAdm)+2, $copiaModeloAdm);
-            $copiaModeloAdm = str_replace('%%PK_REQUEST%%',     $sPKRequest,           $copiaModeloAdm);			
-
+            $copiaModeloAdm = str_replace('%%PK_REQUEST%%',     $sPKRequest,           $copiaModeloAdm);
+            # ================ Template Cad ==================
             $copiaModeloCad = str_replace('%%NOME_CLASSE%%',     $nomeClasse, $copiaModeloCad);
             $copiaModeloCad = str_replace('%%CARREGA_COLECAO%%', $sGetAll,    $copiaModeloCad);
             $copiaModeloCad = str_replace('%%ATRIBUICAO%%',      $sCampoCad,  $copiaModeloCad);
-
+            # ================ Template Edit ==================
             $copiaModeloEdit = str_replace('%%NOME_CLASSE%%',     $nomeClasse,  $copiaModeloEdit);
             $copiaModeloEdit = str_replace('%%CARREGA_COLECAO%%', $sGetAll,     $copiaModeloEdit);
             $copiaModeloEdit = str_replace('%%ATRIBUICAO%%',      $sCampoEdit,  $copiaModeloEdit);
             $copiaModeloEdit = str_replace('%%CHAVE_PRIMARIA%%',  $sCampoPK,    $copiaModeloEdit);
             $copiaModeloEdit = str_replace('%%PK%%',              $PK,          $copiaModeloEdit);
             $copiaModeloEdit = str_replace('%%ID_PK%%',           $ID_PK,       $copiaModeloEdit);
-
+            # ================ Template Detail ==================
+            $copiaModeloDetail = str_replace('%%NOME_CLASSE%%',     $nomeClasse,   $copiaModeloDetail);
+            $copiaModeloDetail = str_replace('%%ATRIBUICAO%%',      $sCampoDetail, $copiaModeloDetail);
+            $copiaModeloDetail = str_replace('%%ID_PK%%',           $ID_PK,        $copiaModeloDetail);
+          
             $dir = dirname(dirname(__FILE__))."/geradas/".$this->projeto."/";
 
             if(!file_exists($dir)) mkdir($dir);
@@ -527,7 +538,8 @@ class Geracao {
             $fpAdm = fopen("$dir/adm$nomeClasse.php",  "w");  fputs($fpAdm, $copiaModeloAdm);   fclose($fpAdm);
             $fpCad = fopen("$dir/cad$nomeClasse.php",  "w");  fputs($fpCad, $copiaModeloCad);   fclose($fpCad);
             $fpEdit = fopen("$dir/edit$nomeClasse.php", "w"); fputs($fpEdit, $copiaModeloEdit); fclose($fpEdit);
-
+            $fpDetail = fopen("$dir/detail$nomeClasse.php", "w"); fputs($fpDetail, $copiaModeloDetail); fclose($fpDetail);
+            
             // ======= Limpa arrays ======= 
             unset($aGetAll);
             unset($aTituloAdm);
@@ -536,23 +548,20 @@ class Geracao {
             unset($aCampoEdit);
             unset($aPKRequest);
             unset($aCampoPK);
+            unset($aCampoDetail);
         }
 
         # ==== Alterar arquivo index =====
         $modeloIndex = Util::getConteudoTemplate($this->gui.'/index.php');
         $modeloIndex = str_replace('%%PROJETO%%', ucfirst($aBanco['NOME']), $modeloIndex);
 
-        $fpIndex = fopen("$dir/index.php",  "w");
-        fputs($fpIndex, $modeloIndex); 
-        fclose($fpIndex);
+        $fpIndex = fopen("$dir/index.php",  "w");fputs($fpIndex, $modeloIndex);fclose($fpIndex);
         
         # ============== Arquivo de titulo ===================
         $modeloTitulo = Util::getConteudoTemplate($this->gui.'/Modelo.titulo.tpl');
         $modeloTitulo = str_replace('%%DATABASE%%', ucfirst($aBanco['NOME']), $modeloTitulo);
 
-        $fpTitulo = fopen($dir."includes/titulo.php",  "w");
-        fputs($fpTitulo, $modeloTitulo); 
-        fclose($fpTitulo);
+        $fpTitulo = fopen($dir."includes/titulo.php",  "w");fputs($fpTitulo, $modeloTitulo);fclose($fpTitulo);
         
         // ========= Copiar arquivos adicionais do projeto ========
         copy(dirname(dirname(__FILE__))."/templates/{$this->gui}/resIndex.php",  "$dir/resIndex.php");
@@ -567,7 +576,7 @@ class Geracao {
      *
      * @return bool
      */
-function geraClassesMapeamento(){
+	function geraClassesMapeamento(){
         # Abre o template da classe basica e armazena conteudo do modelo
         $modelo = Util::getConteudoTemplate('class.ModeloMAP.tpl');
 
@@ -1143,12 +1152,12 @@ function geraClassesMapeamento(){
 
 
     /**
-     * Retorna o nome campo a ser usado como titulo do combo que represente o objeto(tabela) selecionado
+     * Retorna o nome campo a ser usado como titulo do combo que represente o objeto(tabela) selecionado. Alusão ao método __to_string() da classe Object
      * 
      * @param $tabelaProcura
      * @return String
      */
-    function getTituloCombo($tabelaProcura){
+    function getTituloObjeto($tabelaProcura){
         # Abre arquivo xml para navegacao
         $aBanco = simplexml_load_string($this->xml);
         $retorno = $pk = '';
