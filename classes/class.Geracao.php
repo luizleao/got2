@@ -433,16 +433,16 @@ class Geracao {
                 	
                     switch((string)$oCampo['TIPO']){
                         case "date":
-                            $componenteCad  = Form::geraCalendario($objetoClasse, (string)$oCampo['NOME'], $label, 'CAD');
-                            $componenteEdit = Form::geraCalendario($objetoClasse, (string)$oCampo['NOME'], $label, 'EDIT');
-                            $campoAdm       = Form::geraCalendario($objetoClasse, (string)$oCampo['NOME'], $label, 'ADM');
+                        	$componenteCad  = Form::geraCalendario($objetoClasse, (string)$oCampo['NOME'], $label, 'CAD', false, $this->gui);
+                        	$componenteEdit = Form::geraCalendario($objetoClasse, (string)$oCampo['NOME'], $label, 'EDIT', false, $this->gui);
+                        	$campoAdm       = Form::geraCalendario($objetoClasse, (string)$oCampo['NOME'], $label, 'ADM', false, $this->gui);
                         break;
 
                         case "datetime":
                         case "timestamp":
-                            $componenteCad  = Form::geraCalendarioDataHora($objetoClasse, (string)$oCampo['NOME'], $label, 'CAD');
-                            $componenteEdit = Form::geraCalendarioDataHora($objetoClasse, (string)$oCampo['NOME'], $label, 'EDIT');
-                            $campoAdm       = Form::geraCalendarioDataHora($objetoClasse, (string)$oCampo['NOME'], $label, 'ADM');
+                        	$componenteCad  = Form::geraCalendario($objetoClasse, (string)$oCampo['NOME'], $label, 'CAD', true, $this->gui);
+                        	$componenteEdit = Form::geraCalendario($objetoClasse, (string)$oCampo['NOME'], $label, 'EDIT', true, $this->gui);
+                        	$campoAdm       = Form::geraCalendario($objetoClasse, (string)$oCampo['NOME'], $label, 'ADM', true, $this->gui);
                         break;
 
                         case "text": 
@@ -513,7 +513,7 @@ class Geracao {
             $copiaModeloAdm = str_replace('%%ADM_DELETE%%',      (($PK != '') ? Form::geraAdmDelete($nomeClasse, $ID_PK, $PK, $this->gui) : ''), $copiaModeloAdm);
             
             /* ========= 2 devido as colunas Editar e Excluir ============= */
-            $copiaModeloAdm = str_replace('%%NUMERO_COLUNAS%%',  count($aTituloAdm)+2, $copiaModeloAdm);
+            $copiaModeloAdm = str_replace('%%NUMERO_COLUNAS%%',  count($aTituloAdm)+3, $copiaModeloAdm);
             $copiaModeloAdm = str_replace('%%PK_REQUEST%%',     $sPKRequest,           $copiaModeloAdm);
             # ================ Template Cad ==================
             $copiaModeloCad = str_replace('%%NOME_CLASSE%%',     $nomeClasse, $copiaModeloCad);

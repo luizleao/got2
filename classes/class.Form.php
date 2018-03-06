@@ -7,6 +7,8 @@
  * @author Luiz Leão <luizleao@gmail.com>
  */
 class Form {
+	public $msg;
+	
 	/**
 	 * Gera campo para o template Detail
 	 *
@@ -232,59 +234,40 @@ class Form {
     }
     
     /**
-     * Gera campo de calendário (Data)
+     * Gera campo de calendário (Data ou Data/Hora) 
      * 
      * @param string $obj Nome do Objeto
      * @param string $campo atributo a ser analisado
      * @param string $label Rótulo do atributo
      * @param string $tipoTela Tipo de Formulário: CAD - Cadastro, EDIT - Edição
+     * @param bool $dataHora 
      * @return string
      */
-    static function geraCalendario($obj, $campo, $label, $tipoTela) {
-        switch ($tipoTela) {
-            case 'ADM':
-                $retorno = "Util::formataDataBancoForm($obj" . "->$campo)";
-                break;
-            case 'CAD':
-                $retorno = "
-                            \t<label for=\"$campo\">$label</label>
-                            \t<?php \$oControle" . "->componenteCalendario('$campo')?>";
-                break;
-            case 'EDIT':
-                $retorno = "
-                            \t<label for=\"$campo\">$label</label>
-                            \t<?php \$oControle" . "->componenteCalendario('$campo', Util::formataDataBancoForm($obj" . "->$campo))?>";
-                break;
-        }
-        return $retorno;
-    }
-    
-    /**
-     * Gera campo de calendário (Data/hora)
-     * 
-     * @param string $obj Nome do Objeto
-     * @param string $campo atributo a ser analisado
-     * @param string $label Rótulo do atributo
-     * @param string $tipoTela Tipo de Formulário: CAD - Cadastro, EDIT - Edição
-     * @return string
-     */
-    static function geraCalendarioDataHora($obj, $campo, $label, $tipoTela) {
-        switch ($tipoTela) {
-            case 'ADM':
-                $retorno = "Util::formataDataHoraBancoForm($obj" . "->$campo)";
-                break;
-            case 'CAD':
-                $retorno = "
-                            \t<label for=\"$campo\">$label</label>
-                            \t<?php \$oControle" . "->componenteCalendario('$campo', NULL, NULL, true)?>";
-                break;
-            case 'EDIT':
-                $retorno = "
-                            \t<label for=\"$campo\">$label</label>
-                            \t<?php \$oControle" . "->componenteCalendario('$campo', Util::formataDataHoraBancoForm($obj" . "->$campo), NULL, true)?>";
-                break;
-        }
-        return $retorno;
+    static function geraCalendario($obj, $campo, $label, $tipoTela, $dataHora, $gui) {
+    	try{
+	    	$retorno = Util::getConteudoTemplate($gui.'/Modelo.Form.Calendario.tpl');
+	    	
+	        switch ($tipoTela) {
+	            case 'ADM':
+	            	$retorno = ($dataHora) ? "Util::formataDataHoraBancoForm($obj" . "->$campo)" : "Util::formataDataBancoForm($obj" . "->$campo)";
+	            break;
+	            case 'CAD':
+	            	$retorno = str_replace('%%CAMPO%%',  $campo,  $retorno);
+	            	$retorno = str_replace('%%LABEL%%',  $label,  $retorno);
+	            	$retorno = str_replace('%%DATAHORA%%', $dataHora,  $retorno);
+	            	$retorno = str_replace('%%VALOR%%',  "NULL",  $retorno);
+	            break;
+	            case 'EDIT':
+	            	$retorno = str_replace('%%CAMPO%%',  $campo,  $retorno);
+	            	$retorno = str_replace('%%LABEL%%',  $label,  $retorno);
+	            	$retorno = str_replace('%%DATAHORA%%', $dataHora,  $retorno); 
+	            	$retorno = str_replace('%%VALOR%%',  ($dataHora) ? "Util::formataDataHoraBancoForm($obj" . "->$campo)" : "Util::formataDataBancoForm($obj" . "->$campo)",  $retorno);
+	            break;
+	        }
+	        return $retorno;
+    	} catch(Exception $e){
+    		
+    	}
     }
     
     /**
