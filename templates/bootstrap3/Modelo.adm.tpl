@@ -2,15 +2,14 @@
 require_once(dirname(__FILE__)."/classes/class.Controle.php");
 
 $oControle = new Controle();
-$total = $oControle->totalColecao%%NOME_CLASSE%%();
-
-$numPags = ($total % $oControle->config['producao']['qtdRegPag'] == 0) ? $total/$oControle->config['producao']['qtdRegPag'] : ceil($total/$oControle->config['producao']['qtdRegPag']);
+$numPags = $oControle->numeroPaginasConsulta($oControle->totalColecao%%NOME_CLASSE%%());
 
 if($_REQUEST['acao'] == 'excluir'){
     print ($oControle->excluir%%NOME_CLASSE%%(%%PK_REQUEST%%)) ? "" : $oControle->msg; exit;
 }
+if(!isset($_REQUEST['pag'])) $_REQUEST['pag'] = 1;
 
-$a%%NOME_CLASSE%% = ($_POST) ? $oControle->consultar%%NOME_CLASSE%%($_REQUEST['txtConsulta']) : $oControle->getAll%%NOME_CLASSE%%([], ["%%PK%%"], $oControle->config['producao']['qtdRegPag'], (isset($_REQUEST['pag'])) ? $_REQUEST['pag'] : 1);
+$a%%NOME_CLASSE%% = ($_POST) ? $oControle->consultar%%NOME_CLASSE%%($_REQUEST['txtConsulta']) : $oControle->getAll%%NOME_CLASSE%%([], ["%%PK%%"], $_REQUEST['pag']);
 //Util::trace($a%%NOME_CLASSE%%);
 ?>
 <!DOCTYPE html>
@@ -31,10 +30,10 @@ $a%%NOME_CLASSE%% = ($_POST) ? $oControle->consultar%%NOME_CLASSE%%($_REQUEST['t
 			<div class="row">
 				<div class="col-md-6">
 					<div class="input-group h2">
-					<input name="txtConsulta" class="form-control" id="txtConsulta" type="text" placeholder="Pesquisar %%NOME_CLASSE%%" value="<?=$_REQUEST['txtConsulta']?>" autofocus />
+					<input name="txtConsulta" class="form-control input-sm" id="txtConsulta" type="text" placeholder="Pesquisar %%NOME_CLASSE%%" value="<?=$_REQUEST['txtConsulta']?>" autofocus />
 					<span class="input-group-btn">
-						<button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-search"></span></button>
-						<a href="cad%%NOME_CLASSE%%.php" class="btn btn-success" title="Cadastrar %%NOME_CLASSE%%"><i class="glyphicon glyphicon-plus"></i></a>
+						<button class="btn btn-primary btn-sm" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+						<a href="cad%%NOME_CLASSE%%.php" class="btn btn-success btn-sm" title="Cadastrar %%NOME_CLASSE%%"><i class="glyphicon glyphicon-plus"></i></a>
 					</span>
 					</div>
 				</div>
@@ -69,6 +68,13 @@ if($a%%NOME_CLASSE%%){
 				</tr>
 <?php
 	}
+?>
+				<tr>
+					<td colspan="%%NUMERO_COLUNAS%%">
+						<?php $oControle->componentePaginacao($numPags);?>
+					</td>
+				</tr>
+<?php
 }
 else{
 ?>
@@ -78,11 +84,6 @@ else{
 <?php
 }
 ?>
-				<tr>
-					<td colspan="%%NUMERO_COLUNAS%%">
-						<?php $oControle->componentePaginacao($numPags);?>
-					</td>
-				</tr>
 			</tbody>
 		</table>
 		<input type="hidden" name="classe" id="classe" value="%%NOME_CLASSE%%" />

@@ -28,7 +28,17 @@ class Controle{
 			}
         */		
     }
-	
+    
+    /**
+     * Retorna o numero total de páginas de uma consulta 
+     * 
+     * @param number $total
+     * @return number
+     */
+    public function numeroPaginasConsulta($total){
+    	return ($total % $this->config['producao']['qtdRegPag'] == 0) ? $total/$this->config['producao']['qtdRegPag'] : ceil($total/$this->config['producao']['qtdRegPag']);
+    }
+    	
     /**
      * Autentica o Usuario
      * @param string $login
