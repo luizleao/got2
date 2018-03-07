@@ -1,11 +1,15 @@
 <?php
 /**
+ * Class Util | classes/Class.Util.php
+ *
+ * @package     classes
+ * @author      Luiz Leão <luizleao@gmail.com>
+ * @version     v.2.0 (06/12/2018)
+ * @copyright   Copyright (c) 2018, Luiz
+ */
+/**
  * Classe de Utilidades
- * 
  * Conjunto de rotinas de auxílio ao desenvolvimento
- * 
- * @author Luiz Leão <luizleao@gmail.com>
- * @version 2.0.0
  */
 class Util {
     /**
@@ -484,6 +488,11 @@ class Util {
         }
     }
     
+    /**
+     * Limpar caracteres especiais da string
+     * @param string $campo
+     * @return string
+     */
     static function limpaCampo($campo){
     	return preg_replace("#[\.\-\(\)\s/]#", "", $campo);
     }

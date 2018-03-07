@@ -1,8 +1,16 @@
 <?php
 /**
- * Classe de conexão PDO
+ * Class ConexaoPDO | classes/Class.Conexao.PDO.php
+ *
+ * @package     classes
+ * @author      Luiz Leão <luizleao@gmail.com>
+ * @version     v.2.0 (06/12/2018)
+ * @copyright   Copyright (c) 2018, Luiz
+ */
+/**
+ * Classe de Conexão PDO
  * 
- * Classe de conexao com o banco de dados baseado na biblioteca PDO
+ * Possibilita a conexão com o banco de dados baseado na biblioteca PDO
  * 
  * @author Luiz Leão <luizleao@gmail.com>
  */
@@ -57,6 +65,16 @@ class ConexaoPDO extends PDO{
      */
     public $data_cadastro_padrao;
     
+    /**
+     * Metodo construtor
+     * 
+     * @param string $sgbd
+     * @param string $host
+     * @param string $db
+     * @param string $user
+     * @param string $passwd
+     * @return void
+     */
     function __construct($sgbd, $host, $db, $user, $passwd){
         $this->sgbd   = $sgbd;
         $this->host   = $host;
@@ -70,8 +88,13 @@ class ConexaoPDO extends PDO{
                     parent::__construct("mysql:host=".$this->host.";dbname=".$this->db, $this->user, $this->passwd); 
                     $this->data_cadastro_padrao = "now()";
                 break;
-                case "sqlserver": 
-                    parent::__construct("sqlsrv:server=".$this->host.";database=".$this->db, $this->user, $this->passwd); 
+                
+                case "sqlserver":
+                    parent::__construct("sqlsrv:server=".$this->host.";database=".$this->db, $this->user, $this->passwd);
+                break;
+                
+                case "pgsql":
+                	parent::__construct("pgsql:host={$this->host} dbname={$this->db} user={$this->user} password={$this->passwd} port=5432");
                 break;
             }
             
@@ -152,9 +175,10 @@ class ConexaoPDO extends PDO{
     }
     
     /**
+     * Retorna array de dados, indexado por indices e chaves
      * 
-     * @param type $consulta
-     * @return type
+     * @param object $consulta
+     * @return object
      */
     function fetchRow($consulta = NULL){
         if(!$consulta){

@@ -9,24 +9,40 @@ function print_r(oForm){
     j = 0;
     params[j++] = 'Array(\n';
     for(var i=0; i<oForm.elements.length; i++){
+        // Verifica caracteres a serem codificados para serem encondados antes da gravaçao
+        if(/[\+]/.test(oForm.elements[i].value)){
+            valor = encodeURIComponent(escape(oForm.elements[i].value));
+        }else{
+            valor = escape(oForm.elements[i].value);
+        }
         switch(oForm.elements[i].type){
-	        case "radio":
-	        case "checkbox":
-	            if(oForm.elements[i].checked) 
-	                params[j++] = oForm.elements[i].name + '=' + valor;
-	        break;
-	        case "select-multiple":
-	            for(var z=0; z<oForm.elements[i].options.length; z++){
-	                if(oForm.elements[i].options[z].selected) 
-	                    params[j++] = oForm.elements[i].name + '=' + escape(oForm.elements[i].options[z].value);
-	            }
-	        break;
-	        default:
-	            params[j++] = oForm.elements[i].name + '=' + valor;
-	        break;
+            case "radio":
+            case "checkbox":
+                if(oForm.elements[i].checked) 
+                    params[j++] = oForm.elements[i].name + '=' + valor+'\n';
+            break;
+            case "select-multiple":
+                for(var z=0; z<oForm.elements[i].options.length; z++){
+                    if(oForm.elements[i].options[z].selected) 
+                        params[j++] = oForm.elements[i].name + '=' + escape(oForm.elements[i].options[z].value)+'\n';
+                }
+            break;
+            /*
+            case "text":
+            case "hidden":
+            case "password":
+            case "textarea":
+            case "select-one":
+                params[j++] = oForm.elements[i].name + '=' + valor;
+            break;
+            */
+            default:
+                params[j++] = oForm.elements[i].name + '=' + valor+' xxx\n';
+            break;
         }
     }
     params[j++] = ')';
+    console.log(params.join(''));
     alert(params.join(''));
 }
 

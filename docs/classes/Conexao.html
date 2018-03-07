@@ -106,12 +106,12 @@
                         <ul class="dropdown-menu">
                             <li>
                                 <a href="../reports/errors.html">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">150</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">0</span>
                                 </a>
                             </li>
                             <li>
                                 <a href="../reports/markers.html">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">0</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">3</span>
                                 </a>
                             </li>
                             <li>
@@ -136,10 +136,10 @@
                                 <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-594272110"></a>
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-1011252760"></a>
                                 <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
             </div>
-            <div id="namespace-594272110" class="accordion-body collapse in">
+            <div id="namespace-1011252760" class="accordion-body collapse in">
                 <div class="accordion-inner">
 
                     
@@ -147,6 +147,7 @@
                                                     <li class="interface"><a href="../classes/IConexao.html">IConexao</a></li>
                                                                                                     <li class="class"><a href="../classes/Conexao.html">Conexao</a></li>
                                                     <li class="class"><a href="../classes/ConexaoMySql.html">ConexaoMySql</a></li>
+                                                    <li class="class"><a href="../classes/ConexaoMySqli.html">ConexaoMySqli</a></li>
                                                     <li class="class"><a href="../classes/ConexaoPDO.html">ConexaoPDO</a></li>
                                                     <li class="class"><a href="../classes/ConexaoPostgre.html">ConexaoPostgre</a></li>
                                                     <li class="class"><a href="../classes/ConexaoSqlServer.html">ConexaoSqlServer</a></li>
@@ -247,7 +248,7 @@
                         <dt>File</dt>
                             <dd><a href="../files/class.Conexao.html"><div class="path-wrapper">class.Conexao.php</div></a></dd>
                                                 <dt>Package</dt>
-                            <dd><div class="namespace-wrapper">Default</div></dd>
+                            <dd><div class="namespace-wrapper">classes</div></dd>
                                                 <dt>Class hierarchy</dt>
                             <dd class="hierarchy">
                                                                                                                                                                     <div class="namespace-wrapper">\Conexao</div>
@@ -260,14 +261,7 @@
                                                                         </dl>
                     <h2>Tags</h2>
                     <table class="table table-condensed">
-                                            <tr>
-                            <th>
-                                author
-                            </th>
-                            <td>
-                                                                    <p>Luiz Leão <a href="mailto:luizleao@gmail.com">luizleao@gmail.com</a></p>
-                                                            </td>
-                        </tr>
+                                            <tr><td colspan="2"><em>None found</em></td></tr>
                                         </table>
                 </aside>
             </div>
@@ -415,7 +409,7 @@
                 <h3 class="public ">__construct()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
                 <pre class="signature" style="margin-right: 54px;">__construct() </pre>
-                <p><em></em></p>
+                <p><em>Método construtor</em></p>
                 
 
                 
@@ -440,21 +434,28 @@
             <article class="method">
                 <h3 class="public ">execute()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">execute(  <span class="argument">$sql</span>) </pre>
-                <p><em></em></p>
+                <pre class="signature" style="margin-right: 54px;">execute(string  <span class="argument">$sql</span>) : boolean</pre>
+                <p><em>Executar consulta</em></p>
                 
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
                                                     <tr>
-                                <td></td>
+                                <td>string</td>
                                 <td>$sql </td>
                                 <td></td>
                             </tr>
                                             </table>
                 
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\PDOException</dt>
+                            <dd></dd>
+                                                                    </dl>
                 
-                				
+                                    <h4>Returns</h4>
+                    boolean
+                                    				
                             </article>
         </div>
         <aside class="span4 detailsbar">
@@ -474,26 +475,33 @@
             <article class="method">
                 <h3 class="public ">executePrepare()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">executePrepare(  <span class="argument">$sql</span>,   <span class="argument">$aDados = NULL</span>) </pre>
-                <p><em></em></p>
+                <pre class="signature" style="margin-right: 54px;">executePrepare(string  <span class="argument">$sql</span>, array&lt;mixed,string&gt;  <span class="argument">$aDados = NULL</span>) : boolean</pre>
+                <p><em>Executar consulta prepare</em></p>
                 
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
                                                     <tr>
-                                <td></td>
+                                <td>string</td>
                                 <td>$sql </td>
                                 <td></td>
                             </tr>
                                                     <tr>
-                                <td></td>
+                                <td>array&lt;mixed,string&gt;</td>
                                 <td>$aDados </td>
                                 <td></td>
                             </tr>
                                             </table>
                 
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\PDOException</dt>
+                            <dd></dd>
+                                                                    </dl>
                 
-                				
+                                    <h4>Returns</h4>
+                    boolean
+                                    				
                             </article>
         </div>
         <aside class="span4 detailsbar">
@@ -513,21 +521,23 @@
             <article class="method">
                 <h3 class="public ">numRows()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">numRows(  <span class="argument">$consulta = NULL</span>) </pre>
-                <p><em></em></p>
+                <pre class="signature" style="margin-right: 54px;">numRows(object  <span class="argument">$consulta = NULL</span>) : \number</pre>
+                <p><em>Numero de linhas</em></p>
                 
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
                                                     <tr>
-                                <td></td>
+                                <td>object</td>
                                 <td>$consulta </td>
                                 <td></td>
                             </tr>
                                             </table>
                 
                 
-                				
+                                    <h4>Returns</h4>
+                    \number
+                                    				
                             </article>
         </div>
         <aside class="span4 detailsbar">
@@ -547,21 +557,23 @@
             <article class="method">
                 <h3 class="public ">fetchReg()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">fetchReg(  <span class="argument">$consulta = NULL</span>) </pre>
-                <p><em></em></p>
+                <pre class="signature" style="margin-right: 54px;">fetchReg(object  <span class="argument">$consulta = NULL</span>) : array&lt;mixed,string&gt;</pre>
+                <p><em>Lista de registros</em></p>
                 
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
                                                     <tr>
-                                <td></td>
+                                <td>object</td>
                                 <td>$consulta </td>
                                 <td></td>
                             </tr>
                                             </table>
                 
                 
-                				
+                                    <h4>Returns</h4>
+                    array&lt;mixed,string&gt;
+                                    				
                             </article>
         </div>
         <aside class="span4 detailsbar">
@@ -581,21 +593,23 @@
             <article class="method">
                 <h3 class="public ">fetchRow()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">fetchRow(  <span class="argument">$consulta = NULL</span>) </pre>
-                <p><em></em></p>
+                <pre class="signature" style="margin-right: 54px;">fetchRow(object  <span class="argument">$consulta = NULL</span>) : array&lt;mixed,string&gt;</pre>
+                <p><em>Lista de Registros</em></p>
                 
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
                                                     <tr>
-                                <td></td>
+                                <td>object</td>
                                 <td>$consulta </td>
                                 <td></td>
                             </tr>
                                             </table>
                 
                 
-                				
+                                    <h4>Returns</h4>
+                    array&lt;mixed,string&gt;
+                                    				
                             </article>
         </div>
         <aside class="span4 detailsbar">
@@ -615,13 +629,15 @@
             <article class="method">
                 <h3 class="public ">lastID()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">lastID() </pre>
-                <p><em></em></p>
+                <pre class="signature" style="margin-right: 54px;">lastID() : \number</pre>
+                <p><em>Ultimo ID inserido</em></p>
                 
 
                 
                 
-                				
+                                    <h4>Returns</h4>
+                    \number
+                                    				
                             </article>
         </div>
         <aside class="span4 detailsbar">
@@ -641,8 +657,8 @@
             <article class="method">
                 <h3 class="public ">close()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">close() </pre>
-                <p><em></em></p>
+                <pre class="signature" style="margin-right: 54px;">close() : void</pre>
+                <p><em>Fechar conexao</em></p>
                 
 
                 
@@ -667,8 +683,8 @@
             <article class="method">
                 <h3 class="public ">beginTrans()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">beginTrans() </pre>
-                <p><em></em></p>
+                <pre class="signature" style="margin-right: 54px;">beginTrans() : void</pre>
+                <p><em>Iniciar transacao</em></p>
                 
 
                 
@@ -693,8 +709,8 @@
             <article class="method">
                 <h3 class="public ">commitTrans()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">commitTrans() </pre>
-                <p><em></em></p>
+                <pre class="signature" style="margin-right: 54px;">commitTrans() : void</pre>
+                <p><em>Concluir transacao</em></p>
                 
 
                 
@@ -719,8 +735,8 @@
             <article class="method">
                 <h3 class="public ">rollBackTrans()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">rollBackTrans() </pre>
-                <p><em></em></p>
+                <pre class="signature" style="margin-right: 54px;">rollBackTrans() : void</pre>
+                <p><em>Abortar transacao</em></p>
                 
 
                 
@@ -788,7 +804,7 @@
                 <section class="span10 offset1">
                     <hr />
                     Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
-                    on February 4th, 2015 at 14:24.
+                    on March 7th, 2018 at 14:12.
                 </section>
             </section>
         </section>

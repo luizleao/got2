@@ -1,10 +1,16 @@
 <?php
 /**
+ * Class ConexaoMySql | classes/Class.Conexao.MySql.php
+ *
+ * @package     classes
+ * @author      Luiz Leão <luizleao@gmail.com>
+ * @version     v.2.0 (06/12/2018)
+ * @copyright   Copyright (c) 2018, Luiz
+ */
+/**
  * Conexão MySQL
  * 
  * Classe de conexão nativa com o SGBD MySQL
- * 
- * @author Luiz Leão <luizleao@gmail.com> 
  */
 class ConexaoMySql implements IConexao{
     /**

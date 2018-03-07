@@ -1,11 +1,19 @@
 <?php
+/**
+ * Class Geracao | classes/Class.Geracao.php
+ *
+ * @package     classes
+ * @author      Luiz Leão <luizleao@gmail.com>
+ * @version     v.2.1 (06/12/2018)
+ * @copyright   Copyright (c) 2018, Luiz
+ */
 require_once(dirname(__FILE__).'/class.Form.php');
 require_once(dirname(__FILE__).'/class.Util.php');
 /**
  * Classe Geração
- * 
- * Responsável pela construção dos artefatos de software 
- * 
+ *
+ * Responsável pela construção dos artefatos de software
+ *
  * @author Luiz Leão <luizleao@gmail.com>
  */
 class Geracao {
@@ -30,6 +38,14 @@ class Geracao {
      */
     public $gui;
     
+    /**
+     * Método construtor
+     * 
+     * @param string $xml arquivo xml
+     * @param string $gui modelo de GUI escolhido
+     * @param string $projeto nome do projeto
+     * @return void
+     */
     function __construct($xml, $gui=NULL, $projeto=NULL){
         $this->projeto = $projeto;
         $this->xml     = join(file($xml),"");
@@ -121,18 +137,19 @@ class Geracao {
         $modelo       = Util::getConteudoTemplate('class.Modelo.Controle.tpl');
 
         # Abre o template dos metodos de cadastros e armazena conteudo do modelo
-        $modeloCAD        = Util::getConteudoTemplate('metodoCadastra.tpl');
-        $modeloExclui     = Util::getConteudoTemplate('metodoExclui.tpl');
-        $modeloGet = Util::getConteudoTemplate('metodoGet.tpl');
-        $modeloGetAll     = Util::getConteudoTemplate('metodoGetAll.tpl'); 
-        $modeloConsultar  = Util::getConteudoTemplate('metodoConsulta.tpl');
-        $modeloAlterar    = Util::getConteudoTemplate('metodoAltera.tpl');
+        $modeloCadastrar    = Util::getConteudoTemplate('metodoCadastrar.tpl');
+        $modeloAlterar    	= Util::getConteudoTemplate('metodoAlterar.tpl');
+        $modeloExcluir     	= Util::getConteudoTemplate('metodoExcluir.tpl');
+        $modeloGet 			= Util::getConteudoTemplate('metodoGet.tpl');
+        $modeloGetAll     	= Util::getConteudoTemplate('metodoGetAll.tpl'); 
+        $modeloConsultar  	= Util::getConteudoTemplate('metodoConsultar.tpl');
+        $modeloTotalColecao = Util::getConteudoTemplate('metodoTotalColecao.tpl');
 
         # Abre arquivo xml para navegacao
         $aBanco = simplexml_load_string($this->xml);
 
         # Varre a estrutura das tabelas
-        $aRequire = $aCadastro = $aExclui = $aGet = $aGetAll = $aAlterar = $aConsultar = array();
+        $aRequire = $aCadastrar = $aAlterar = $aExcluir = $aGet = $aGetAll = $aConsultar = $aTotalColecao = array();
         $copiaModelo = $modelo;
         //print_r($aBanco);exit;
         foreach($aBanco as $aTabela){
@@ -149,58 +166,60 @@ class Geracao {
             $listaPK    = join(",", $aPK);
 
             # Recupera o nome da tabela e gera os valores a serem gerados
-            $nomeClasse           = ucfirst($this->getCamelMode($aTabela['NOME']));
-            $copiaModeloCAD       = str_replace('%%NOME_CLASS%%', $nomeClasse, $modeloCAD);
-            $copiaModeloExclui    = str_replace('%%NOME_CLASS%%', $nomeClasse, $modeloExclui);
-            $copiaModeloGet  	  = str_replace('%%NOME_CLASS%%', $nomeClasse, $modeloGet);
-            $copiaModeloGetAll    = str_replace('%%NOME_CLASS%%', $nomeClasse, $modeloGetAll);
-            $copiaModeloAlterar   = str_replace('%%NOME_CLASS%%', $nomeClasse, $modeloAlterar);
-            $copiaModeloConsultar = str_replace('%%NOME_CLASS%%', $nomeClasse, $modeloConsultar);
+            $nomeClasse           	 = ucfirst($this->getCamelMode($aTabela['NOME']));
+            $copiaModeloCadastrar  	 = str_replace('%%NOME_CLASS%%', $nomeClasse, $modeloCadastrar);
+            $copiaModeloAlterar   	 = str_replace('%%NOME_CLASS%%', $nomeClasse, $modeloAlterar);
+            $copiaModeloExcluir    	 = str_replace('%%NOME_CLASS%%', $nomeClasse, $modeloExcluir);
+            $copiaModeloGet  	  	 = str_replace('%%NOME_CLASS%%', $nomeClasse, $modeloGet);
+            $copiaModeloGetAll    	 = str_replace('%%NOME_CLASS%%', $nomeClasse, $modeloGetAll);
+            $copiaModeloConsultar 	 = str_replace('%%NOME_CLASS%%', $nomeClasse, $modeloConsultar);
+            $copiaModeloTotalColecao = str_replace('%%NOME_CLASS%%', $nomeClasse, $modeloTotalColecao);
 
             $montaObjetoCAD   = $this->retornaObjetosMontados($aTabela['NOME']);
             $montaObjetoEDIT  = $this->retornaObjetosMontados($aTabela['NOME'], "edit");
             
             $montaObjetoBD = $this->retornaObjetosBDMontados($aTabela['NOME']);
 
-            $copiaModeloCAD       = str_replace('%%MONTA_OBJETO%%',   $montaObjetoCAD,  $copiaModeloCAD);
-            $copiaModeloCAD       = str_replace('%%MONTA_OBJETOBD%%', $montaObjetoBD,   $copiaModeloCAD);
-            $copiaModeloExclui    = str_replace('%%MONTA_OBJETOBD%%', $montaObjetoBD,   $copiaModeloExclui);
+            $copiaModeloCadastrar = str_replace('%%MONTA_OBJETO%%',   $montaObjetoCAD,  $copiaModeloCadastrar);
+            $copiaModeloCadastrar = str_replace('%%MONTA_OBJETOBD%%', $montaObjetoBD,   $copiaModeloCadastrar);
+            $copiaModeloAlterar	  = str_replace('%%MONTA_OBJETO%%',   $montaObjetoEDIT, $copiaModeloAlterar);
+            $copiaModeloAlterar   = str_replace('%%MONTA_OBJETOBD%%', $montaObjetoBD,   $copiaModeloAlterar);
+            $copiaModeloExcluir   = str_replace('%%MONTA_OBJETOBD%%', $montaObjetoBD,   $copiaModeloExcluir);
             $copiaModeloGet       = str_replace('%%MONTA_OBJETOBD%%', $montaObjetoBD,   $copiaModeloGet);
             $copiaModeloGet       = str_replace('%%DOC_LISTA_PK%%',   $listaPKDoc,      $copiaModeloGet);
             $copiaModeloGet       = str_replace('%%LISTA_PK%%', 	  $listaPK,         $copiaModeloGet);
             $copiaModeloGetAll    = str_replace('%%MONTA_OBJETOBD%%', $montaObjetoBD,   $copiaModeloGetAll);
-            $copiaModeloAlterar	  = str_replace('%%MONTA_OBJETO%%',   $montaObjetoEDIT, $copiaModeloAlterar);
-            $copiaModeloAlterar   = str_replace('%%MONTA_OBJETOBD%%', $montaObjetoBD,   $copiaModeloAlterar);
             $copiaModeloConsultar = str_replace('%%MONTA_OBJETOBD%%', $montaObjetoBD,   $copiaModeloConsultar);
 
-            $aRequire[]   = "require_once(dirname(__FILE__).'/bd/class.$nomeClasse"."BD.php');";
-            $aCadastro[]  = $copiaModeloCAD;
-            $aExclui[]    = $copiaModeloExclui;
-            $aGet[] 	  = $copiaModeloGet;
-            $aGetAll[]    = $copiaModeloGetAll;
-            $aAlterar[]   = $copiaModeloAlterar;
-            $aConsultar[] = $copiaModeloConsultar;
+            $aRequire[]   	 = "require_once(dirname(__FILE__).'/bd/class.$nomeClasse"."BD.php');";
+            $aCadastrar[]	 = $copiaModeloCadastrar;
+            $aAlterar[]   	 = $copiaModeloAlterar;
+            $aExcluir[]  	 = $copiaModeloExcluir;
+            $aGet[] 	 	 = $copiaModeloGet;
+            $aGetAll[]    	 = $copiaModeloGetAll;
+            $aConsultar[] 	 = $copiaModeloConsultar;
+            $aTotalColecao[] = $copiaModeloTotalColecao;
         }
 
         # Monta demais valores a serem substituidos
-        $listaRequire    = join("\n",   $aRequire);
-        $listaCadastro   = join("\n\n", $aCadastro);
-        $listaExclui     = join("\n\n", $aExclui);
-        $listaSelecionar = join("\n\n", $aGet);
-        $listaGetAll     = join("\n\n", $aGetAll);
-        $listaAlterar    = join("\n\n", $aAlterar);
-        //print "<pre>"; print_r($aAlterar); print "</pre>"; 
-        //print "<pre>"; print_r($aConsultar); print "</pre>"; 
-        $listaConsultar  = join("\n\n", $aConsultar);
+        $listaRequire      = join("\n",   $aRequire);
+        $listaCadastrar    = join("\n\n", $aCadastrar);
+        $listaAlterar      = join("\n\n", $aAlterar);
+        $listaExcluir      = join("\n\n", $aExcluir);
+        $listaGet   	   = join("\n\n", $aGet);
+        $listaGetAll       = join("\n\n", $aGetAll);
+        $listaConsultar    = join("\n\n", $aConsultar);
+        $listaTotalColecao = join("\n\n", $aTotalColecao);
 
         # Substitui todas os parametros pelas variaveis ja processadas
-        $copiaModelo = str_replace('%%LISTA_REQUIRE%%',		   $listaRequire,    $copiaModelo);
-        $copiaModelo = str_replace('%%METODOS_CADASTRA%%',	   $listaCadastro,   $copiaModelo);
-        $copiaModelo = str_replace('%%METODOS_EXCLUI%%',	   $listaExclui,     $copiaModelo);
-        $copiaModelo = str_replace('%%METODOS_SELECIONAR%%',	   $listaSelecionar, $copiaModelo);
-        $copiaModelo = str_replace('%%METODOS_CARREGAR_COLECAO%%', $listaGetAll,     $copiaModelo);
-        $copiaModelo = str_replace('%%METODOS_ALTERA%%',	   $listaAlterar,    $copiaModelo);
-        $copiaModelo = str_replace('%%METODOS_CONSULTA%%',	   $listaConsultar,  $copiaModelo);
+        $copiaModelo = str_replace('%%LISTA_REQUIRE%%',	    $listaRequire,		$copiaModelo);
+        $copiaModelo = str_replace('%%METODOS_CADASTRAR%%', $listaCadastrar,	$copiaModelo);
+        $copiaModelo = str_replace('%%METODOS_ALTERAR%%',   $listaAlterar,		$copiaModelo);
+        $copiaModelo = str_replace('%%METODOS_EXCLUIR%%',   $listaExcluir,		$copiaModelo);
+        $copiaModelo = str_replace('%%METODOS_GET%%',	    $listaGet,			$copiaModelo);
+        $copiaModelo = str_replace('%%METODOS_GET_ALL%%',   $listaGetAll,		$copiaModelo);
+        $copiaModelo = str_replace('%%METODOS_CONSULTAR%%', $listaConsultar,    $copiaModelo);
+        $copiaModelo = str_replace('%%METODOS_TOTAL%%', 	$listaTotalColecao, $copiaModelo);
 
         $dir = dirname(dirname(__FILE__))."/geradas/".$this->projeto."/classes";
         if(!file_exists($dir)) mkdir($dir);
@@ -219,9 +238,8 @@ class Geracao {
         fputs($fpConfig, $modeloConfig); 
         fclose($fpConfig);
 
-        copy(dirname(__FILE__)."/core/class.Seguranca.php", "$dir/class.Seguranca.php");
-        copy(dirname(__FILE__)."/class.Util.php",	   		"$dir/core/class.Util.php");
-        copy(dirname(__FILE__)."/class.Conexao.php",        "$dir/core/class.Conexao.php");
+        copy(dirname(__FILE__)."/class.Util.php",	 "$dir/core/class.Util.php");
+        copy(dirname(__FILE__)."/class.Conexao.php", "$dir/core/class.Conexao.php");
         
         return true;
     }
@@ -374,9 +392,9 @@ class Geracao {
      */
     public function geraInterface(){
         # Abre o template da classe basica e armazena conteudo do modelo
-        $modeloAdm   = Util::getConteudoTemplate($this->gui.'/Modelo.adm.tpl');
-        $modeloCad   = Util::getConteudoTemplate($this->gui.'/Modelo.cad.tpl');
-        $modeloEdit  = Util::getConteudoTemplate($this->gui.'/Modelo.edit.tpl');
+        $modeloAdm    = Util::getConteudoTemplate($this->gui.'/Modelo.adm.tpl');
+        $modeloCad    = Util::getConteudoTemplate($this->gui.'/Modelo.cad.tpl');
+        $modeloEdit   = Util::getConteudoTemplate($this->gui.'/Modelo.edit.tpl');
         $modeloDetail = Util::getConteudoTemplate($this->gui.'/Modelo.detail.tpl');
 
         $dir = '';
@@ -513,31 +531,33 @@ class Geracao {
             $copiaModeloAdm = str_replace('%%ADM_DELETE%%',      (($PK != '') ? Form::geraAdmDelete($nomeClasse, $ID_PK, $PK, $this->gui) : ''), $copiaModeloAdm);
             
             /* ========= 2 devido as colunas Editar e Excluir ============= */
-            $copiaModeloAdm = str_replace('%%NUMERO_COLUNAS%%',  count($aTituloAdm)+3, $copiaModeloAdm);
+            $copiaModeloAdm = str_replace('%%NUMERO_COLUNAS%%', count($aTituloAdm)+3, $copiaModeloAdm);
             $copiaModeloAdm = str_replace('%%PK_REQUEST%%',     $sPKRequest,           $copiaModeloAdm);
+            $copiaModeloAdm = str_replace('%%PK%%',     		"{$aTabela['NOME']}.$ID_PK", $copiaModeloAdm);
+            
             # ================ Template Cad ==================
             $copiaModeloCad = str_replace('%%NOME_CLASSE%%',     $nomeClasse, $copiaModeloCad);
             $copiaModeloCad = str_replace('%%CARREGA_COLECAO%%', $sGetAll,    $copiaModeloCad);
             $copiaModeloCad = str_replace('%%ATRIBUICAO%%',      $sCampoCad,  $copiaModeloCad);
             # ================ Template Edit ==================
-            $copiaModeloEdit = str_replace('%%NOME_CLASSE%%',     $nomeClasse,  $copiaModeloEdit);
-            $copiaModeloEdit = str_replace('%%CARREGA_COLECAO%%', $sGetAll,     $copiaModeloEdit);
-            $copiaModeloEdit = str_replace('%%ATRIBUICAO%%',      $sCampoEdit,  $copiaModeloEdit);
-            $copiaModeloEdit = str_replace('%%CHAVE_PRIMARIA%%',  $sCampoPK,    $copiaModeloEdit);
-            $copiaModeloEdit = str_replace('%%PK%%',              $PK,          $copiaModeloEdit);
-            $copiaModeloEdit = str_replace('%%ID_PK%%',           $ID_PK,       $copiaModeloEdit);
+            $copiaModeloEdit = str_replace('%%NOME_CLASSE%%',     $nomeClasse, $copiaModeloEdit);
+            $copiaModeloEdit = str_replace('%%CARREGA_COLECAO%%', $sGetAll,    $copiaModeloEdit);
+            $copiaModeloEdit = str_replace('%%ATRIBUICAO%%',      $sCampoEdit, $copiaModeloEdit);
+            $copiaModeloEdit = str_replace('%%CHAVE_PRIMARIA%%',  $sCampoPK,   $copiaModeloEdit);
+            $copiaModeloEdit = str_replace('%%PK%%',              $PK,         $copiaModeloEdit);
+            $copiaModeloEdit = str_replace('%%ID_PK%%',           $ID_PK,      $copiaModeloEdit);
             # ================ Template Detail ==================
-            $copiaModeloDetail = str_replace('%%NOME_CLASSE%%',     $nomeClasse,   $copiaModeloDetail);
-            $copiaModeloDetail = str_replace('%%ATRIBUICAO%%',      $sCampoDetail, $copiaModeloDetail);
-            $copiaModeloDetail = str_replace('%%ID_PK%%',           $ID_PK,        $copiaModeloDetail);
+            $copiaModeloDetail = str_replace('%%NOME_CLASSE%%', $nomeClasse,   $copiaModeloDetail);
+            $copiaModeloDetail = str_replace('%%ATRIBUICAO%%',  $sCampoDetail, $copiaModeloDetail);
+            $copiaModeloDetail = str_replace('%%ID_PK%%',       $ID_PK,        $copiaModeloDetail);
           
             $dir = dirname(dirname(__FILE__))."/geradas/".$this->projeto."/";
 
             if(!file_exists($dir)) mkdir($dir);
 
-            $fpAdm = fopen("$dir/adm$nomeClasse.php",  "w");  fputs($fpAdm, $copiaModeloAdm);   fclose($fpAdm);
-            $fpCad = fopen("$dir/cad$nomeClasse.php",  "w");  fputs($fpCad, $copiaModeloCad);   fclose($fpCad);
-            $fpEdit = fopen("$dir/edit$nomeClasse.php", "w"); fputs($fpEdit, $copiaModeloEdit); fclose($fpEdit);
+            $fpAdm 	  = fopen("$dir/adm$nomeClasse.php",  "w");   fputs($fpAdm, $copiaModeloAdm);   	fclose($fpAdm);
+            $fpCad 	  = fopen("$dir/cad$nomeClasse.php",  "w");   fputs($fpCad, $copiaModeloCad);   	fclose($fpCad);
+            $fpEdit   = fopen("$dir/edit$nomeClasse.php", "w");   fputs($fpEdit, $copiaModeloEdit); 	fclose($fpEdit);
             $fpDetail = fopen("$dir/detail$nomeClasse.php", "w"); fputs($fpDetail, $copiaModeloDetail); fclose($fpDetail);
             
             // ======= Limpa arrays ======= 
@@ -991,7 +1011,12 @@ class Geracao {
     	return $aCampo;
     }
 
-    
+    /**
+     * Converte a lista de campos de um array uma string
+     *  
+     * @param string[] $array
+     * @return string
+     */
     function converteTabelaCamposToString($array){
     	foreach($array as $c1=>$aValor){
     		foreach($aValor as $c2=>$v){
@@ -1302,7 +1327,9 @@ class Geracao {
 
     /**
      * Descompacta pacote em determinada pasta
-     *
+     * 
+     * @param string $arquivo nome do arquivo
+     * @param string $destino caminho do diretório destino
      * @return boolean
      */
     function descompactaPasta($arquivo, $destino=NULL){

@@ -1,11 +1,15 @@
 <?php
 /**
+ * Class Util | classes/Class.Util.php
+ *
+ * @package     classes
+ * @author      Luiz Leão <luizleao@gmail.com>
+ * @version     v.2.0 (06/12/2018)
+ * @copyright   Copyright (c) 2018, Luiz
+ */
+/**
  * Classe de Utilidades
- * 
  * Conjunto de rotinas de auxílio ao desenvolvimento
- * 
- * @author Luiz Leão <luizleao@gmail.com>
- * @version 2.0.0
  */
 class Util {
     /**
@@ -193,13 +197,26 @@ class Util {
     }
 
     /**
-     * Formata o valor em moeda
+     * Formata o valor em moeda form
      * 
      * @param string $valor
      * @return float
      */
     static function formataMoeda($valor){
         return number_format($valor, 2, ",", ".");
+    }
+    
+    /**
+     * Formata o valor em moeda BD
+     *
+     * @param string $valor
+     * @return float
+     */
+    static function formataMoedaBanco($valor){
+    	$valor = str_replace(".", "", $valor);
+    	$valor = str_replace(",", ".", $valor);
+    	
+    	return $valor;
     }
     
     /**
@@ -469,5 +486,14 @@ class Util {
             print "Erro!! - ".$e->getMessage();
             return false;
         }
+    }
+    
+    /**
+     * Limpar caracteres especiais da string
+     * @param string $campo
+     * @return string
+     */
+    static function limpaCampo($campo){
+    	return preg_replace("#[\.\-\(\)\s/]#", "", $campo);
     }
 }

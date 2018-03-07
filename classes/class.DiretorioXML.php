@@ -1,5 +1,13 @@
 <?php
 /**
+ * Class DiretorioXML | classes/Class.DiretorioXML.php
+ *
+ * @package     classes
+ * @author      Luiz Leão <luizleao@gmail.com>
+ * @version     v.2.0 (06/12/2018)
+ * @copyright   Copyright (c) 2018, Luiz
+ */
+/**
  * Diretorios XML
  * 
  * Gerencia a lista de arquivos XML gerados pela aplicação

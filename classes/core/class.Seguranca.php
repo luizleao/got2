@@ -1,4 +1,12 @@
 <?php
+/**
+ * Class Seguranca | classes/core/Class.Seguranca.php
+ *
+ * @package     classes
+ * @author      Luiz Leão <luizleao@gmail.com>
+ * @version     v.2.0 (06/12/2018)
+ * @copyright   Copyright (c) 2018, Luiz
+ */
 require_once(dirname(__FILE__).'/bd/class.SistemaBD.php');
 require_once(dirname(__FILE__).'/bd/class.ModuloBD.php');
 require_once(dirname(__FILE__).'/bd/class.ProgramaBD.php');
@@ -7,14 +15,10 @@ require_once(dirname(__FILE__).'/bd/class.GrupoBD.php');
 require_once(dirname(__FILE__).'/bd/class.UsuarioGrupoBD.php');
 require_once(dirname(__FILE__).'/bd/class.UsuarioBD.php');
 require_once(dirname(__FILE__).'/bd/class.LogAcessoBD.php');
-
 /**
  * Classe de Segurança
  * 
  * Implementa os métodos de manipulação do modelo de segurança
- * 
- * @category Seguranca
- * @author Luiz Leão <luizleao@gmail.com>
  */
 class Seguranca{
     /**

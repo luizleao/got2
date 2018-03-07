@@ -1,5 +1,13 @@
 <?php
 /**
+ * Class IConexao | classes/Class.IConexao.php
+ *
+ * @package     classes
+ * @author      Luiz Leão <luizleao@gmail.com>
+ * @version     v.2.0 (06/12/2018)
+ * @copyright   Copyright (c) 2018, Luiz
+ */
+/**
  * Interface de conexão
  * 
  * Interface de implementação de classes de conexão para qualquer SGBD

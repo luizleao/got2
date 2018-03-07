@@ -1,12 +1,25 @@
 <?php
 /**
- * Classe Form
+ * Class Form | classes/class.Form.php
+ *
+ * @package     classes
+ * @author      Luiz Leão <luizleao@gmail.com>
+ * @version     v.2.0 (06/12/2018)
+ * @copyright   Copyright (c) 2018, Luiz
+ */
+/**
+ * Classe de Formulários
  * 
  * Responsável pela construção dos formulários e relatórios da aplicação
  * 
  * @author Luiz Leão <luizleao@gmail.com>
  */
 class Form {
+	/**
+	 * Atributo de mensagem
+	 * 
+	 * @var string
+	 */
 	public $msg;
 	
 	/**
@@ -15,7 +28,6 @@ class Form {
 	 * @param string $obj Objeto selecionado
 	 * @param string $campo atributo a ser analisado
 	 * @param string $label Rótulo do atributo
-	 * @param string $tipoTela Tipo de formulário: CAD - Cadastro, EDIT - Edição
 	 * @param string $gui Tipo de GUI (Graphic User Interface)
 	 * @return string
 	 */
@@ -240,7 +252,8 @@ class Form {
      * @param string $campo atributo a ser analisado
      * @param string $label Rótulo do atributo
      * @param string $tipoTela Tipo de Formulário: CAD - Cadastro, EDIT - Edição
-     * @param bool $dataHora 
+     * @param bool $dataHora
+     * @param string $gui Tipo de GUI (Graphic User Interface)
      * @return string
      */
     static function geraCalendario($obj, $campo, $label, $tipoTela, $dataHora, $gui) {
@@ -254,13 +267,13 @@ class Form {
 	            case 'CAD':
 	            	$retorno = str_replace('%%CAMPO%%',  $campo,  $retorno);
 	            	$retorno = str_replace('%%LABEL%%',  $label,  $retorno);
-	            	$retorno = str_replace('%%DATAHORA%%', $dataHora,  $retorno);
+	            	$retorno = str_replace('%%DATAHORA%%', ($dataHora) ? "true" : "false",  $retorno);
 	            	$retorno = str_replace('%%VALOR%%',  "NULL",  $retorno);
 	            break;
 	            case 'EDIT':
 	            	$retorno = str_replace('%%CAMPO%%',  $campo,  $retorno);
 	            	$retorno = str_replace('%%LABEL%%',  $label,  $retorno);
-	            	$retorno = str_replace('%%DATAHORA%%', $dataHora,  $retorno); 
+	            	$retorno = str_replace('%%DATAHORA%%', ($dataHora) ? "true" : "false",  $retorno); 
 	            	$retorno = str_replace('%%VALOR%%',  ($dataHora) ? "Util::formataDataHoraBancoForm($obj" . "->$campo)" : "Util::formataDataBancoForm($obj" . "->$campo)",  $retorno);
 	            break;
 	        }

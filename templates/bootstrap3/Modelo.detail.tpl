@@ -2,7 +2,7 @@
 require_once("classes/class.Controle.php");
 $oControle = new Controle();
 
-$o%%NOME_CLASSE%% = $oControle->get%%NOME_CLASSE%%($_REQUEST['%%ID_PK%%']);
+$o%%NOME_CLASSE%% = $oControle->get%%NOME_CLASSE%%($_REQUEST['id']);
 ?>
 <!DOCTYPE html>
 <html lang="pt">

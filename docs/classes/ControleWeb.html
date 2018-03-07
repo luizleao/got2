@@ -106,12 +106,12 @@
                         <ul class="dropdown-menu">
                             <li>
                                 <a href="../reports/errors.html">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">150</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">0</span>
                                 </a>
                             </li>
                             <li>
                                 <a href="../reports/markers.html">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">0</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">3</span>
                                 </a>
                             </li>
                             <li>
@@ -136,10 +136,10 @@
                                 <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-1328011800"></a>
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-1681858044"></a>
                                 <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
             </div>
-            <div id="namespace-1328011800" class="accordion-body collapse in">
+            <div id="namespace-1681858044" class="accordion-body collapse in">
                 <div class="accordion-inner">
 
                     
@@ -147,6 +147,7 @@
                                                     <li class="interface"><a href="../classes/IConexao.html">IConexao</a></li>
                                                                                                     <li class="class"><a href="../classes/Conexao.html">Conexao</a></li>
                                                     <li class="class"><a href="../classes/ConexaoMySql.html">ConexaoMySql</a></li>
+                                                    <li class="class"><a href="../classes/ConexaoMySqli.html">ConexaoMySqli</a></li>
                                                     <li class="class"><a href="../classes/ConexaoPDO.html">ConexaoPDO</a></li>
                                                     <li class="class"><a href="../classes/ConexaoPostgre.html">ConexaoPostgre</a></li>
                                                     <li class="class"><a href="../classes/ConexaoSqlServer.html">ConexaoSqlServer</a></li>
@@ -196,6 +197,7 @@
                                                                     <a href="../classes/ControleWeb.html#method___construct" class="">__construct()</a><br />
                                                                     <a href="../classes/ControleWeb.html#method_conexao" class="">conexao()</a><br />
                                                                     <a href="../classes/ControleWeb.html#method_gerarXML" class="">gerarXML()</a><br />
+                                                                    <a href="../classes/ControleWeb.html#method_gerarJson" class="">gerarJson()</a><br />
                                                                     <a href="../classes/ControleWeb.html#method_gerarArtefatos" class="">gerarArtefatos()</a><br />
                                                                     <a href="../classes/ControleWeb.html#method_excluirXML" class="">excluirXML()</a><br />
                                                             </section>
@@ -237,7 +239,7 @@
                         <dt>File</dt>
                             <dd><a href="../files/class.ControleWeb.html"><div class="path-wrapper">class.ControleWeb.php</div></a></dd>
                                                 <dt>Package</dt>
-                            <dd><div class="namespace-wrapper">Default</div></dd>
+                            <dd><div class="namespace-wrapper">classes</div></dd>
                                                 <dt>Class hierarchy</dt>
                             <dd class="hierarchy">
                                                                                                                                                                     <div class="namespace-wrapper">\ControleWeb</div>
@@ -250,14 +252,7 @@
                                                                         </dl>
                     <h2>Tags</h2>
                     <table class="table table-condensed">
-                                            <tr>
-                            <th>
-                                author
-                            </th>
-                            <td>
-                                                                    <p>Luiz Leão <a href="mailto:luizleao@gmail.com">luizleao@gmail.com</a></p>
-                                                            </td>
-                        </tr>
+                                            <tr><td colspan="2"><em>None found</em></td></tr>
                                         </table>
                 </aside>
             </div>
@@ -308,8 +303,8 @@
             <article class="method">
                 <h3 class="public ">__construct()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">__construct() </pre>
-                <p><em></em></p>
+                <pre class="signature" style="margin-right: 54px;">__construct() : void</pre>
+                <p><em>Método construtor</em></p>
                 
 
                 
@@ -392,6 +387,62 @@
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
                 <pre class="signature" style="margin-right: 54px;">gerarXML(string  <span class="argument">$sgbd</span>, string  <span class="argument">$host</span>, string  <span class="argument">$usuario</span>, string  <span class="argument">$senha</span>, string  <span class="argument">$bd</span>) : boolean</pre>
                 <p><em>Gera o XML que contém as meta-informações do banco de dados</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$sgbd </td>
+                                <td><p>Tipo de SGBD</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>string</td>
+                                <td>$host </td>
+                                <td><p>Endereço do servidor</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>string</td>
+                                <td>$usuario </td>
+                                <td><p>Usuário do banco</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>string</td>
+                                <td>$senha </td>
+                                <td><p>Senha do Usuário</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>string</td>
+                                <td>$bd </td>
+                                <td><p>Banco de dados selecionado</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_gerarJson" name="method_gerarJson" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">gerarJson()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">gerarJson(string  <span class="argument">$sgbd</span>, string  <span class="argument">$host</span>, string  <span class="argument">$usuario</span>, string  <span class="argument">$senha</span>, string  <span class="argument">$bd</span>) : boolean</pre>
+                <p><em>Gera o Json que contém as meta-informações do banco de dados</em></p>
                 
 
                                     <h4>Parameters</h4>
@@ -571,7 +622,7 @@
                 <section class="span10 offset1">
                     <hr />
                     Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
-                    on February 4th, 2015 at 14:24.
+                    on March 7th, 2018 at 14:12.
                 </section>
             </section>
         </section>

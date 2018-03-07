@@ -2,12 +2,15 @@
 require_once(dirname(__FILE__)."/classes/class.Controle.php");
 
 $oControle = new Controle();
+$total = $oControle->totalColecao%%NOME_CLASSE%%();
+
+$numPags = ($total % $oControle->config['producao']['qtdRegPag'] == 0) ? $total/$oControle->config['producao']['qtdRegPag'] : ceil($total/$oControle->config['producao']['qtdRegPag']);
 
 if($_REQUEST['acao'] == 'excluir'){
     print ($oControle->excluir%%NOME_CLASSE%%(%%PK_REQUEST%%)) ? "" : $oControle->msg; exit;
 }
 
-$a%%NOME_CLASSE%% = ($_POST) ? $oControle->consultar%%NOME_CLASSE%%($_REQUEST['txtConsulta']) : $oControle->getAll%%NOME_CLASSE%%();
+$a%%NOME_CLASSE%% = ($_POST) ? $oControle->consultar%%NOME_CLASSE%%($_REQUEST['txtConsulta']) : $oControle->getAll%%NOME_CLASSE%%([], ["%%PK%%"], $oControle->config['producao']['qtdRegPag'], (isset($_REQUEST['pag'])) ? $_REQUEST['pag'] : 1);
 //Util::trace($a%%NOME_CLASSE%%);
 ?>
 <!DOCTYPE html>
@@ -77,15 +80,7 @@ else{
 ?>
 				<tr>
 					<td colspan="%%NUMERO_COLUNAS%%">
-						<nav aria-label="Page navigation">
-							<ul class="pagination">
-					            <li class="disabled"><a>&lt; Anterior</a></li>
-					            <li class="disabled"><a>1</a></li>
-					            <li><a href="#">2</a></li>
-					            <li><a href="#">3</a></li>
-					            <li class="next"><a href="#" rel="next">Próximo &gt;</a></li>
-					        </ul><!-- /.pagination -->
-						</nav>
+						<?php $oControle->componentePaginacao($numPags);?>
 					</td>
 				</tr>
 			</tbody>

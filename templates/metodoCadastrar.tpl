@@ -21,7 +21,7 @@
 		// cria objeto para grava-lo no BD
 		%%MONTA_OBJETO%%
 		%%MONTA_OBJETOBD%%
-		if(!$o%%NOME_CLASS%%BD->inserir($o%%NOME_CLASS%%)){
+		if(!$o%%NOME_CLASS%%BD->cadastrar($o%%NOME_CLASS%%)){
 			$this->msg = $o%%NOME_CLASS%%BD->msg;
 			return false;
 		}

@@ -12,7 +12,7 @@ class %%NOME_CLASSE%%BDBase {
         }
     }
 	
-    function inserir(%%OBJETO_CLASSE%%){
+    function cadastrar(%%OBJETO_CLASSE%%){
 		$reg = %%NOME_CLASSE%%MAP::objToRs(%%OBJETO_CLASSE%%);
 		$aCampo = array_keys($reg);
 		$sql = "
@@ -118,7 +118,7 @@ class %%NOME_CLASSE%%BDBase {
         }
 	}
 	
-    function getAll($aFiltro = NULL, $aOrdenacao = NULL){
+    function getAll($aFiltro = NULL, $aOrdenacao = NULL, $qtd = NULL, $pagina = NULL){
         $sql = "
 				select
 					".%%NOME_CLASSE%%MAP::dataToSelect()." 
@@ -134,6 +134,9 @@ class %%NOME_CLASSE%%BDBase {
             $sql .= " order by ";
             $sql .= implode(",", $aOrdenacao);
         }
+        
+        $sql .= ($pagina != NULL) ? "
+        		limit ".$qtd*($pagina-1).", $qtd" : "";
         try{
             $this->oConexao->execute($sql);
             $aObj = array();
@@ -145,19 +148,6 @@ class %%NOME_CLASSE%%BDBase {
             } else {
                 return false;
             }
-        }
-        catch(PDOException $e){
-            $this->msg = $e->getMessage();
-            return false;
-        }
-    }
-
-    function totalColecao(){
-        $sql = "select count(*) from %%TABELA%%";
-        try{
-            $this->oConexao->execute($sql);
-            $oReg = $this->oConexao->fetchReg();
-            return (int) $oReg[0];
         }
         catch(PDOException $e){
             $this->msg = $e->getMessage();
@@ -190,6 +180,19 @@ class %%NOME_CLASSE%%BDBase {
             }
         }
     	catch(PDOException $e){
+            $this->msg = $e->getMessage();
+            return false;
+        }
+    }
+
+    function totalColecao(){
+        $sql = "select count(*) from %%TABELA%%";
+        try{
+            $this->oConexao->execute($sql);
+            $oReg = $this->oConexao->fetchRow();
+            return (int) $oReg[0];
+        }
+        catch(PDOException $e){
             $this->msg = $e->getMessage();
             return false;
         }

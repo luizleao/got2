@@ -1,6 +1,10 @@
 <?php
 //include(dirname(__FILE__)."/classes/class.Util.php");
 include(dirname(__FILE__)."/classes/class.Geracao.php");
+
+$dataHora = true;
+echo var_export($dataHora);
+
 //$oGeracao = new Geracao("xml/DBBADAM.xml");
 //$oGeracao = new Geracao("xml/dbSudamSicas.xml");
 

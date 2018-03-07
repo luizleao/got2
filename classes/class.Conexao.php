@@ -1,10 +1,16 @@
 <?php
 /**
+ * Class Conexao | classes/Class.Conexao.php
+ *
+ * @package     classes
+ * @author      Luiz Leão <luizleao@gmail.com>
+ * @version     v.2.0 (06/12/2018)
+ * @copyright   Copyright (c) 2018, Luiz
+ */
+/**
  * Classe de Conexão PDO
  * 
  * Classe de conexão com o banco de dados baseado na biblioteca PDO. É usada nas aplicações geradas pela ferramenta
- * 
- * @author Luiz Leão <luizleao@gmail.com>
  */
 class Conexao {
     /**
@@ -38,6 +44,9 @@ class Conexao {
      */
     public $data_cadastro_padrao = "now()";
     
+    /**
+     * Método construtor
+     */
     function __construct() {
         try {
             $config = parse_ini_file(dirname(__FILE__) . "/config.ini", true);
@@ -53,6 +62,13 @@ class Conexao {
         }
     }
 
+    /**
+     * Executar consulta
+     * 
+     * @param string $sql
+     * @throws PDOException
+     * @return boolean
+     */
     function execute($sql) {
         //print "<pre>$sql</pre>";
         $this->consulta = $this->conexao->query($sql);
@@ -64,6 +80,13 @@ class Conexao {
         return true;
     }
 	
+    /**
+     * Executar consulta prepare
+     * @param string $sql
+     * @param string[] $aDados
+     * @throws PDOException
+     * @return boolean
+     */
     function executePrepare($sql, $aDados = NULL) {
         try {
             $this->consulta = $this->conexao->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
@@ -80,6 +103,12 @@ class Conexao {
         }
     }
 
+    /**
+     * Numero de linhas
+     * 
+     * @param object $consulta
+     * @return number
+     */
     function numRows($consulta = NULL) {
         if (!$consulta){
             $consulta = $this->consulta;
@@ -87,6 +116,12 @@ class Conexao {
         return (int) $consulta->rowCount();
     }
 
+    /**
+     * Lista de registros 
+     * 
+     * @param object $consulta
+     * @return string[]
+     */
     function fetchReg($consulta = NULL) {
         if (!$consulta){
             $consulta = $this->consulta;
@@ -94,6 +129,12 @@ class Conexao {
         return $this->consulta->fetch(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * Lista de Registros
+     * 
+     * @param object $consulta
+     * @return string[]
+     */
     function fetchRow($consulta = NULL) {
         if (!$consulta){
             $consulta = $this->consulta;
@@ -101,10 +142,19 @@ class Conexao {
         return $this->consulta->fetch();
     }
 
+    /**
+     * Ultimo ID inserido
+     * 
+     * @return number
+     */
     function lastID() {
         return $this->conexao->lastInsertId();
     }
 
+    /**
+     * Fechar conexao
+     * @return void
+     */
     function close() {
         try {
             if ($this->consulta){
@@ -115,14 +165,26 @@ class Conexao {
         }
     }
 
+    /**
+     * Iniciar transacao
+     * @return void
+     */
     function beginTrans() {
         $this->conexao->beginTransaction();
     }
-
+    
+    /**
+     * Concluir transacao
+     * @return void
+     */
     function commitTrans() {
         $this->conexao->commit();
     }
-
+    
+    /**
+     * Abortar transacao
+     * @return void
+     */
     function rollBackTrans() {
         $this->conexao->rollBack();
     }

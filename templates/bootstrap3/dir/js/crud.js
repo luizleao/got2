@@ -179,3 +179,10 @@ function excluir(campo, valor){
         });
     });
 }
+
+function verDetalhe(id){
+    var classe = $("#classe").val();
+    
+    $('#modalRemote').find('.modal-body').load('detail'+classe+'.php?id='+id);
+    $('#modalRemote').modal('show');
+}

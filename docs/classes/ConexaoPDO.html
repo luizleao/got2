@@ -106,12 +106,12 @@
                         <ul class="dropdown-menu">
                             <li>
                                 <a href="../reports/errors.html">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">150</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">0</span>
                                 </a>
                             </li>
                             <li>
                                 <a href="../reports/markers.html">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">0</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">3</span>
                                 </a>
                             </li>
                             <li>
@@ -136,10 +136,10 @@
                                 <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-593201192"></a>
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-1253717308"></a>
                                 <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
             </div>
-            <div id="namespace-593201192" class="accordion-body collapse in">
+            <div id="namespace-1253717308" class="accordion-body collapse in">
                 <div class="accordion-inner">
 
                     
@@ -147,6 +147,7 @@
                                                     <li class="interface"><a href="../classes/IConexao.html">IConexao</a></li>
                                                                                                     <li class="class"><a href="../classes/Conexao.html">Conexao</a></li>
                                                     <li class="class"><a href="../classes/ConexaoMySql.html">ConexaoMySql</a></li>
+                                                    <li class="class"><a href="../classes/ConexaoMySqli.html">ConexaoMySqli</a></li>
                                                     <li class="class"><a href="../classes/ConexaoPDO.html">ConexaoPDO</a></li>
                                                     <li class="class"><a href="../classes/ConexaoPostgre.html">ConexaoPostgre</a></li>
                                                     <li class="class"><a href="../classes/ConexaoSqlServer.html">ConexaoSqlServer</a></li>
@@ -174,8 +175,8 @@
                     <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal"><i class="icon-code"></i></a>
 
                     <h1><small>\</small>ConexaoPDO</h1>
-                    <p><em>Classe de conexão PDO</em></p>
-                    <p>Classe de conexao com o banco de dados baseado na biblioteca PDO</p>
+                    <p><em>Classe de Conexão PDO</em></p>
+                    <p>Possibilita a conexão com o banco de dados baseado na biblioteca PDO</p>
                     
                                         
                     <section id="summary">
@@ -250,7 +251,7 @@
                         <dt>File</dt>
                             <dd><a href="../files/class.Conexao.PDO.html"><div class="path-wrapper">class.Conexao.PDO.php</div></a></dd>
                                                 <dt>Package</dt>
-                            <dd><div class="namespace-wrapper">Default</div></dd>
+                            <dd><div class="namespace-wrapper">classes</div></dd>
                                                 <dt>Class hierarchy</dt>
                             <dd class="hierarchy">
                                                                                                                                                                                                                                                                                                 
@@ -473,8 +474,8 @@
                                                             </dl>
             <h2>Tags</h2>
             <table class="table table-condensed">
-        		<tr><td colspan="2"><em>None found</em></td></tr>
-            </table>
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
         </aside>
     </div>
 
@@ -491,34 +492,34 @@
             <article class="method">
                 <h3 class="public ">__construct()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">__construct(  <span class="argument">$sgbd</span>,   <span class="argument">$host</span>,   <span class="argument">$db</span>,   <span class="argument">$user</span>,   <span class="argument">$passwd</span>) </pre>
-                <p><em></em></p>
+                <pre class="signature" style="margin-right: 54px;">__construct(string  <span class="argument">$sgbd</span>, string  <span class="argument">$host</span>, string  <span class="argument">$db</span>, string  <span class="argument">$user</span>, string  <span class="argument">$passwd</span>) : void</pre>
+                <p><em>Metodo construtor</em></p>
                 
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
                                                     <tr>
-                                <td></td>
+                                <td>string</td>
                                 <td>$sgbd </td>
                                 <td></td>
                             </tr>
                                                     <tr>
-                                <td></td>
+                                <td>string</td>
                                 <td>$host </td>
                                 <td></td>
                             </tr>
                                                     <tr>
-                                <td></td>
+                                <td>string</td>
                                 <td>$db </td>
                                 <td></td>
                             </tr>
                                                     <tr>
-                                <td></td>
+                                <td>string</td>
                                 <td>$user </td>
                                 <td></td>
                             </tr>
                                                     <tr>
-                                <td></td>
+                                <td>string</td>
                                 <td>$passwd </td>
                                 <td></td>
                             </tr>
@@ -704,14 +705,14 @@
             <article class="method">
                 <h3 class="public ">fetchRow()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">fetchRow(\type  <span class="argument">$consulta = NULL</span>) : \type</pre>
-                <p><em></em></p>
+                <pre class="signature" style="margin-right: 54px;">fetchRow(object  <span class="argument">$consulta = NULL</span>) : object</pre>
+                <p><em>Retorna array de dados, indexado por indices e chaves</em></p>
                 
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
                                                     <tr>
-                                <td>\type</td>
+                                <td>object</td>
                                 <td>$consulta </td>
                                 <td></td>
                             </tr>
@@ -719,7 +720,7 @@
                 
                 
                                     <h4>Returns</h4>
-                    \type
+                    object
                                     				
                             </article>
         </div>
@@ -915,7 +916,7 @@
                 <section class="span10 offset1">
                     <hr />
                     Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
-                    on February 4th, 2015 at 14:24.
+                    on March 7th, 2018 at 14:12.
                 </section>
             </section>
         </section>

@@ -1,19 +1,43 @@
 <?php
 /**
- * Conexão SQLServer
+ * Class ConexaoSqlServer | classes/Class.Conexao.SqlServer.php
+ *
+ * @package     classes
+ * @author      Luiz Leão <luizleao@gmail.com>
+ * @version     v.2.0 (06/12/2018)
+ * @copyright   Copyright (c) 2018, Luiz
+ */
+/**
+ * Classe de Conexão com SQLServer Nativa
  * 
- * Classe de Conexão com SQLServer utilizando biblioteca nativa php_sqlsrv_55_ts.dll da Microsoft
- * 
- * @author Luiz Leão <luizleao@gmail.com>
+ * Utiliza a biblioteca nativa php_sqlsrv_55_ts.dll da Microsoft para conectar ao SGBD SQL Server
  */
 class ConexaoSqlServer implements IConexao{
-    public $conexao;
-    public $consulta;  
-    public $msg;
-    public $db;
-    public $last_id;
-    public $data_cadastro_padrao = "now()";
+    /**
+     * Objeto de Conexao
+     * 
+     * @var object
+     */
+	public $conexao;
 
+    /**
+     * Consulta executada
+     *
+     * @var string
+     */
+    public $consulta;
+    /**
+     * Mensagem do sistema
+     *
+     * @var string
+     */
+    public $msg;
+    
+    /**
+     * Metodo construtor
+     * 
+     * @param string $servidor
+     */
     function __construct($servidor = 'Local'){
         switch ($servidor){
             case 'Local': $this->set_conexao(HOST,USER,PASSWD,DB); break;
@@ -23,6 +47,7 @@ class ConexaoSqlServer implements IConexao{
     }
     
     /**
+     * Setar dados de conexao
      * 
      * @param string $host
      * @param string $user
@@ -45,6 +70,7 @@ class ConexaoSqlServer implements IConexao{
     }
 
     /**
+     * Executar query
      * 
      * @param string $sql
      * @return boolean
@@ -152,8 +178,9 @@ class ConexaoSqlServer implements IConexao{
     }
 
     /**
+     * Retorna lista de databases 
      * 
-     * @return type
+     * @return string[]
      */
     function databases(){
         $this->execute("select name from sys.databases");
@@ -167,6 +194,7 @@ class ConexaoSqlServer implements IConexao{
     /**
      * Returna a lista de databases do servidor
      * 
+     * @param string $tabela nome da tabela
      * @return string[]
      */
     public function getAllColunasTabela($tabela) {

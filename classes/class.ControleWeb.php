@@ -1,4 +1,12 @@
 <?php
+/**
+ * Class ControleWeb | classes/Class.ControleWeb.php
+ *
+ * @package     classes
+ * @author      Luiz Leão <luizleao@gmail.com>
+ * @version     v.2.0 (06/12/2018)
+ * @copyright   Copyright (c) 2018, Luiz
+ */
 require_once(dirname(__FILE__)."/class.IConexao.php");
 require_once(dirname(__FILE__)."/class.Conexao.MySql.php");
 require_once(dirname(__FILE__)."/class.Conexao.MySqli.php");
@@ -12,8 +20,6 @@ require_once(dirname(__FILE__)."/class.Util.php");
  * Classe de Controle (Interface) do framework
  * 
  * Concentra as funcionalidades da ferramenta
- * 
- * @author Luiz Leão <luizleao@gmail.com>
  */
 class ControleWeb{
     /**
@@ -23,6 +29,10 @@ class ControleWeb{
      */
     public $msg;
     
+    /**
+     * Método construtor
+     * @return void
+     */
     function __construct() {
         
     }

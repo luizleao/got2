@@ -1,6 +1,6 @@
 <?php
 %%LISTA_REQUIRE%%
-//require_once(dirname(__FILE__).'/class.Seguranca.php');
+
 require_once(dirname(__FILE__).'/core/class.Conexao.php');
 require_once(dirname(__FILE__).'/core/class.Util.php');
 require_once(dirname(__FILE__).'/class.ValidadorFormulario.php');
@@ -9,9 +9,12 @@ require_once(dirname(__FILE__).'/class.DadosFormulario.php');
 class Controle{
 	
 	public $msg;
-
+	public $config;
+	
 	function __construct(){
 		session_start();
+		$this->config = parse_ini_file(dirname(__FILE__)."/core/config.ini", true);
+		
 		/*header("content-type: text/html; charset=UTF-8", true);
 			if(!preg_match("#index#is", $_SERVER['REQUEST_URI'])){
 				if(!isset($_SESSION['usuarioAtual'])){
@@ -25,45 +28,6 @@ class Controle{
 			}
         */		
     }
-
-    /**
-     * Fecha a conexao com o BD
-     * 
-     * @return void
-     */
-	function fecharConexao(){
-		$conexao = new Conexao();
-		$conexao->close();
-	}
-
-    /**
-     * Recupera as configurações de produção
-     * 
-     * @return string[]
-     */
-	function getConfigProducao(){
-		$aConfig = parse_ini_file(dirname(__FILE__) . "/core/config.ini", true);
-		return $aConfig['producao'];
-    }
-    
-    /**
-     * Recupera as configurações de conexão LDAP
-     * 
-     * @return string[]
-     */
-	function getConfigLDAP(){
-		$aConfig = parse_ini_file(dirname(__FILE__) . "/core/config.ini", true);
-		return $aConfig['LDAP'];
-	}
-    
-    /**
-     * Cria instancia para a classe seguranca
-     * 
-     * @return Seguranca
-     */
-	function get_seguranca(){
-		return new Seguranca();
-	}
 	
     /**
      * Autentica o Usuario
@@ -104,11 +68,9 @@ class Controle{
      * @return object
      */
     function autenticaUsuarioLDAP($login, $senha){
-        $aConfig = $this->getConfigLDAP();
-        
         try{
             // Conexão com servidor AD. 
-            $ad = ldap_connect($aConfig['servidor']);
+            $ad = ldap_connect($this->config['LDAP']['servidor']);
 
             // Versao do protocolo       
             ldap_set_option($ad, LDAP_OPT_PROTOCOL_VERSION, 3);
@@ -117,10 +79,10 @@ class Controle{
             ldap_set_option($ad, LDAP_OPT_REFERRALS, 0);
 
             // Bind to the directory server.
-            $bd = @ldap_bind($ad, $aConfig['dominio']."\\".$login, $senha) or die("Não foi possível pesquisa no AD.");    
+            $bd = @ldap_bind($ad, $this->config['LDAP']['dominio']."\\".$login, $senha) or die("Não foi possível pesquisa no AD.");    
             if($bd){
                 // DEFINE O DN DO SERVIDOR LDAP     
-                $dn = "ou={$aConfig['dominio']}, dc={$aConfig['dominio']}, dc={$aConfig['dc']}";
+                $dn = "ou={$this->config['LDAP']['dominio']}, dc={$this->config['LDAP']['dominio']}, dc={$this->config['LDAP']['dc']}";
                 $filter="(|(member=$login)(sAMAccountName=$login))";
                 //$filter = "(|(sn=$usuario*)(givenname=$usuario*)(uid=$usuario))";
                 // EXECUTA O FILTRO NO SERVIDOR LDAP     
@@ -149,31 +111,35 @@ class Controle{
             $this->msg = $e->getMessage();
             return false;
         }
-		return true;        
+		return true;       
     }
 // ============ Funcoes de Cadastro ==================
 	
-%%METODOS_CADASTRA%%
+%%METODOS_CADASTRAR%%
 
 // ============ Funcoes de Alteracao =================
 
-%%METODOS_ALTERA%%
+%%METODOS_ALTERAR%%
 
 // ============ Funcoes de Exclusao =================
 
-%%METODOS_EXCLUI%%
+%%METODOS_EXCLUIR%%
 
 // ============ Funcoes de Selecao =================
 
-%%METODOS_SELECIONAR%%
+%%METODOS_GET%%
 
 // ============ Funcoes de Colecao =================
 
-%%METODOS_CARREGAR_COLECAO%%
+%%METODOS_GET_ALL%%
 
 // ============ Funcoes de Consulta =================
 
-%%METODOS_CONSULTA%%
+%%METODOS_CONSULTAR%%
+
+// ============ Funcoes de Total Colecao =================
+
+%%METODOS_TOTAL%%
 	
 // =============== Componentes ==================
     /**
@@ -185,7 +151,7 @@ class Controle{
      * @param bool $hora
      * @return void
      */
-	function componenteCalendario($nomeCampo, $valorInicial=NULL, $complemento=NULL,$hora=false){
+	function componenteCalendario($nomeCampo, $valorInicial=NULL, $complemento=NULL, $hora=false){
 		include(dirname(dirname(__FILE__))."/componentes/componenteCalendario.php");
 	}
 
@@ -211,5 +177,16 @@ class Controle{
      */
 	public function componenteListaUf($nomeCampo, $valor=NULL){
 		include(dirname(dirname(__FILE__))."/componentes/componenteListaUf.php");
+	}
+	
+	/**
+	 * Componente de Paginação
+	 * 
+	 * @param integer $numPags
+     * @access public
+     * @return void
+	 */
+	public function componentePaginacao($numPags){
+		include(dirname(dirname(__FILE__))."/componentes/componentePaginacao.php");
 	}
 }

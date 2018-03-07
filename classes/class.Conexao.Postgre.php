@@ -1,10 +1,16 @@
 <?php
+/**
+ * Class ConexaoPostgre | classes/Class.Conexao.Postgre.php
+ *
+ * @package     classes
+ * @author      Luiz Leão <luizleao@gmail.com>
+ * @version     v.2.0 (06/12/2018)
+ * @copyright   Copyright (c) 2018, Luiz
+ */
 /** 
  * Conexão Postgre
  *  
  * Classe de conexão nativa com o SGBD PostgreSQL
- * 
- * @author Luiz Leão
  */
 class ConexaoPostgre implements IConexao {
     /**
