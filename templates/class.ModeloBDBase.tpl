@@ -118,7 +118,16 @@ class %%NOME_CLASSE%%BDBase {
         }
 	}
 	
-    function getAll($aFiltro = NULL, $aOrdenacao = NULL, $qtd = NULL, $pagina = NULL){
+	/**
+	 * Retorna a lista de registros da tabela %%NOME_CLASSE%%
+	 * 
+	 * @param string[] $aFiltro
+	 * @param string[] $aOrdenacao
+	 * @param integer $qtd
+	 * @param integer $pagina
+	 * @return Curso[]|boolean
+	 */
+    function getAll($aFiltro = [], $aOrdenacao = [], $qtd = NULL, $pagina = NULL){
         $sql = "
 				select
 					".%%NOME_CLASSE%%MAP::dataToSelect()." 

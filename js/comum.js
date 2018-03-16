@@ -1,3 +1,27 @@
+function LdapToEpoch1(){
+	var ldap=document.le1.ldap.value;
+	var sec = Math.round(ldap/10000000);
+	sec-=11644473600;
+	var datum=new Date(sec*1000);
+	var outputtext="<b>Epoch/Unix time</b>: "+sec;
+	outputtext += "<br/><b>GMT</b>: "+datum.epochConverterGMTString()+"<br/><b>Your time zone</b>: "+datum.epochConverterLocaleString();
+	$('#resultle1').html(outputtext);
+}
+
+function LdapToEpoch2(){
+	var ldap=document.le2.ldap.value;
+	var year=ldap.substr(0,4);
+	var month=ldap.substr(4,2);
+	var day=ldap.substr(6,2);
+	var hour=ldap.substr(8,2);
+	var minute=ldap.substr(10,2);
+	var second=ldap.substr(12,2);
+	var datum=new Date(Date.UTC(year,month-1,day,hour,minute,second));
+	var outputtext="<b>Epoch/Unix time</b>: "+(datum.getTime()/1000);outputtext+="<br/><b>GMT</b>: "+datum.epochConverterGMTString()+"<br/><b>Your time zone</b>: "+datum.epochConverterLocaleString();
+	$('#resultle2').html(outputtext);
+}
+
+
 // ================== Funoes Loading =================
 // ================== Abrir Pagina =================
 function print_r(oForm){

@@ -418,7 +418,7 @@ class Geracao {
 
             # Varre a estrutura dos campos da tabela em questao
             $aPKRequest = $aCampoPK = $aCampoCad = $aCampoEdit = $aTituloAdm = $aCampoAdm = $aGetAll = array();
-            $PK = $ID_PK = $label = $campoAdm = $componenteCad = $componenteEdit = NULL;
+            $PK = $ID_PK = $label = $campoAdm = $componenteCad = $componenteEdit = $campoDetail = NULL;
 
             foreach($aTabela as $oCampo){
             	
@@ -429,7 +429,7 @@ class Geracao {
 
                 $campoAdm = ((string)$oCampo['FKCAMPO'] != '') ? $objetoClasse."->o$label"."->".$this->getTituloObjeto((string)$oCampo['FKTABELA']) :
                                                                $objetoClasse."->".$oCampo['NOME'];
-
+                
                 if((int)$oCampo['CHAVE'] == 1){
                     $aPKRequest[] = "\$_REQUEST['{$oCampo['NOME']}']";
                     $aCampoPK[]   = Form::geraHidden((string)$oCampo['NOME']);
@@ -441,14 +441,12 @@ class Geracao {
                         //print "($objetoClasse, {$oCampo['NOME']}, $label, $nomeFKClasse, ".$this->getTituloObjeto((string)$oCampo['FKTABELA']).", 'CAD')\n";
                         $componenteCad  = Form::geraSelect($objetoClasse, (string)$oCampo['NOME'], $label, $oCampo['FKCAMPO'], $this->getTituloObjeto((string)$oCampo['FKTABELA']), 'CAD', $this->gui);
                         $componenteEdit = Form::geraSelect($objetoClasse, (string)$oCampo['NOME'], $label, $oCampo['FKCAMPO'], $this->getTituloObjeto((string)$oCampo['FKTABELA']), 'EDIT', $this->gui);
-
+                        
                     } else {
                         $PK    = (string)$oCampo['NOME'];
                         $ID_PK = (string)$oCampo['NOME'];
                     }
                 } else {
-                	$campoDetail = Form::geraDetailText($objetoClasse, (string)$oCampo['NOME'], $label, $this->gui);
-                	
                     switch((string)$oCampo['TIPO']){
                         case "date":
                         	$componenteCad  = Form::geraCalendario($objetoClasse, (string)$oCampo['NOME'], $label, 'CAD', false, $this->gui);
@@ -496,6 +494,9 @@ class Geracao {
                         break;
                     }
                 }
+                
+                $campoDetail = Form::geraDetailText($campoAdm, $label, $this->gui);
+                
                 $aCampoCad[]  = $componenteCad;
                 $aCampoEdit[] = $componenteEdit;
                 $aTituloAdm[] = "<th>$label</th>";
@@ -909,8 +910,9 @@ class Geracao {
     function getCamposSelect($tabela, $alias=null, $desceNivel=true){
         # Abre arquivo xml para navegacao
         $aBanco = simplexml_load_string($this->xml);
-        $aCampo = $aAux = array();
+        $aCampo = $aAux = $aAux2 = [];
         $tabelaAtual = $tabela;
+        
         foreach($aBanco as $aTabela){
             if((string)$aTabela['NOME'] == $tabela){
                 //print_r($aTabela);
@@ -1220,8 +1222,17 @@ class Geracao {
                     break;
                 }
                 
-                # Recupera valores a serem substituidos no modelo
+                # E-mail
+                if(preg_match("#(?:email)#is", (String)$oCampo['NOME'])){
+                	$retorno = (String)$oCampo['NOME'];
+                	break;
+                }
                 
+                # Numero
+                if(preg_match("#(?:numero|nota.*fiscal)#is", (String)$oCampo['NOME'])){
+                	$retorno = (String)$oCampo['NOME'];
+                	break;
+                }
             }
             break;
         }
