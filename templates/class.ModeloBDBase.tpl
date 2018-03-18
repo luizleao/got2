@@ -31,7 +31,7 @@ class %%NOME_CLASSE%%BDBase {
 				$this->msg = $this->oConexao->msg;
 				return false;
 			}
-			return $this->oConexao->lastID();
+			return %%RETURN_CADASTRAR%%;
 		}
 		catch(PDOException $e){
 			$this->msg = $e->getMessage();

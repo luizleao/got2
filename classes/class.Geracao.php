@@ -34,7 +34,7 @@ class Geracao {
     /**
      * Tipo de GUI (Graphic User Interface)
      * 
-     * @var type 
+     * @var string 
      */
     public $gui;
     
@@ -774,11 +774,12 @@ class Geracao {
             $nomeTabela          = (((string)$aTabela['SCHEMA'] != "") ? (string)$aTabela['SCHEMA'].".".(string)$aTabela['NOME'] : (string)$aTabela['NOME']);
             $chavesWhereConsulta = (($sCampoConsulta!='') ? $sCampoConsulta : '1=1');
             $sChaveAltera        = (count($aChaveAltera)>0) ? "if(".implode(" || ", $aChaveAltera).") continue;" : "";
-            
+           
             # ======== Substitui todas os parametros pelas variaveis ja processadas ==========
             $copiaModelo = str_replace('%%NOME_CLASSE%%',           $nomeClasse,          $copiaModelo);
             $copiaModelo = str_replace('%%VERIFICA_PK%%',           $sVerificaPK,         $copiaModelo);
             $copiaModelo = str_replace('%%OBJETO_CLASSE%%',         $objetoClasse,        $copiaModelo);
+            $copiaModelo = str_replace('%%RETURN_CADASTRAR%%',      ($aTabela['TIPO_TABELA'] == 'N:M') ? "true" : "\$this->oConexao->lastID()", $copiaModelo);
             $copiaModelo = str_replace('%%TABELA%%',                $nomeTabela,          $copiaModelo);
             $copiaModelo = str_replace('%%CAMPOS_INS%%',            $aCampoInsert,        $copiaModelo);
             $copiaModelo = str_replace('%%VAL_CAMPOS_INS%%',        $aValorInsert,        $copiaModelo);

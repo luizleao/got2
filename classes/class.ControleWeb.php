@@ -111,7 +111,7 @@ class ControleWeb{
                     }
                                         
                     $oCampo = $oTabela->addChild("CAMPO");
-/*                     $oCampo->addChild("NOME", $sColuna[0]);
+/*                  $oCampo->addChild("NOME", $sColuna[0]);
                     $oCampo->addChild("TIPO", $sColuna[1]);
                     $oCampo->addChild("NULO", $sColuna[2]);
                     $oCampo->addChild("CHAVE", (($sColuna[3] == 'PRI') ? 1 : 0)); */

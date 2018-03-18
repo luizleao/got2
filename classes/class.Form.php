@@ -254,52 +254,52 @@ class Form {
      * @return string
      */
     static function geraCalendario($obj, $campo, $label, $tipoTela, $dataHora, $gui) {
-    	try{
-	    	$retorno = Util::getConteudoTemplate($gui.'/Modelo.Form.Calendario.tpl');
-	    	
-	        switch ($tipoTela) {
-	            case 'ADM':
-	            	$retorno = ($dataHora) ? "Util::formataDataHoraBancoForm($obj" . "->$campo)" : "Util::formataDataBancoForm($obj" . "->$campo)";
-	            break;
-	            case 'CAD':
-	            	$retorno = str_replace('%%CAMPO%%',  $campo,  $retorno);
-	            	$retorno = str_replace('%%LABEL%%',  $label,  $retorno);
-	            	$retorno = str_replace('%%DATAHORA%%', ($dataHora) ? "true" : "false",  $retorno);
-	            	$retorno = str_replace('%%VALOR%%',  "NULL",  $retorno);
-	            break;
-	            case 'EDIT':
-	            	$retorno = str_replace('%%CAMPO%%',  $campo,  $retorno);
-	            	$retorno = str_replace('%%LABEL%%',  $label,  $retorno);
-	            	$retorno = str_replace('%%DATAHORA%%', ($dataHora) ? "true" : "false",  $retorno); 
-	            	$retorno = str_replace('%%VALOR%%',  ($dataHora) ? "Util::formataDataHoraBancoForm($obj" . "->$campo)" : "Util::formataDataBancoForm($obj" . "->$campo)",  $retorno);
-	            break;
-	        }
-	        return $retorno;
-    	} catch(Exception $e){
-    		
-    	}
+        	try{
+    	    	$retorno = Util::getConteudoTemplate($gui.'/Modelo.Form.Calendario.tpl');
+    	    	
+    	        switch ($tipoTela) {
+    	            case 'ADM':
+    	            	$retorno = ($dataHora) ? "Util::formataDataHoraBancoForm($obj" . "->$campo)" : "Util::formataDataBancoForm($obj" . "->$campo)";
+    	            break;
+    	            case 'CAD':
+    	            	$retorno = str_replace('%%CAMPO%%',  $campo,  $retorno);
+    	            	$retorno = str_replace('%%LABEL%%',  $label,  $retorno);
+    	            	$retorno = str_replace('%%DATAHORA%%', ($dataHora) ? "true" : "false",  $retorno);
+    	            	$retorno = str_replace('%%VALOR%%',  "NULL",  $retorno);
+    	            break;
+    	            case 'EDIT':
+    	            	$retorno = str_replace('%%CAMPO%%',  $campo,  $retorno);
+    	            	$retorno = str_replace('%%LABEL%%',  $label,  $retorno);
+    	            	$retorno = str_replace('%%DATAHORA%%', ($dataHora) ? "true" : "false",  $retorno); 
+    	            	$retorno = str_replace('%%VALOR%%',  ($dataHora) ? "Util::formataDataHoraBancoForm($obj" . "->$campo)" : "Util::formataDataBancoForm($obj" . "->$campo)",  $retorno);
+    	            break;
+    	        }
+    	        return $retorno;
+        	} catch(Exception $e){
+        	    $this->msg = $e->getMessage();
+        	}
     }
     
     static function geraListaUf(){
-    	try{
-    		$retorno = Util::getConteudoTemplate($gui.'/Modelo.Form.Uf.tpl');
-    		
-    		switch ($tipoTela) {
-    			case 'CAD':
-    				$retorno = str_replace('%%CAMPO%%',  $campo,  $retorno);
-    				$retorno = str_replace('%%LABEL%%',  $label,  $retorno);
-    				$retorno = str_replace('%%VALOR%%',  "NULL",  $retorno);
-    				break;
-    			case 'EDIT':
-    				$retorno = str_replace('%%CAMPO%%',  $campo,  $retorno);
-    				$retorno = str_replace('%%LABEL%%',  $label,  $retorno);
-    				$retorno = str_replace('%%VALOR%%',  ($dataHora) ? "Util::formataDataHoraBancoForm($obj" . "->$campo)" : "Util::formataDataBancoForm($obj" . "->$campo)",  $retorno);
-    				break;
-    		}
-    		return $retorno;
-    	} catch(Exception $e){
-    		
-    	}
+        	try{
+        		$retorno = Util::getConteudoTemplate($gui.'/Modelo.Form.Uf.tpl');
+        		
+        		switch ($tipoTela) {
+        			case 'CAD':
+        				$retorno = str_replace('%%CAMPO%%',  $campo,  $retorno);
+        				$retorno = str_replace('%%LABEL%%',  $label,  $retorno);
+        				$retorno = str_replace('%%VALOR%%',  "NULL",  $retorno);
+        				break;
+        			case 'EDIT':
+        				$retorno = str_replace('%%CAMPO%%',  $campo,  $retorno);
+        				$retorno = str_replace('%%LABEL%%',  $label,  $retorno);
+        				$retorno = str_replace('%%VALOR%%',  ($dataHora) ? "Util::formataDataHoraBancoForm($obj" . "->$campo)" : "Util::formataDataBancoForm($obj" . "->$campo)",  $retorno);
+        				break;
+        		}
+        		return $retorno;
+        	} catch(Exception $e){
+        		$this->msg = $e->getMessage();
+        	}
     }
     
     /**
