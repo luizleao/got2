@@ -77,9 +77,10 @@ $(document).ready(function(){
                         $('#btnGerar').removeClass("disabled");
                     }
                 },
-                error: function (event, jqXHR, ajaxSettings){
+                error: function (response){
+                	console.log(response);
                     $('#btnConectar').button('reset');
-                    $('#modalResposta').find('.modal-body').html('<img src="img/ico_error.png" /> '+event +'-' +jqXHR +'-' +ajaxSettings);
+                    $('#modalResposta').find('.modal-body').html('<img src="img/ico_error.png" /> '+response.statusText);
                     $('#modalResposta').modal('show');
                 }
             });

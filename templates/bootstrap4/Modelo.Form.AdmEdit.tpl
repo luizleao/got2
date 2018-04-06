@@ -1,0 +1,1 @@
+<td><a class="btn btn-success btn-sm" href="edit%%CLASSE%%.php?%%ID_PK%%=<?=$o%%CLASSE%%->%%PK%%;?>" title="Editar"><i class="oi oi-pencil"></i></a></td>

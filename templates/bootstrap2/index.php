@@ -13,10 +13,11 @@ session_destroy();
     <div id="wrap">
         <div class="container">
             <form class="form-signin" onsubmit="return false;">
+            	<img src="img/logo.png" />
                 <h3 class="form-signin-heading">Sistema %%PROJETO%%</h3>
                 <input type="text" class="input-block-level" id="login" name="login" autofocus="autofocus" placeholder="Login" />
                 <input type="password" class="input-block-level" id="senha" name="senha" placeholder="Senha" />
-                <button class="btn btn-primary" data-loading-text="loading..." name="btnLogar" id="btnLogar" type="submit">Ok</button>
+                <button class="btn btn-primary" data-loading-text="loading..." name="btnLogar" id="btnLogar" type="submit">Entrar</button>
             </form>
         </div>
         <div class="push"></div>

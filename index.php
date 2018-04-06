@@ -89,10 +89,10 @@ switch ($_REQUEST['acao']) {
                         				<th>Ver Site</th>
                         				<th>Ver XML</th>
                         				<th>Excluir</th>
-                        				<th>Bootstrap 2</th>
-                        				<th>Bootstrap 3</th>
-                        				<th>Bootstrap 4</th>
-                        				<th>Materialize</th>
+                        				<th><img src="img/icon-bootstrap.png" title="Bootstrap 2" /> 2</th>
+                        				<th><img src="img/icon-bootstrap.png" title="Bootstrap 3" /> 3</th>
+                        				<th><img src="img/icon-bootstrap.png" title="Bootstrap 4" /> 4</th>
+                        				<th><img src="img/icon-materialize.png" title="Materialize" /></th>
                         			</tr>
                         		</thead>
                         		<tbody>

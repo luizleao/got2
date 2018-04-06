@@ -1,0 +1,1 @@
+<td><a class="btn btn-info btn-xs" href="#" title="Detalhes %%CLASSE%%" onclick="verDetalhe(<?=$o%%CLASSE%%->%%PK%%;?>)"><i class="glyphicon glyphicon-search"></i></a></td>

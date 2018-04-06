@@ -10,11 +10,12 @@
                 <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
                     <i class="icon-user"></i>Usuário <span class="caret"></span>
                 </a>
-		<ul class="dropdown-menu">
+				<ul class="dropdown-menu">
                     <li><a href="#">Profile</a></li>
+                    <li><a href="#" data-toggle="modal" data-target="modalSobre">Sobre</a></li>
                     <li class="divider"></li>
                     <li><a href="logoff.php"><i class="icon-off"></i> Sair</a></li>
-		</ul>
+				</ul>
             </div>
             <div class="nav-collapse">
                 <ul class="nav">

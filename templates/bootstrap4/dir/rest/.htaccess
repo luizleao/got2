@@ -1,0 +1,29 @@
+RewriteEngine on
+#RewriteBase /ouvidoria/rest
+
+#RewriteCond %{SCRIPT_NAME} ^.*index.php$ 
+#RewriteRule ^.*$ index.php [L,NC]
+
+
+# Se não foi requerido um arquivo vazio (-s)
+#RewriteCond %{REQUEST_FILENAME} !-s [OR]
+
+# Se não foi requerido um link simbólico (-l)
+#RewriteCond %{REQUEST_FILENAME} !-l [OR]
+
+# ou um arquivo (-f)
+#RewriteCond %{REQUEST_FILENAME} !-f [OR]
+
+# ou um diretório (-d)
+#RewriteCond %{REQUEST_FILENAME} !-d [OR]
+
+#RewriteCond %{REQUEST_FILENAME} !\.(js|gif|jpg|png|css|txt)$ [OR]
+#RewriteCond %{REQUEST_URI} !\.(css|gif|ico|jpg|js|png|swf|txt)$
+
+#RewriteRule ^.*/(.*)/all$ ?classe=$1&action=all [L,NC]
+#RewriteRule ^.*/(.*)/cad$ ?classe=$1&action=cad [L,NC]
+#RewriteRule ^.*/(.*)/get/(.*)$ ?classe=$1&action=get&id=$2 [L,NC]
+
+RewriteRule ^(.*)/(all|cad)$ index.php?classe=$1&action=$2 [L,NC]
+RewriteRule ^(.*)/(get)/(.*)$ index.php?classe=$1&action=$2&id=$3 [L,NC]
+

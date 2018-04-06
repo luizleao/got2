@@ -1,0 +1,1 @@
+<td><a class="btn btn-danger btn-sm" href="javascript: void(0);" onclick="excluir('%%ID_PK%%','<?=$o%%CLASSE%%->%%PK%%;?>')" title="Excluir"><i class="oi oi-trash"></i></a></td>

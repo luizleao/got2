@@ -1,3 +1,3 @@
 <div class="page-header">
-    <h4>%%DATABASE%%</h4>
+    <img src="img/logo.png" /><h4>%%DATABASE%%</h4>
 </div>

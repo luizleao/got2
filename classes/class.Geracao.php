@@ -151,6 +151,7 @@ class Geracao {
         # Varre a estrutura das tabelas
         $aRequire = $aCadastrar = $aAlterar = $aExcluir = $aGet = $aGetAll = $aConsultar = $aTotalColecao = array();
         $copiaModelo = $modelo;
+        
         //print_r($aBanco);exit;
         foreach($aBanco as $aTabela){
             $aPKDoc = $aPK = array(); 
@@ -863,8 +864,10 @@ class Geracao {
     function geraMenuEstatico(){
         try{
             # Abre o template da classe BD e armazena conteudo do modelo
-            $modelo = Util::getConteudoTemplate($this->gui.'/Modelo.menu.tpl');
-            $copiaModelo = $modelo;
+            $modelo 		 = Util::getConteudoTemplate($this->gui.'/Modelo.menu.tpl');
+            $modeloItem 	 = Util::getConteudoTemplate($this->gui.'/Modelo.menu.item.tpl');
+            $copiaModelo 	 = $modelo;
+            $copiaModeloItem = $modeloItem;
 
             # Abre arquivo xml para navegacao
             $aBanco = simplexml_load_string($this->xml);
@@ -873,27 +876,18 @@ class Geracao {
             foreach($aBanco as $aTabela){
                 if($aTabela['TIPO_TABELA'] == 'N:M')
                     continue;
-                $nomeClasse = ucfirst($this->getCamelMode($aTabela['NOME']));
-                $menu .= "
-                            <li class=\"dropdown\">
-                                    <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">$nomeClasse <b class=\"caret\"></b></a>
-                                    <ul class=\"dropdown-menu\">
-                                            <li><a href=\"adm$nomeClasse.php\"><i class=\"glyphicon glyphicon-th-list\"></i> Administrar</a></li>
-                                            <li><a href=\"cad$nomeClasse.php\"><i class=\"glyphicon glyphicon-plus\"></i> Cadastrar</a></li>
-                                    </ul>
-                            </li>";
-
+                
+				$aItem[] = str_replace('%%NOME_CLASSE%%', ucfirst($this->getCamelMode($aTabela['NOME'])), $copiaModeloItem);
             }
-
-            $copiaModelo = str_replace('%%MODELO_MENU%%', $menu, $copiaModelo);
+			
+            $listaItens = join("\n\n", $aItem);
+            
+            $copiaModelo = str_replace('%%MODELO_MENU%%', $listaItens, $copiaModelo);
             $copiaModelo = str_replace('%%PROJETO%%',	  ucfirst($aBanco['NOME']), $copiaModelo);
 
             $dir = dirname(dirname(__FILE__))."/geradas/".$this->projeto."/includes";
-            if(!file_exists($dir)) 
-                mkdir($dir);
-            $fp = fopen("$dir/menu.php","w");
-            fputs($fp, $copiaModelo);
-            fclose($fp);
+            if(!file_exists($dir)) mkdir($dir);
+            $fp = fopen("$dir/menu.php","w"); fputs($fp, $copiaModelo); fclose($fp);
             return true;
         } catch (Exception $e){
             return false;
