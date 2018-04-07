@@ -276,7 +276,7 @@ class Form {
     	        }
     	        return $retorno;
         	} catch(Exception $e){
-        	    $this->msg = $e->getMessage();
+        	    //$this->msg = $e->getMessage();
         	}
     }
     
@@ -298,7 +298,7 @@ class Form {
         		}
         		return $retorno;
         	} catch(Exception $e){
-        		$this->msg = $e->getMessage();
+        		//$this->msg = $e->getMessage();
         	}
     }
     
