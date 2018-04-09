@@ -1,5 +1,5 @@
 <?php
-$oControle = new Controle();
+//$oControle = new ControleWeb();
 $aUf = Util::getAllEstados();
 ?>
 <div class="form-group">

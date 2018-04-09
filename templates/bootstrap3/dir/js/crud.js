@@ -25,7 +25,7 @@ $(document).ready(function(){
             },
             error: function(retorno){
                 $('#btnCadastrar').button('reset');
-                $('#modalResposta').find('.modal-body').html('<img src="img/ico_error.png" /> '+retorno);
+                $('#modalResposta').find('.modal-body').html('<img src="img/ico_error.png" /> '+retorno.responseText);
                 $('#modalResposta').modal('show');
             }
         });
@@ -55,9 +55,9 @@ $(document).ready(function(){
                 $('#modalResposta').find('.modal-body').html((retorno !== '') ? '<img src="img/ico_error.png" /> '+retorno : '<img src="img/ico_success.png" /> Editado com sucesso');
                 $('#modalResposta').modal('show');
             },
-            error: function(){
+            error: function(retorno){
                 $('#btnEditar').button('reset');
-                $('#modalResposta').find('.modal-body').html('Erro!!');
+                $('#modalResposta').find('.modal-body').html('<img src="img/ico_error.png" /> Erro:'+retorno.responseText);
                 $('#modalResposta').modal('show');
             }
         });
@@ -86,7 +86,7 @@ $(document).ready(function(){
                 $('#btnLogar').button('reset');
 
                 if(retorno !== ''){
-                    $('#modalResposta').find('.modal-body').html('<img src="img/ico_error.png" /> '+retorno);
+                    $('#modalResposta').find('.modal-body').html('<img src="img/ico_error.png" /> '+retorno.responseText);
                     $('#modalResposta').modal('show');
                 } else{
                     window.location = 'principal.php';
@@ -94,7 +94,7 @@ $(document).ready(function(){
             },
             error: function(retorno){
                 $('#btnLogar').button('reset');
-                $('#modalResposta').find('.modal-body').html('<img src="img/ico_error.png" /> Erro: '+retorno);
+                $('#modalResposta').find('.modal-body').html('<img src="img/ico_error.png" /> Erro: '+retorno.responseText);
                 $('#modalResposta').modal('show');
             }
         });
@@ -126,7 +126,7 @@ $(document).ready(function(){
             },
             error: function(retorno){
                 $('#btnCadastroPrograma').button('reset');
-                $('#modalResposta').find('.modal-body').html('<img src="img/ico_error.png" /> '+retorno);
+                $('#modalResposta').find('.modal-body').html('<img src="img/ico_error.png" /> '+retorno.responseText);
                 $('#modalResposta').modal('show');
             }
         });
@@ -162,8 +162,8 @@ function excluir(campo, valor){
             beforeSend : function(){
                 $('#btnCadastrar').button('loading');
             },
-            timeout    : timeout,
-            success    : function(retorno){
+            timeout : timeout,
+            success : function(retorno){
                 $('#modalExcluir').modal('hide');
                 $('#modalResposta').find('.modal-body').html((retorno !== '') ? '<img src="img/ico_error.png" /> '+retorno : '<img src="img/ico_success.png" /> Excluido com sucesso');
                 $('#modalResposta').modal('show');
@@ -171,9 +171,9 @@ function excluir(campo, valor){
                     window.location = 'adm'+classe+'.php';
                 });
             },
-            error	   : function(retorno){
+            error : function(retorno){
                 $('#modalExcluir').modal('hide');
-                $('#modalResposta').find('.modal-body').html('<img src="img/ico_error.png" /> ERRO: '+retorno);
+                $('#modalResposta').find('.modal-body').html('<img src="img/ico_error.png" /> Erro: '+retorno.responseText);
                 $('#modalResposta').modal('show');
             }
         });

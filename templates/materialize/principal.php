@@ -17,4 +17,3 @@ $oControle = new Controle();
 	<?php require_once(dirname(__FILE__)."/includes/footer.php")?>
 	</body>
 </html>
-<?php $oControle->fecharConexao();?>
