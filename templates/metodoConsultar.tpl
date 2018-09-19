@@ -1,11 +1,11 @@
 	/**
-	 * Consultar registros de %%NOME_CLASS%%
+	 * Consultar registros de %%NOME_CLASSE%%
 	 *
 	 * @access public
 	 * @param string $valor
-	 * @return %%NOME_CLASS%%
+	 * @return %%NOME_CLASSE%%
 	 */
-	public function consultar%%NOME_CLASS%%($valor){
+	public function consultar%%NOME_CLASSE%%($valor){
 		%%MONTA_OBJETOBD%%	
-		return $o%%NOME_CLASS%%BD->consultar($valor);
+		return $o%%NOME_CLASSE%%BD->consultar($valor);
 	}

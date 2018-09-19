@@ -321,6 +321,35 @@ class Util {
     }
 
     /**
+     * Excluir um diretorio, seus sub-diretorios e arquivos
+     *  
+     * @param string $dir
+     * @return boolean
+     */
+    static function excluirDiretorio($dir) {
+    	if (!file_exists($dir)) {
+    		return true;
+    	}
+    	
+    	if (!is_dir($dir)) {
+    		return unlink($dir);
+    	}
+    	
+    	foreach (scandir($dir) as $item) {
+    		if ($item == '.' || $item == '..') {
+    			continue;
+    		}
+    		
+    		if (!self::excluirDiretorio($dir . DIRECTORY_SEPARATOR . $item)) {
+    			return false;
+    		}
+    		
+    	}
+    	
+    	return rmdir($dir);
+    }
+    
+    /**
      * Formata os parametros da estrutura 'like' do SQL para que possa receber vários tokens
      * 
      * @param string $valor

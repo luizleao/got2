@@ -6,4 +6,4 @@ foreach($_POST as $campo=>$valor){
 }
 $oControle = new Controle();
 
-print ($oControle->autenticaUsuarioLDAP($login, $senha)) ? "" : $oControle->msg;
+print ($oControle->autenticaUsuario($login, $senha)) ? "" : $oControle->msg;

@@ -134,7 +134,8 @@ class Geracao {
      */
      public function geraClasseControle(){
         # Abre o template da classe Controle e armazena conteudo do modelo		
-        $modelo       = Util::getConteudoTemplate('class.Modelo.Controle.tpl');
+        $modelo       	  = Util::getConteudoTemplate('class.Modelo.Controle.tpl');
+        $modeloController = Util::getConteudoTemplate('class.Modelo.Controller.tpl');
 
         # Abre o template dos metodos de cadastros e armazena conteudo do modelo
         $modeloCadastrar    = Util::getConteudoTemplate('metodoCadastrar.tpl');
@@ -151,10 +152,13 @@ class Geracao {
         # Varre a estrutura das tabelas
         $aRequire = $aCadastrar = $aAlterar = $aExcluir = $aGet = $aGetAll = $aConsultar = $aTotalColecao = array();
         $copiaModelo = $modelo;
-        
+        $copiaModeloController = $modeloController;
+                
         //print_r($aBanco);exit;
         foreach($aBanco as $aTabela){
+        	$copiaModeloCadastrar = $copiaModeloAlterar = $copiaModeloExcluir = $copiaModeloGet = $copiaModeloGetAll = $copiaModeloConsultar = $copiaModeloTotalColecao = "";
             $aPKDoc = $aPK = array(); 
+            
             foreach($aTabela as $oCampo){
                 if((string)$oCampo['CHAVE'] == '1'){
                     $aPKDoc[] = "\t * @param integer \$".(string)$oCampo['NOME'];
@@ -168,28 +172,33 @@ class Geracao {
 
             # Recupera o nome da tabela e gera os valores a serem gerados
             $nomeClasse           	 = ucfirst($this->getCamelMode($aTabela['NOME']));
-            $copiaModeloCadastrar  	 = str_replace('%%NOME_CLASS%%', $nomeClasse, $modeloCadastrar);
-            $copiaModeloAlterar   	 = str_replace('%%NOME_CLASS%%', $nomeClasse, $modeloAlterar);
-            $copiaModeloExcluir    	 = str_replace('%%NOME_CLASS%%', $nomeClasse, $modeloExcluir);
-            $copiaModeloGet  	  	 = str_replace('%%NOME_CLASS%%', $nomeClasse, $modeloGet);
-            $copiaModeloGetAll    	 = str_replace('%%NOME_CLASS%%', $nomeClasse, $modeloGetAll);
-            $copiaModeloConsultar 	 = str_replace('%%NOME_CLASS%%', $nomeClasse, $modeloConsultar);
-            $copiaModeloTotalColecao = str_replace('%%NOME_CLASS%%', $nomeClasse, $modeloTotalColecao);
+            $copiaModeloCadastrar  	 = str_replace('%%NOME_CLASSE%%', $nomeClasse, $modeloCadastrar);
+            $copiaModeloAlterar   	 = str_replace('%%NOME_CLASSE%%', $nomeClasse, $modeloAlterar);
+            $copiaModeloExcluir    	 = str_replace('%%NOME_CLASSE%%', $nomeClasse, $modeloExcluir);
+            $copiaModeloGet  	  	 = str_replace('%%NOME_CLASSE%%', $nomeClasse, $modeloGet);
+            $copiaModeloGetAll    	 = str_replace('%%NOME_CLASSE%%', $nomeClasse, $modeloGetAll);
+            $copiaModeloConsultar 	 = str_replace('%%NOME_CLASSE%%', $nomeClasse, $modeloConsultar);
+            $copiaModeloTotalColecao = str_replace('%%NOME_CLASSE%%', $nomeClasse, $modeloTotalColecao);
 
             $montaObjetoCAD   = $this->retornaObjetosMontados($aTabela['NOME']);
             $montaObjetoEDIT  = $this->retornaObjetosMontados($aTabela['NOME'], "edit");
             
             $montaObjetoBD = $this->retornaObjetosBDMontados($aTabela['NOME']);
-
+			# Cadastrar
             $copiaModeloCadastrar = str_replace('%%MONTA_OBJETO%%',   $montaObjetoCAD,  $copiaModeloCadastrar);
             $copiaModeloCadastrar = str_replace('%%MONTA_OBJETOBD%%', $montaObjetoBD,   $copiaModeloCadastrar);
+            # Alterar
             $copiaModeloAlterar	  = str_replace('%%MONTA_OBJETO%%',   $montaObjetoEDIT, $copiaModeloAlterar);
             $copiaModeloAlterar   = str_replace('%%MONTA_OBJETOBD%%', $montaObjetoBD,   $copiaModeloAlterar);
+            # Excluir
             $copiaModeloExcluir   = str_replace('%%MONTA_OBJETOBD%%', $montaObjetoBD,   $copiaModeloExcluir);
+            # Get
             $copiaModeloGet       = str_replace('%%MONTA_OBJETOBD%%', $montaObjetoBD,   $copiaModeloGet);
             $copiaModeloGet       = str_replace('%%DOC_LISTA_PK%%',   $listaPKDoc,      $copiaModeloGet);
             $copiaModeloGet       = str_replace('%%LISTA_PK%%', 	  $listaPK,         $copiaModeloGet);
+            # GetAll
             $copiaModeloGetAll    = str_replace('%%MONTA_OBJETOBD%%', $montaObjetoBD,   $copiaModeloGetAll);
+            # Consultar
             $copiaModeloConsultar = str_replace('%%MONTA_OBJETOBD%%', $montaObjetoBD,   $copiaModeloConsultar);
 
             $aRequire[]   	 = "require_once(dirname(__FILE__).'/bd/class.$nomeClasse"."BD.php');";
@@ -200,6 +209,23 @@ class Geracao {
             $aGetAll[]    	 = $copiaModeloGetAll;
             $aConsultar[] 	 = $copiaModeloConsultar;
             $aTotalColecao[] = $copiaModeloTotalColecao;
+            
+            # ==== Geração das Controllers das Classes =====
+            $copiaModeloController = str_replace('%%NOME_CLASSE%%',	  $nomeClasse,		  	 	$copiaModeloController);
+            $copiaModeloController = str_replace('%%METODO_CREATE%%', $copiaModeloCadastrar, 	$copiaModeloController);
+            $copiaModeloController = str_replace('%%METODO_UPDATE%%', $copiaModeloAlterar,	 	$copiaModeloController);
+            $copiaModeloController = str_replace('%%METODO_DEL%%',    $copiaModeloExcluir,	 	$copiaModeloController);
+            $copiaModeloController = str_replace('%%METODO_GET%%',	  $copiaModeloGet,		 	$copiaModeloController);
+            $copiaModeloController = str_replace('%%METODO_GETALL%%', $copiaModeloGetAll,	    $copiaModeloController);
+            $copiaModeloController = str_replace('%%METODO_SEARCH%%', $copiaModeloConsultar,    $copiaModeloController);
+            $copiaModeloController = str_replace('%%METODO_TOTAL%%',  $copiaModeloTotalColecao, $copiaModeloController);
+            
+            $copiaModeloCadastrar = $copiaModeloAlterar = $copiaModeloExcluir = $copiaModeloGet = $copiaModeloGetAll = $copiaModeloConsultar = $copiaModeloTotalColecao = "";
+            
+            $dir = dirname(dirname(__FILE__))."/geradas/".$this->projeto."/classes";
+            if(!file_exists($dir)) mkdir($dir);
+            
+            $fp = fopen("$dir/class.Controller$nomeClasse.php","w"); fputs($fp, $copiaModeloController); fclose($fp);
         }
 
         # Monta demais valores a serem substituidos

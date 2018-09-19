@@ -48,7 +48,7 @@ class ConexaoPDO extends PDO{
     /**
      * Senha do banco
      * 
-     * @var type 
+     * @var string 
      */
     public $passwd;
     /**
@@ -61,7 +61,7 @@ class ConexaoPDO extends PDO{
     /**
      * Data de Cadastro Padrão
      * 
-     * @var type 
+     * @var string 
      */
     public $data_cadastro_padrao;
     

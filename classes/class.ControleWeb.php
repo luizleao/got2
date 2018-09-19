@@ -278,23 +278,29 @@ class ControleWeb{
      * @return string
      */
     public function gerarArtefatos($xml, $gui, $moduloSeguranca){
-    	$oGeracao = new Geracao(dirname(dirname(__FILE__))."/xml/$xml.xml", $gui, $xml);
-        $msg = "Log de Geração de Artefatos - Projeto <strong>$xml</strong>: <br />";
-        $msg .= "Engine gráfica: <strong>$gui</strong>: <br /><hr /><pre>";
-        $msg .= str_pad("Geracao geraClassesBasicas ",50,".").           ((!$oGeracao->geraClassesBasicas())                       ? "Falha" : "Ok")."\n";
-        $msg .= str_pad("Pacote adicional ",50,".").                     ((!Util::copydir("templates/$gui/dir/", "geradas/$xml/")) ? "Falha" : "Ok")."\n";
-        $msg .= str_pad("Geracao geraClassesBDBase ",50,".").            ((!$oGeracao->geraClassesBDBase())                        ? "Falha" : "Ok")."\n";
-        $msg .= str_pad("Geracao geraClasseControle ",50,".").           ((!$oGeracao->geraClasseControle())                       ? "Falha" : "Ok")."\n";
-        $msg .= str_pad("Geracao geraClassesBD ",50,".").                ((!$oGeracao->geraClassesBD())                            ? "Falha" : "Ok")."\n";
-        $msg .= str_pad("Geracao geraClasseValidadorFormulario ",50,".").((!$oGeracao->geraClasseValidadorFormulario())            ? "Falha" : "Ok")."\n";
-        $msg .= str_pad("Geracao geraClasseDadosFormulario ",50,".").    ((!$oGeracao->geraClasseDadosFormulario())                ? "Falha" : "Ok")."\n";
-        $msg .= str_pad("Geracao geraClassesMapeamento ",50,".").        ((!$oGeracao->geraClassesMapeamento())                    ? "Falha" : "Ok")."\n";
-        $msg .= str_pad("Geracao geraInterface ",50,".").                ((!$oGeracao->geraInterface())                            ? "Falha" : "Ok")."\n";
-        
-        if(!$moduloSeguranca){
-            $msg .= str_pad("Geracao Menu Estático ",51,".").            ((!$oGeracao->geraMenuEstatico())              ? "Falha" : "Ok")."</pre>";
-        }
-        return $msg;
+    	try{
+    		Util::excluirDiretorio("geradas/$xml");
+	    	
+	    	$oGeracao = new Geracao(dirname(dirname(__FILE__))."/xml/$xml.xml", $gui, $xml);
+	        $msg = "Log de Geração de Artefatos - Projeto <strong>$xml</strong>: <br />";
+	        $msg .= "Engine gráfica: <strong>$gui</strong>: <br /><hr /><pre>";
+	        $msg .= str_pad("Geracao geraClassesBasicas ",50,".").           ((!$oGeracao->geraClassesBasicas())                       ? "Falha" : "Ok")."\n";
+	        $msg .= str_pad("Pacote adicional ",50,".").                     ((!Util::copydir("templates/$gui/dir/", "geradas/$xml/")) ? "Falha" : "Ok")."\n";
+	        $msg .= str_pad("Geracao geraClassesBDBase ",50,".").            ((!$oGeracao->geraClassesBDBase())                        ? "Falha" : "Ok")."\n";
+	        $msg .= str_pad("Geracao geraClasseControle ",50,".").           ((!$oGeracao->geraClasseControle())                       ? "Falha" : "Ok")."\n";
+	        $msg .= str_pad("Geracao geraClassesBD ",50,".").                ((!$oGeracao->geraClassesBD())                            ? "Falha" : "Ok")."\n";
+	        $msg .= str_pad("Geracao geraClasseValidadorFormulario ",50,".").((!$oGeracao->geraClasseValidadorFormulario())            ? "Falha" : "Ok")."\n";
+	        $msg .= str_pad("Geracao geraClasseDadosFormulario ",50,".").    ((!$oGeracao->geraClasseDadosFormulario())                ? "Falha" : "Ok")."\n";
+	        $msg .= str_pad("Geracao geraClassesMapeamento ",50,".").        ((!$oGeracao->geraClassesMapeamento())                    ? "Falha" : "Ok")."\n";
+	        $msg .= str_pad("Geracao geraInterface ",50,".").                ((!$oGeracao->geraInterface())                            ? "Falha" : "Ok")."\n";
+	        
+	        if(!$moduloSeguranca){
+	            $msg .= str_pad("Geracao Menu Estático ",51,".").            ((!$oGeracao->geraMenuEstatico())              ? "Falha" : "Ok")."</pre>";
+	        }
+	        return $msg;
+    	} catch (Exception $e){
+    		return "Erro na operação";
+    	}
     }
     
     /**

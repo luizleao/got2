@@ -10,7 +10,7 @@
             <div class="modal-body" style="text-align: center">
                 <p>
                     <h6>Gerado por:</h6>
-                    <h4><img src="img/logo_got.png" /> GOT v2</h4>
+                    <h4><img src="img/logo.png" /> GOT v2</h4>
                     <h6>Framework de Geração de artefatos de software baseado em <a href="http://pt.wikipedia.org/wiki/Mapeamento_objeto-relacional" target="_blank">ORM</a> e Templates</h6>
                     <h8>Desenvolvido por &COPY; 2014 <a href="http://www.luizleao.com" target="_blank">Luiz Leão</a>. Software utiliza licença <a href="http://www.gnu.org/copyleft/lesser.txt" target="_blank">GPL</a></h8>
                 </p>
