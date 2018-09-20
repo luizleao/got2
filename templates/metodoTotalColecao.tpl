@@ -1,10 +1,10 @@
 	/**
-	 * Total de registros de %%NOME_CLASS%%
+	 * Total de registros de %%NOME_CLASSE%%
 	 *
 	 * @access public
 	 * @return number
 	 */
-	public function totalColecao%%NOME_CLASS%%(){
-		$o%%NOME_CLASS%%BD = new %%NOME_CLASS%%BD();
-		return $o%%NOME_CLASS%%BD->totalColecao();
+	public function totalColecao%%NOME_CLASSE%%(){
+		$o%%NOME_CLASSE%%BD = new %%NOME_CLASSE%%BD();
+		return $o%%NOME_CLASSE%%BD->totalColecao();
 	}

@@ -1,17 +1,17 @@
 	/**
-	 * Alterar dados de %%NOME_CLASS%%
+	 * Alterar dados de %%NOME_CLASSE%%
 	 *
 	 * @access public
-	 * @param %%NOME_CLASS%% $o%%NOME_CLASS%%
+	 * @param %%NOME_CLASSE%% $o%%NOME_CLASSE%%
 	 * @return bool
 	 */
-	public function alterar%%NOME_CLASS%%($o%%NOME_CLASS%% = NULL){
-		if($o%%NOME_CLASS%% == NULL){
+	public function alterar%%NOME_CLASSE%%($o%%NOME_CLASSE%% = NULL){
+		if($o%%NOME_CLASSE%% == NULL){
 			// recebe dados do formulario
-			$post = DadosFormulario::formularioCadastro%%NOME_CLASS%%(NULL, 2);		
+			$post = DadosFormulario::formularioCadastro%%NOME_CLASSE%%(NULL, 2);		
 			// valida dados do formulario
 			$oValidador = new ValidadorFormulario();
-			if(!$oValidador->validaFormularioCadastro%%NOME_CLASS%%($post,2)){
+			if(!$oValidador->validaFormularioCadastro%%NOME_CLASSE%%($post,2)){
 				$this->msg = $oValidador->msg;
 				return false;
 			}
@@ -21,8 +21,8 @@
 			%%MONTA_OBJETO%%		
 		}		
 		%%MONTA_OBJETOBD%%
-		if(!$o%%NOME_CLASS%%BD->alterar($o%%NOME_CLASS%%)){
-			$this->msg = $o%%NOME_CLASS%%BD->msg;
+		if(!$o%%NOME_CLASSE%%BD->alterar($o%%NOME_CLASSE%%)){
+			$this->msg = $o%%NOME_CLASSE%%BD->msg;
 			return false;	
 		}		
 		return true;		

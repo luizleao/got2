@@ -127,14 +127,14 @@ class WSDLCreator {
         /**
          * The name of the WSDL
          *
-         * @var stirng
+         * @var string
          */
         private $name;
         
         /**
          * The URL of the WSDL
          *
-         * @var stirng
+         * @var string
          */
         private $url;
         

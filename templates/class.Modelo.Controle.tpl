@@ -106,11 +106,12 @@ class Controle{
                 $_SESSION['usuarioAtual']['permissoes'] = $info[0]['memberof'];
 
                 // ======== Formatando data vinda via LDAP ===========
+/*
                 $fileTime      = $info[0]['lastlogon'][0];
                 $winSecs       = (int)($fileTime / 10000000); // divide by 10 000 000 to get seconds
                 $unixTimestamp = ($winSecs - 11644473600); // 1.1.1600 -> 1.1.1970 difference in seconds
-
                 $_SESSION['usuarioAtual']['ultimoLogon'] = date("d/m/Y h:i:s", $unixTimestamp);
+*/
             } else {
                 $this->msg = "Nao Conectado no servidor";
                 return false;
